@@ -243,7 +243,7 @@ a:hover
     njmmDiv.appendChild(styleTag);
     menuToggle.setAttribute("id", "menuToggle");
     njmmDiv.appendChild(menuToggle);
-    menuToggle.innerHTML=`<!--A fake / hidden checkbox is used as click reciever, so you can use the :checked selector on it.--><input id="hamburgerCheckbox" type="checkbox"><!--Some spans to act as a hamburger. They are acting like a real hamburger, not that McDonalds stuff.--><span></span><span></span><span></span><!--Too bad the menu has to be inside of the button but hey, it's pure CSS magic.-->`;
+    menuToggle.innerHTML=`<!--A fake / hidden checkbox is used as click reciever, so you can use the :checked selector on it.--><input id="hamburgerCheckbox" type="checkbox" checked><!--Some spans to act as a hamburger. They are acting like a real hamburger, not that McDonalds stuff.--><span></span><span></span><span></span><!--Too bad the menu has to be inside of the button but hey, it's pure CSS magic.-->`;
     menuUL.setAttribute("id","menu");
     menuToggle.appendChild(menuUL);
 
