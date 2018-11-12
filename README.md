@@ -1,37 +1,3 @@
-njmmScripts is about to undergo a huge rewrite from the core. This will allow the Add on to work much more effectively and easier to use for the layman. It will also be faster, easier to customize, and harder to identify as a “robot” by facebook.
-
-
-Anticipated changes include:
--Relocating and reworking the control panel on individual Facebook pages to make it easier to use and to look at.
--Changing the Profile picture hiding feature to use CSS (a far more effective way at hiding profiles) to change the source.
--Adding a toolbar button that will open up a menu with links to each of the individual tools, as well as an options menu.
--Adding a page, based on Elder Berret’s modified “Search is Back” that will make it easier to target certain demographics on Facebook and facilitate sending Friend Requests faster.
--Automatically refresh the clearing Friend requests page so that it is even easier to use for the layman, and is more likely to actually clear all requests
--Increasing and Adding a random modifier to the time between automatically clicking buttons so that Facebook is less likely to detect the add-on as a “robot”
--Quickly unfriending people in certain cities
--Allowing the control panel (with Add Friend Button) to be injected using a menu option.
-
-
-Eventual Changes include:
--Scheduling the clearing and adding the friend requests to be done automatically based on day and time
--Adding a button to automate how potential friend requests are chosen.
--Allowing searches for certain types of people directly in the omnibox (URL bar).
-
-
-Immediate TODO:
-1. Make the add-on update automatically.
-2. Allow a way to unhide selected images that were hidden.
-
-
-
-
-
-
-
-
-
-
-
 # NJMM Facebook Tweaks
 
 NJMM Facebook Tweaks is an assorted set of tools to make Facebook Proselyting safer and more effective for missionaries in the New Jersey Morristown Mission of the Church of Jesus Christ of Latter-day Saints.
@@ -79,7 +45,11 @@ Ex. -
 <b>Built with</b>
 - [Electron](https://electron.atom.io)
 
+## Add-on Organization
 
+The Mozilla Developer Network will be your best friend as you dissect the Add-on. It has documentation for the Add-on technology, Javascript APIs, HTML, CSS, etc…. 
+
+Within the root 
 
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
