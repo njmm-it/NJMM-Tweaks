@@ -1,0 +1,204 @@
+.njmmInject {font-family: arial; 
+  background-color: rgba(255,255,255,0.7);
+  padding: 10px;
+  text-align: center; 
+  width: 150px; 
+  /*margin: 10px;*/
+  margin: 0px;
+  position: fixed;
+  z-index: 1000;
+  height:100%
+} /*Used for the main njmmDiv that contains the control panels.*/
+
+.njmmHamburger {
+  display: inline;
+  cursor: pointer;
+}
+
+.barTop, .barMiddle, .barBottom {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+/* Rotate first bar */
+.njmmToggle .barTop {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
+    transform: rotate(-45deg) translate(-9px, 6px) ;
+}
+
+/* Fade out the second bar */
+.njmmToggle .barMiddle {
+    opacity: 0;
+}
+
+/* Rotate last bar */
+.njmmToggle .barBottom {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
+    transform: rotate(45deg) translate(-8px, -8px) ;
+}
+
+.njmmInject.njmmToggle {
+  width:35px;
+}
+.njmmInject.njmmToggle>*:not(.njmmHamburger){
+  display:none
+}
+
+.njmmInject.njmmToggle+div{
+  margin-left:55px;
+}
+
+.njmmInject {font-family: arial; 
+  background-color: rgba(255,255,255,0.7);
+  padding: 10px;
+  text-align: center; 
+  width: 150px; 
+  /*margin: 10px;*/
+  margin: 0px;
+  position: fixed;
+  z-index: 1000;
+  height:100%
+} /*Used for the main njmmDiv that contains the control panels.*/
+.njmmButton {width:90%; height:30px;margin:3px;} /*Buttons*/
+.njmmCounter {width:85%; height:30px;text-align: center;margin:3px;} /*The counter that acts as as a console instance.*/
+.njmmText {width:85%; background-color:rgb(255,255,255); padding: 3px; text-align: left; margin:3px;} 
+._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],[style*=cover],._4ld-,[alt*="Seen by"] {visibility:hidden} /*Hides profile images*/
+#addFriendButton {background-color:#4CAF50;color:white;}
+#stopButton{background-color:#f13232;color:white;}
+.njmmUnfriend {background-color:rgb(245,246,247); /*This is modeled after facebook's buttons.*/
+    border-bottom-color:rgb(204,208,213); 
+    border-bottom-left-radius:2px; 
+    border-bottom-right-radius:0px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0;
+    border-image-repeat: stretch stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(204, 208, 213);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(204, 208, 213);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-sizing: content-box;
+    color: rgb(75, 79, 86);
+    cursor: default;
+    direction: ltr;
+    display: inline-block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 22px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    border-top-color: rgb(204, 208, 213);
+    margin-right: 0px;
+    margin-top: 0px;
+    max-width: 200px;
+    overflow-wrap: normal;
+    padding-bottom: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 0px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-decoration-color: rgb(75, 79, 86);
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-shadow: none;
+    transition-delay: 0s, 0s, 0s;
+    transition-duration: 0.2s, 0.2s, 0.2s;
+    transition-property: background-color, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.08, 0.52, 0.52, 1), cubic-bezier(0.08, 0.52, 0.52, 1), cubic-bezier(0.08, 0.52, 0.52, 1);
+    vertical-align: middle;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+body>div {margin-left: 170px;}
+
+@media screen and (max-width: 900px)
+{
+  body>div {
+    margin-left: 0px;
+    padding-top:auto;
+  }
+  .njmmInject {
+    bottom:0;
+    font-family: arial; 
+    background-color: rgba(255,255,255,0.7);
+    /*padding: 45px;*/
+    text-align: center; 
+    width: auto; 
+    margin-top: 10px;
+    padding: 0px;
+    position: fixed;
+    z-index: 1000;
+    height:auto;
+    padding-right:4px;
+
+  }
+  .njmmInject>.njmmHamburger{
+    float:left;
+    overflow:hidden;
+    margin-left:4px;
+  }
+  .njmmInject>*:not(.njmmHamburger) {
+    float:left;
+    width:120px;
+    overflow:hidden;
+
+  }
+  .njmmHamburger + *:not(.njmmHamburger){
+    margin-left:15px;    
+  }
+.njmmInject.njmmToggle {
+  height:35px;
+}
+.njmmInject.njmmToggle>*:not(.njmmHamburger){
+  display:none
+}
+
+.njmmInject.njmmToggle+div{
+  margin-left:0px;
+}
+
+}
+
+@media screen and (max-width: 400px)
+{
+  body>div {
+    margin-left: 0px;
+    padding-top:auto;
+  }
+  .njmmInject {
+    bottom:0;
+    font-family: arial; 
+    background-color: rgba(255,255,255,0.7);
+    /*padding: 45px;*/
+    text-align: center; 
+    /*width: 390px;*/ 
+    margin-top: 10px;
+    padding: 0px;
+    position: fixed;
+    z-index: 1000;
+    height:auto;
+
+  }
+  .njmmInject>* {
+    float:left;
+    width:120px;
+    overflow:hidden;
+  }
+}

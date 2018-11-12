@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+     <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/css/extension.css">
+        <link rel="stylesheet" media="screen and (max-width: 800px)" href="/css/options.css">
+        <script src="popup.js"></script>
+        <style type="text/css">.hidden {display:none}</style>
+     </head>
+
+
+    
+    <body>
+        <div class="content"> <!--We put this inside of a content div so we can control the size of it.-->
+           <!--This is the Header with the tabs.-->
+            <div class="panel"> 
+                <div class="panel-section panel-section-tabs"> 
+                    <div class="panel-section-tabs-button selected" value="features" type="tab">Features</div> 
+                    <div class="panel-section-tabs-separator"></div> 
+                    <div class="panel-section-tabs-button" value="options" type="tab">Options</div> 
+                </div> 
+            </div>
+            
+            <div class="panel tabContent" id="features"> 
+                <div class="panel-section panel-section-list"> 
+                    <div class="panel-list-item" type="url" value="/searchIsBack/searchIsBack.html"> <div class="icon">➕</div> 
+                        <div class="text">Find Friends</div> 
+                        <!--<div class="text-shortcut">Ctrl-L</div>-->
+                    </div> 
+                    <div class="panel-list-item" type="urlscript" value="https://touch.facebook.com/friends/center/requests/outgoing/?fb_ref=jwl"> <div class="icon">➖ </div> 
+                        <div class="text">Clear Friend Requests</div> 
+                        <div class="text-shortcut"></div> 
+                    </div> 
+                    <div class="panel-list-item" type="urlscript" value="https://touch.facebook.com/feed_preferences/following/"> <div class="icon">📜 </div> 
+                        <div class="text">Unfollow Friends</div> 
+                        <div class="text-shortcut"></div> 
+                    </div>
+                    <div class="panel-list-item" type="url" value="/searchIsBack/removeFriends.html"> <div class="icon">🚮 </div> 
+                        <div class="text">Unfriend People</div> 
+                        <div class="text-shortcut"></div> 
+                    </div> 
+                    <!--
+                    <div class="panel-list-item disabled"> 
+                        <div class="icon">List Item</div> 
+                        <div class="text"></div> 
+                        <div class="text-shortcut"></div> 
+                    </div> 
+                    -->
+                    <div class="panel-list-item" type="script"> 
+                        <div class="icon">🔧️</div> 
+                        <div class="text">Show NJMM Tweaks Controls</div> 
+                        <div class="text-shortcut"></div> 
+                    </div>
+                    <div class="panel-list-item" type="url" value="https://www.facebook.com/groups/njmm.official/">
+                        <div class="icon">🗽</div>
+                        <div class="text">NJMM Official</div> 
+                        <!--<div class="text-shortcut">Ctrl-L</div>
+                        -->
+                    </div>
+                    <div class="panel-list-item" type="errorReport" value="mailto:njmm.it@gmail.com?subject=Njmm%20Bug%20Report&amp;body=%0A%20%20%20%20Feature%20Name%5D%20Title%3A%0A%20%20%20%20Missionary%20Name%3A%0A%20%20%20%20Device%3A%0A%20%20%20%20Steps%20to%20reproduce%0A%20%20%20%20Expected%20Result%0A%20%20%20%20Actual%20Result%0A%20%20%20%20Visual%20Proof%20(screenshots%2C%20videos%2C%20text)%0A">
+                        <div class="icon">🐞</div>
+                        <div class="text">Send Bug Report</div> 
+                        <!--<div class="text-shortcut">Ctrl-L</div>
+                        -->
+                    </div> 
+                    <!--
+                    <div class="panel-list-item disabled"> 
+                        <div class="icon">⚙️</div> 
+                        <div class="text">Options</div> 
+                        <div class="text-shortcut"></div>
+                    </div>
+                    <div class="panel-list-item disabled"> 
+                        <div class="icon">⚙️</div> 
+                        <div class="text">About</div> 
+                        <div class="text-shortcut"></div>
+                    </div> 
+                    -->
+                </div>
+            </div>
+            
+            <div class="panel tabContent hidden" id="options">
+                <iframe src="/options/options.html" width="100%" height="100%" frameBorder="0"></iframe>
+                
+                <!--
+                <p>From the <i></i> (Safeguard 2: Be Focused o your Missionary Purpose)</p>
+                <blockquote>The apps provided on your mobile device have filters designed to protect you from inappropriate content. However, even the strongest filters cannot protect you 100 percent of the time. The best filter you have is your own will and desire to make righteous choices.... </blockquote>
+              <form></form>
+                  <div class="switch"></div>div id="formcito">
+                      <input id="allImages" type="checkbox" class="visually-hidden">
+                      <label for="allImages">Hide All Images</label>
+                  </div>
+                  <div class="switch">
+                      <input id="videos" type="checkbox" class="visually-hidden">
+                      <label for="videos">Hide Videos</label>
+                  </div>
+                  <div class="switch">
+                      <input id="newsfeed" type="checkbox" class="visually-hidden">
+                      <label for="newsfeed">Hide Newsfeed</label>
+                  </div>
+                  <br />
+                  <div class="textbox">
+                      <label>Favourite colour</label>
+                      <input type="text" id="color">
+                  </div>
+                  <br />
+                  <button type="submit">Save</button>
+              </form>
+              -->
+            </div> 
+        </div>
+        
+    </body>
+</html>
+
+
