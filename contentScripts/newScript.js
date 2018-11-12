@@ -161,8 +161,8 @@ function makeControlPanel() {
 
     /*Organize the component controls.*/
     njmmDiv.setAttribute("class", "njmmInject");
-    //njmmDiv.appendChild(hamburgerMenuButton);
-    hamburgerMenuButton.outerHTML = `<div class="njmmHamburger"><div class="barTop"></div><div class="barMiddle"></div><div class="barBottom"></div></div>`;
+    njmmDiv.appendChild(hamburgerMenuButton);
+    hamburgerMenuButton.outerHTML = `<div class="njmmHamburger"><input type=checkbox /><div class="barTop"></div><div class="barMiddle"></div><div class="barBottom"></div></div>`;
     /*hamburgerMenuButton.addEventListener("click",toggleHamburgerMenu);*/
     body.insertBefore(njmmDiv, body.childNodes[0]);
     if (addFriendsBool === true) {
