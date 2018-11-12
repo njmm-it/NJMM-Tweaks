@@ -2,64 +2,11 @@
   background-color: rgba(255,255,255,0.7);
   padding: 10px;
   text-align: center; 
-  width: 150px; 
+  width: 45px; 
   /*margin: 10px;*/
   margin: 0px;
   position: fixed;
-  z-index: 1000;
-  height:100%
-} /*Used for the main njmmDiv that contains the control panels.*/
-
-.njmmHamburger {
-  display: inline;
-  cursor: pointer;
-}
-
-.barTop, .barMiddle, .barBottom {
-    width: 35px;
-    height: 5px;
-    background-color: #333;
-    margin: 6px 0;
-    transition: 0.4s;
-}
-
-/* Rotate first bar */
-.njmmToggle .barTop {
-    -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
-    transform: rotate(-45deg) translate(-9px, 6px) ;
-}
-
-/* Fade out the second bar */
-.njmmToggle .barMiddle {
-    opacity: 0;
-}
-
-/* Rotate last bar */
-.njmmToggle .barBottom {
-    -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
-    transform: rotate(45deg) translate(-8px, -8px) ;
-}
-
-.njmmInject.njmmToggle {
-  width:35px;
-}
-.njmmInject.njmmToggle>*:not(.njmmHamburger){
-  display:none
-}
-
-.njmmInject.njmmToggle+div{
-  margin-left:55px;
-}
-
-.njmmInject {font-family: arial; 
-  background-color: rgba(255,255,255,0.7);
-  padding: 10px;
-  text-align: center; 
-  width: 150px; 
-  /*margin: 10px;*/
-  margin: 0px;
-  position: fixed;
-  z-index: 1000;
+  z-index: 2;
   height:100%
 } /*Used for the main njmmDiv that contains the control panels.*/
 .njmmButton {width:90%; height:30px;margin:3px;} /*Buttons*/
@@ -126,79 +73,4 @@
     z-index: 1;
 }
 
-body>div {margin-left: 170px;}
-
-@media screen and (max-width: 900px)
-{
-  body>div {
-    margin-left: 0px;
-    padding-top:auto;
-  }
-  .njmmInject {
-    bottom:0;
-    font-family: arial; 
-    background-color: rgba(255,255,255,0.7);
-    /*padding: 45px;*/
-    text-align: center; 
-    width: auto; 
-    margin-top: 10px;
-    padding: 0px;
-    position: fixed;
-    z-index: 1000;
-    height:auto;
-    padding-right:4px;
-
-  }
-  .njmmInject>.njmmHamburger{
-    float:left;
-    overflow:hidden;
-    margin-left:4px;
-  }
-  .njmmInject>*:not(.njmmHamburger) {
-    float:left;
-    width:120px;
-    overflow:hidden;
-
-  }
-  .njmmHamburger + *:not(.njmmHamburger){
-    margin-left:15px;    
-  }
-.njmmInject.njmmToggle {
-  height:35px;
-}
-.njmmInject.njmmToggle>*:not(.njmmHamburger){
-  display:none
-}
-
-.njmmInject.njmmToggle+div{
-  margin-left:0px;
-}
-
-}
-
-@media screen and (max-width: 400px)
-{
-  body>div {
-    margin-left: 0px;
-    padding-top:auto;
-  }
-  .njmmInject {
-    bottom:0;
-    font-family: arial; 
-    background-color: rgba(255,255,255,0.7);
-    /*padding: 45px;*/
-    text-align: center; 
-    /*width: 390px;*/ 
-    margin-top: 10px;
-    padding: 0px;
-    position: fixed;
-    z-index: 1000;
-    height:auto;
-
-  }
-  .njmmInject>* {
-    float:left;
-    width:120px;
-    overflow:hidden;
-  }
-}
+body>* {margin-left: 65px;}
