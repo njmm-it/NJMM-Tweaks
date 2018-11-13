@@ -6,59 +6,13 @@ body {
         background-color: #fff;
         padding: 10px;
         line-height: 1.7;
+        width: 355px;
+        margin: 0 auto;
+        border-radius: 5px;
     }
 
     body {
         background-color: #e9eaed;
-    }
-
-    nav {
-        line-height: 30px;
-        width: 355px;
-    }
-
-    nav li {
-        display: inline;
-    }
-
-    nav ul {
-        display: inline;
-        padding-left: 10px;
-        font-size: 13px;
-    }
-
-    nav a {
-        color: #666;
-        font-weight: bold;
-        font-size: 12px;
-        padding: 9px 6px;
-    }
-
-    nav li:first-of-type a {
-        padding-left: 0;
-    }
-
-    nav li:last-of-type a {
-        padding-right: 0;
-    }
-
-    nav a.selected {
-        text-decoration: none;
-        pointer-events: none;
-        cursor: default;
-    }
-
-    nav ul li:not(:first-of-type):before
-    {
-        content: '|';
-    }
-
-    h1 {
-        font-size: 27px;
-        line-height: 35px;
-        font-weight: bold;
-        padding-top: 5px;
-        margin-left: 88px;
     }
 
     #person p {
@@ -66,70 +20,6 @@ body {
         font-size: 13px;
         margin-bottom: 7px;
     }
-
-
-    #cantsearchitall p {
-        font-size: 12px;
-        width: 355px;
-        white-space: normal;
-        line-height: 14px;
-        text-align: center;
-        margin-bottom: 2px;
-        font-style: italic;
-        margin-top: 12px;
-    }
-
-    #prebuffalo-container {
-        padding-top: 1px;
-    }
-
-    a#prebuffalo {
-        background-color: #e8151b;
-        display: block;
-        color: #f7f7f7;
-        text-decoration: none;
-        margin: 8px 0 0 -2px;
-        border-radius: 4px;
-        width: 342px;
-        background: radial-gradient(#e8151b,#c72226);
-        padding: 8px 6px 10px;
-    }
-
-    a#prebuffalo:hover {
-        background-color: #f11b21;
-        background: radial-gradient(#ec151c,#d2262a);
-    }
-
-    #prebuffalo img {
-        width: 122px;
-        height: 70px;
-        float: right;
-        padding: 8px 8px 6px 0px;
-    }
-
-    #buffalodescription {
-        font-size: 12px;
-        position: relative;
-        top: 0;
-        left: 0;
-        min-height: 50px;
-        line-height: 16px;
-        text-align: center;
-        padding-top: 7px;
-    }
-
-    div#buffalodescription1 {
-        font-size: 12px;
-        position: relative;
-        top: 0;
-        left: 0;
-        line-height: 15px;
-        clear: both;
-        text-align: center;
-        color: #fff;
-    }
-
-
 
     h2 {
         font-size: 11.5px;
@@ -139,133 +29,39 @@ body {
         margin-left: 88px;
     }
 
-    #about p, #learn p {
-        font-size: 13px;
-        line-height: 18px;
-        padding: 4px 0;
-    }
-
-    #about a, #learn a {
-        color: #3a5795;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    #about p:first-of-type, #learn p:first-of-type {
-        padding-top: 12px !important;
-    }
-
-    header img {
-        float: left;
-        height: 75px;
-        width: 85px;
-        display: block;
-        margin-right: 10px;
-        max-height: 400px;
-    }
-
-    header {
-        background-color: #3a5795;
-        color: white;
-    }
-
-    header div {
-      width: 375px;
-      height: 75px;
-      overflow: hidden;
-    }
-
-    #preheader {
-        background-color: #ffffda;
-        font-size: 10px;
-        font-weight: bold;
-        color: #737373;
-        padding: 5px 0 4px;
-        border-bottom: 1px solid #d3d4b8;
-    }
-
-    #preheader #share {
-        width: 361px;
-        text-align: center;
-    }
-
-    #closepreheader {
-        font-size: 14px;
-        font-weight: normal;
-        color: #3e3e3e;
-        width: 18px;
-        height: 29px;
-        /* left: 352px; */
-        right: 0px;
-        position: absolute;
-        top: 0;
-        text-align: right;
-        line-height: 17px;
-        /* padding-right: 10px; */
-        padding-right: 4px;
-        cursor: pointer;
-        opacity: .7;
-        transform: scaleX(1.1);
-    }
-
-
-    footer {
-      width: 375px;
-      text-align: center;
-      font-size: 12px;
-      line-height: 16px;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    footer a {
-    color: #3a5795;
-    text-decoration: none;
-    }
-
-    footer p {
-        margin-bottom: 5px;
-        color: #666;
-    }
-
-    #createdby {
-        color: #696969;
-        padding: 3px 0;
-    }
-
     select {
-    font-size: 13px;
-    border-radius: 2px;
-    border: 1px solid #CCC;
+        font-size: 13px;
+        border-radius: 2px;
+        border: 1px solid #CCC;
     }
 
     input {
-    font-size: 15px;
-    border-radius: 2px;
-    border: 1px solid #ccc;	
+        font-size: 15px;
+        border-radius: 2px;
+        border: 1px solid #ccc;	
     }
 
     button {
-    font-size: 14px;
-    border-radius: 5px;
-    padding: 5px 8px;
-    margin: 5px 0;
-    background-color: white;
-    color: #3A5795;
-    border: 1px solid #3A5795;
-    cursor: pointer;
-      width: 170px;
+        font-size: 14px;
+        border-radius: 5px;
+        padding: 5px 8px;
+        margin: 5px 0;
+        background-color: white;
+        color: #3A5795;
+        border: 1px solid #3A5795;
+        cursor: pointer;
+        width: 170px;
     }
 
     button:hover {
-    background-color: #3A5795;
-    color: white;
+        background-color: #3A5795;
+        color: white;
     }
 
 
     #people .tab {
-    float: right;
-    width: 190px;
+        float: right;
+        width: 190px;
     }
 
     #people select.tab {
@@ -280,27 +76,6 @@ body {
 
     #people .inputleft {
         width: 88px !important;
-    }
-
-    ::-webkit-input-placeholder {
-       text-align: center;
-    }
-
-    :-moz-placeholder { /* Firefox 18- */
-       text-align: center;
-    }
-
-    ::-moz-placeholder {  /* Firefox 19+ */
-       text-align: center;
-    }
-
-    :-ms-input-placeholder {  
-       text-align: center;
-    }
-
-    #events .tab {
-    float: right;
-    width: 276px;
     }
 
     #person .fullwidth {
@@ -439,16 +214,6 @@ body {
         /* display: inline; */
     }
 
-    .facebooklogintop {
-        background-color: white;
-        font-size: 12px;
-        padding: 8px;
-    }
-
-    .facebooklogintop p {
-        width: 430px;
-    }
-
     input[fid], select[fid] {
       cursor: default !important;
       background-color: #3A5795;
@@ -522,42 +287,4 @@ body {
         margin-top: 7px;
         font-size: 12px;
         text-align: center;
-    }
-
-
-    .ui-widget {
-    font-size: 1em !important;
-    padding: 0;
-    }
-
-    .ui-widget-overlay {
-        background: #222222 url("https://searchisback.com/images/ui-bg_flat_0_222222_40x100.png") 50% 50% repeat-x;
-    }
-
-    .ui-widget-header {
-        border: none;
-        background: #eee;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-
-
-    @media screen and (max-width: 300px) {
-
-        h1 {
-            font-size: 20px;
-            line-height: 24px;
-            padding-top: 8px;
-        }
-
-        h2 {
-            font-size: 9px;
-            line-height: 12px;
-            padding-bottom: 7px;
-            width: 200px;
-        }
-
-        header br {
-            display: none;
-        }
     }
