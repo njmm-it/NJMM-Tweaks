@@ -250,7 +250,7 @@ a:hover
 
     /*Check what type of top button we should add. This will depend on the location of the webpage. For example, there should not be any add friend buttons on an Undo Sent Request page.*/
     if (window.location.href.match(".*.\/\/.*\.facebook\.com\/friends\/center\/requests\/outgoing\/.*")) {
-        /*Add an Undo Friend Requests Button*/
+        /*Add an Undo Friend Requests Button*/ //BEING FIXED
         /*Test URL: https://touch.facebook.com/friends/center/requests/outgoing/?fb_ref=jwl*/
         /*If this script is injected on that web page and when cued will click every Undo button on that page, then it is considered successful.*/
         undoRequestsButton.innerHTML = "Undo Friend Requests";
