@@ -40,7 +40,7 @@ var hamburgerMenuButton = document.createElement("div");
 /*TODO: Figure out how to make these adjust automatically (or atleast notify the developers) if a desired button is not caught in the CSS selector. This probably could be done with a "Report a problem" link.*/
 /*const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know]):not([data-store*=pymk])';*/
 const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know])';
-const defaultErrorMessageSelector = `[value="OK"],[value = "Cancel"],.layerCancel,.layerConfirm`;
+const defaultErrorMessageSelector = `[value="OK"],[value = "Cancel"]:not(.uiLinkButtonInput),.layerCancel,.layerConfirm`;
 const defaultUndoFriendSelector = `[aria-label="Undo"]:not([alreadyClicked = true]):not([display=none])`;
 const defaultUnfollowSelector = `[data-store*="is_following"]:not([alreadyClicked=true])`;
 const defaultUnfriendMenuSelector = `.FriendRequestFriends:not([alreadyClicked=true])`;
