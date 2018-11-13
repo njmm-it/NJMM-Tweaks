@@ -32,24 +32,14 @@ Include logo/demo screenshot etc.
 
 # Developer Stuff
 
-## Build status
-Currently, the project is maintained on a google drive. This makes “Build Status” a very complicated topic. More or less, It's in a state of constant development, and it's expected to always build properly. We are considering moving to a github project to make build status easier to maintain and branch, etc… 
-
 ## Code style
 Please try to match the coding style and especially comment style for each function and individual lines. This is passed down so frequently that code needs to be thoroughly explained. Remember, code written 6 months ago is indistinguishable from code written by someone else. Focus more on the <i>WHY</i> rather than the <i>HOW</i> of algorithms and functions.
- 
-
-## Tech/framework used
-Ex. -
-
-<b>Built with</b>
-- [Electron](https://electron.atom.io)
 
 ## Add-on Organization
 
 The Mozilla Developer Network will be your best friend as you dissect the Add-on. It has documentation for the Add-on technology, Javascript APIs, HTML, CSS, etc…. 
 
-Within the root 
+Within the root directory, there is a crucial file called "manifest.json", this outlines the skeleton
 
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
