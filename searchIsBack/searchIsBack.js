@@ -187,9 +187,7 @@ function checkandclear() {
 	$('select option:selected[value=ANY]').parents('label').find('.hide-if-any').hide();
 }
 $('input, select, button').focusout(checkandclear);
-
 function redirectURL(location){
-    /*window.location.assign(location)*/
     //create the new tab.
     var newTab = browser.tabs.create({
             url: location
@@ -269,26 +267,18 @@ function dosearch() {
 	
 	if(searchurl !== "https://www.facebook.com/search/intersect/") {
 	    announce(`I'm ready to go. the searchurl is ` + searchurl);
-		
-	    
 		if(window.opener) {
-			//window.opener.location.assign(searchurl);
 			redirectURL(searchurl);
 		} else {
 			if(window.mobileAndTabletcheck()) {
-				// smallwindow = window.open('https://searchisback.com','Search is Back!','height=570,width=375,top=50,left='+(document.documentElement.clientWidth-400));
-				// if(window.focus) smallwindow.focus();
-				/*window.open(searchurl,"Search is Back");*/
 				redirectURL(searchurl);	
 			}
 			else {
 				if (nomobile){
 				    announce(`Nombile is ` + nomobile);
 				    redirectURL(searchurl);
-					/*window.location.assign(searchurl);*/
 				}else{
 				    redirectURL(searchurl.replace("www.facebook.com/search","m.facebook.com/graphsearch"));
-					/*window.location.assign(searchurl.replace("www.facebook.com/search","m.facebook.com/graphsearch"));*/
 				}
 			}
 		
