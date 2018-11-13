@@ -44,7 +44,7 @@
         </div>
 
         <hr>
-        Locations/Languages:
+        <b>Locations/Languages:</b>
         <label class="labelcontainer">
            <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" tabindex="80">
            <select id="location-currentpast" tabindex="70">
@@ -73,17 +73,17 @@
 		</label>
             
         <hr>
-        Demographics:
-		<label>
+	<b>Demographics:</b>
+	<label>
             <select name="gender" class="tab" tabindex="30">
               <option value="" format="">All</option>
               <option value="females" format="females/">Female</option>
               <option value="males" format="males/">Male</option>
             </select>
 		    Gender:
-		</label>
+	</label>
             
-		<label>
+	<label>
             <span id="yearrange" style="display:none;">
                 <input id="bornbefore" name="bornbefore" placeholder="to" type="text" class="tab inputright" format="%f1/before/users-born/" nostr tabindex="180">
                 <input id="bornafter" name="bornafter" placeholder="from" type="text" class="tab inputleft" format="%f1/after/users-born/" nostr tabindex="170">
@@ -111,10 +111,13 @@
                 <option>Born (year range)</option>
             </select>
             :                               
-		</label>		
-
+		</label>
+        <script src = "birthday.js"></script>
+		<label><input id="interests" name="interests" type="text" class="tab" format="%f1/likers/" autocompletesource="interest" tabindex="90">
+		Interest: 
+		</label>
         <hr>
-        Relationships:
+            <b>Relationships:</b>
 		<label>
             <select name="interestedin" class="tab" tabindex="40" >
               <option value="" format="">All</option>
@@ -125,69 +128,54 @@
 		</label>
 	
 		<label>
-		<select name="relationship" class="tab" tabindex="50">
-		  <option value="" format="">All</option>
-		  <option value="single" format="single/users/">Single</option>
-		  <option value="inarlxn" format="in-any-relationship/users/">In a Relationship</option>
-		  <option value="inopenrlxn" format="in-open-relationship/users/">In an Open Relationship</option>
-		  <option value="married" format="married/users/">Married</option>
-		  <option value="civilunion" format="in-civil-union/users/">In a Civil Union</option>
-		  <option value="domesticpartnership" format="in-domestic-partnership/users/">In a Domestic Partnership</option>
-		  <option value="engaged" format="engaged/users/">Engaged</option>
-		  <option value="itscomplicated" format="its-complicated/users/">It's Complicated</option>
-		  <option value="widowed" format="widowed/users/">Widowed</option>
-		  <option value="separated" format="separated/users/">Separated</option>
-		  <option value="divorced" format="divorced/users/">Divorced</option>
-		  <option value="dating " format="dating/users/">Dating</option>
-		</select>
-		Relationship status:
+            <select name="relationship" class="tab" tabindex="50">
+              <option value="" format="">All</option>
+              <option value="single" format="single/users/">Single</option>
+              <option value="inarlxn" format="in-any-relationship/users/">In a Relationship</option>
+              <option value="inopenrlxn" format="in-open-relationship/users/">In an Open Relationship</option>
+              <option value="married" format="married/users/">Married</option>
+              <option value="civilunion" format="in-civil-union/users/">In a Civil Union</option>
+              <option value="domesticpartnership" format="in-domestic-partnership/users/">In a Domestic Partnership</option>
+              <option value="engaged" format="engaged/users/">Engaged</option>
+              <option value="itscomplicated" format="its-complicated/users/">It's Complicated</option>
+              <option value="widowed" format="widowed/users/">Widowed</option>
+              <option value="separated" format="separated/users/">Separated</option>
+              <option value="divorced" format="divorced/users/">Divorced</option>
+              <option value="dating " format="dating/users/">Dating</option>
+            </select>
+            Relationship status:
+		</label>
+
+		<hr>
+            <b>Vocation/Education:</b>
+		<label class="labelcontainer">
+            <input id="company" name="company" type="text" class="tab" autocompletesource="company" tabindex="110">
+            <select id="company-currentpast" tabindex="100">
+                <option formatnext="%f1/employees/present/" selected>Current</option>
+                <option formatnext="%f1/employees/past/">Former</option>
+            </select>
+             company:
+		</label>
+
+		<label class="labelcontainer">
+            <input id="school" name="school" type="text" class="tab" autocompletesource="school" tabindex="130">
+            <select id="school-currentpast" tabindex="120">
+                <option formatnext="%f1/students/present/" selected>Current</option>
+                <option formatnext="%f1/students/past/">Former</option>
+            </select>
+             school:
 		</label>
 		
-		<hr>
-        
+		<label>
+            <input id="jobtitle" name="jobtitle" type="text" class="tab" format="%f1/employees/"  autocompletesource="jobtitle" tabindex="140">
+            Job title:
+		</label>
             
-		<label><input id="interests" name="interests" type="text" class="tab" format="%f1/likers/" autocompletesource="interest" tabindex="90">
-		Interest: 
-		</label>
-
-		<hr>
-		Vocation/Education:
-		<label class="labelcontainer">
-		<input id="company" name="company" type="text" class="tab" autocompletesource="company" tabindex="110">
-		<select id="company-currentpast" tabindex="100">
-			<option formatnext="%f1/employees/present/" selected>Current</option>
-			<option formatnext="%f1/employees/past/">Former</option>
-		</select>
-		 company:
-		</label>
-
-		<label class="labelcontainer">
-		<input id="school" name="school" type="text" class="tab" autocompletesource="school" tabindex="130">
-		<select id="school-currentpast" tabindex="120">
-			<option formatnext="%f1/students/present/" selected>Current</option>
-			<option formatnext="%f1/students/past/">Former</option>
-		</select>
-		 school:
-		</label>
-		
 		<label>
-		<input id="jobtitle" name="jobtitle" type="text" class="tab" format="%f1/employees/"  autocompletesource="jobtitle" tabindex="140">
-		Job title:
+            <input id="major" name="major" type="text" class="tab" format="%f1/major/students/present/" autocompletesource="major" tabindex="160">
+            Major:
 		</label>
-
-
-	
-		<label>
-		<input id="major" name="major" type="text" class="tab" format="%f1/major/students/present/" autocompletesource="major" tabindex="160">
-		Major:
-		</label>
-		
-
-		<script src = "birthday.js"></script>
-
 		<hr>
-
-
 		<label>
 			<input id="people-name" name="people-name" type="text" class="tab" format="str/%f1/users-named/" nostr tabindex="190">
 			Name: 
