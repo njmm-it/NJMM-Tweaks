@@ -76,7 +76,7 @@ function makeControlPanel() {
         return;
     }
 
-    //Change the style tag's innerHTML so that we can do some good inline Editing.
+    //Change the style tag's innerHTML so that we can do some good inline Editing. We add this style tag inline, because we're running into some conflicts with external sheets otherwise. It makes this script a lot longer, but such is the price to pay. The hamburger menu is pure-html/css, so conflicts break it.
     styleTag.innerHTML = `
 /*
  * Made by Erik Terwan
@@ -282,8 +282,10 @@ a:hover
         for (var i = 0; i < arrayOfElementsRepresentingPeople.length; i++) {
             elementRepresentingPeople = arrayOfElementsRepresentingPeople[i];
             str = elementRepresentingPeople.getAttribute("data-bt"); //The userID is embedded inside of the data-bt attribute of the elements in the above array. It is contained immediately after `"id":` and before a comma. We need the user ID to make the unfriend button unfriend the right person
-            userID = str.substring(str.indexOf(`"id": `) + 5, str.indexOf(",")); //The "+ 5" is to compensate for the length of `"id": `
-            var htmlStringOfNewUnfriendButton = ` <a class = "itemAnchor" role = "menuitem" tabindex = "-1" ajaxify = "/ajax/profile/removefriendconfirm.php?uid=${userID}&amp;unref=button_dropdown" href = "#" rel = "async-post" > < button class = "itemLabel fsm _517h njmmUnfriend" > Unfriend < /button></a > `;
+            //userID = str.substring(str.indexOf(`"id": `) + 5, str.indexOf(",")); //The "+ 5" is to compensate for the length of `"id": `
+            const regexToMatch = `"id"\s?:(.*?)\,`;
+            userID = str.match(regexToMatch)[1];
+            var htmlStringOfNewUnfriendButton = `<a class = "itemAnchor" role = "menuitem" tabindex = "-1" ajaxify = "/ajax/profile/removefriendconfirm.php?uid=${userID}&unref=button_dropdown" href = "#" rel = "async-post"> <button class = "itemLabel fsm _517h njmmUnfriend"> Unfriend </button></a> `;
             var injectedUnfriendButton = document.createElement("a");
             elementRepresentingPeople.appendChild(injectedUnfriendButton);
             injectedUnfriendButton.outerHTML = htmlStringOfNewUnfriendButton;
