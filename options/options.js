@@ -6,6 +6,8 @@ function saveOptions(e) {
     videos: document.querySelector("#videos").checked,
     newsfeed: document.querySelector("#newsfeed").checked
   });
+  document.querySelector("#savemessage").classList.toggle("savehidden");
+  setTimeout(function(){document.querySelector("#savemessage").classList.toggle("savehidden");}, 3000);
 }
 
 function restoreOptions() {
