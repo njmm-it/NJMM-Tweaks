@@ -6,7 +6,7 @@ var hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`;
 var hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;
 var hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`;
 var hideAdsCSS = `#pagelet_ego_pane {display:none}`;
-var hideProfileCSS = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"]`;
+var hideProfileCSS = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
 var profilePhotoURL = browser.extension.getURL("icons/prof.png");
 var hmode = false;
 
