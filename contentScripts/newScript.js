@@ -76,7 +76,7 @@ function makeControlPanel() {
         return;
     }
 
-    //Change the style tag's innerHTML so that we can do some good inline Editing.
+    //Change the style tag's innerHTML so that we can do some good inline Editing. We add this style tag inline, because we're running into some conflicts with external sheets otherwise. It makes this script a lot longer, but such is the price to pay. The hamburger menu is pure-html/css, so conflicts break it.
     styleTag.innerHTML = `
 /*
  * Made by Erik Terwan
