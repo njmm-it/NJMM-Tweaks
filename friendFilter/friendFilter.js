@@ -9,12 +9,41 @@ document.addEventListener("click",function (e){
     }
 });
 
+/*==========================
+NAME: executeScript()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "executeScript()" generates a URL based on the criteria in the html form, saves the criteria to a json file in the browser storage, then creates a new tab with said url. 
+==========================*/
+function executeScript(){
+}
 
-
-
-
-
-
+/*FORM AUTOFILL FUNCTIONS*/
+/*These functions are neded to make the page save and load its last search from JSON*/
+/*==========================
+NAME: convertCriteriaToJSON()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "convertCriteriaToJSON()" creates a json-string that will be passed to executeScript to save the criteria to the browser storage.
+==========================*/
+function convertCriteriaToJSON(){
+}
+/*==========================
+NAME: autofillFromJSON(inputFromBrowserStorage)
+INPUTS: string inputFromBrowserStorage which represents what is stored in the browser Storage.
+OUTPUTS: void
+DESCRIPTION: "autofillFromJSON()" takes the JSON in browser.storage and fills in the form using the data saved there.
+==========================*/
+function autofillFromJSON(inputFromBrowserStorage){
+}
+/*==========================
+NAME: generateSearchURL()
+INPUTS: void
+OUTPUTS: string representing the search URL to redirect the browser to.
+DESCRIPTION: "generateSearchURL()" creates a json-string that will be passed to executeScript to save the criteria to the browser storage.
+==========================*/
+function generateSearchURL(){
+}
 
 
 /*
