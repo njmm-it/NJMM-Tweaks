@@ -104,7 +104,7 @@ function generateSearchURL(){
 						//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
 						if (typeof field.parentNode.querySelector('input').getAttribute('fid') !== 'undefined'){
 							//if there is a fid attribute that we should replace something in the field with
-							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1", field.parentNode.querySelector('input').getAttribute('fid');
+							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1", field.parentNode.querySelector('input').getAttribute('fid'));
 						} else {
 							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1","str/" + field.parentNode.querySelector(`input`).value + "/pages-named");
 						}
