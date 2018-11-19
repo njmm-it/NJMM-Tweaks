@@ -91,18 +91,18 @@ function generateSearchURL(){
 	var fieldsToCheckOver = document.querySelectorAll(`label select, label input`); //All of the fields that we care about are caught by one of these two selectors
 	for (var field of fieldsToCheckOver){
 		//Let's do some magic, field by field.
-		console.log(field);
+		console.log("We are about to iterate over ", field);
 		if (field.tagName === "SELECT"){
 			//This is a <select> element.
-			console.log(field, field.disabled);
 			if (!field.disabled){
 				//Verify to make sure that it's not disabled.
-				console.log(field, "Selected Options:", field.selectedOptions[0], field.selectedOptions[0].getAttribute('format'));
 				if (field.selectedOptions[0].getAttribute('format') != null ){
 					//if the "format" attribute is present, we use this manner.
+					console.log("It had a format attribute");
 					encodedSearchQuery += field.selectedOptions[0].getAttribute(`format`).replace("%f1",field.value);
 				} else if (field.selectedOptions[0].getAttribute('formatnext') != null){
 					//if the "formatnext" attribute is present, we'll use this manner instead.
+					console.log("It had a formatnext attribute");
 					if (field.parentNode.querySelector('input').value > 0){
 						//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
 						if (field.parentNode.querySelector('input').getAttribute('fid') != null){
@@ -117,6 +117,7 @@ function generateSearchURL(){
 				} else if (field.selectedOptions[0].getAttribute(`bornsearch`) != null){
 					//If there is a date selected, clearly we have to handle it differently!
 					//First we check if the month is selected, then stick in the date.
+					console.log("It had a bornsearch attribute");
 					if (field.parentNode.querySelector('input').value != ""){
 						if (field.parent.querySelector(`select`).value != ""){
 							encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
