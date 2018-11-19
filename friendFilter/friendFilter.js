@@ -36,7 +36,7 @@ function executeSearch(){
 	/*Save the form data to a JSON file, so that it can be autopopulated the next time the form page is opened.*/
 	saveJsonToBrowserStorage(convertCriteriaToJSON());
 	/*Redirect to the search page*/
-	createNewTabWithDesiredURL(generateSearchURL());
+	createNewTabWithURL(generateSearchURL());
 	/*Close the Current Tab, as it has no need to be open, and avoid Tab Spam.*/
 	closeCurrentTab();
 }
