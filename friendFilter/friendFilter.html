@@ -33,21 +33,13 @@
 			</label>
 
             <script src="notalso.js"></script>
-
-            <div class="second-person-chooser hide-if-any"><label>
-                <select class="fullwidth looklikealink" fillpeople="true" fillpeopleadd="+ " formatfillpeople="%fid/friends/" tabindex="20">
-                  <option value="TOP" selected class="centerinselect">+ mutual friends with another person</option>
-                  <option value="EDIT">-- Edit this list --</option>
-                </select>
-            </label></div>
-
         </div>
 
         <hr>
         <b>Locations/Languages:</b>
         <label class="labelcontainer">
            <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" tabindex="80">
-           <select id="location-currentpast" tabindex="70">
+           <select id="location-currentpast1" tabindex="70">
                <option formatnext="%f1/residents/present/">Current location:</option>
                <option formatnext="%f1/residents/past/">Former location:</option>
                <option formatnext="%f1/visitors/">Visited:</option>
@@ -58,7 +50,7 @@
 
         <label class="labelcontainer">
             <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" tabindex="80">
-            <select id="location-currentpast" tabindex="70">
+            <select id="location-currentpast2" tabindex="70">
                 <option formatnext="%f1/residents/present/">Current location:</option>
                 <option formatnext="%f1/residents/past/">Former location:</option>
                 <option formatnext="%f1/visitors/">Visited:</option>
@@ -124,31 +116,31 @@
         <hr>
         <b>Relationships:</b>
 		<label>
-            <select name="interestedin" class="tab" tabindex="40" >
-              <option value="" format="">All</option>
-              <option value="females" format="females/users-interested/">Women</option>
-              <option value="males" format="males/users-interested/">Men</option>
-            </select>
-            Interested in:
+		    <select name="interestedin" class="tab" tabindex="40" >
+		      <option value="" format="">All</option>
+		      <option value="females" format="females/users-interested/">Women</option>
+		      <option value="males" format="males/users-interested/">Men</option>
+		    </select>
+		    Interested in:
 		</label>
 	
 		<label>
-            <select name="relationship" class="tab" tabindex="50">
-              <option value="" format="">All</option>
-              <option value="single" format="single/users/">Single</option>
-              <option value="inarlxn" format="in-any-relationship/users/">In a Relationship</option>
-              <option value="inopenrlxn" format="in-open-relationship/users/">In an Open Relationship</option>
-              <option value="married" format="married/users/">Married</option>
-              <option value="civilunion" format="in-civil-union/users/">In a Civil Union</option>
-              <option value="domesticpartnership" format="in-domestic-partnership/users/">In a Domestic Partnership</option>
-              <option value="engaged" format="engaged/users/">Engaged</option>
-              <option value="itscomplicated" format="its-complicated/users/">It's Complicated</option>
-              <option value="widowed" format="widowed/users/">Widowed</option>
-              <option value="separated" format="separated/users/">Separated</option>
-              <option value="divorced" format="divorced/users/">Divorced</option>
-              <option value="dating " format="dating/users/">Dating</option>
-            </select>
-            Relationship status:
+		    <select name="relationship" class="tab" tabindex="50">
+		      <option value="" format="">All</option>
+		      <option value="single" format="single/users/">Single</option>
+		      <option value="inarlxn" format="in-any-relationship/users/">In a Relationship</option>
+		      <option value="inopenrlxn" format="in-open-relationship/users/">In an Open Relationship</option>
+		      <option value="married" format="married/users/">Married</option>
+		      <option value="civilunion" format="in-civil-union/users/">In a Civil Union</option>
+		      <option value="domesticpartnership" format="in-domestic-partnership/users/">In a Domestic Partnership</option>
+		      <option value="engaged" format="engaged/users/">Engaged</option>
+		      <option value="itscomplicated" format="its-complicated/users/">It's Complicated</option>
+		      <option value="widowed" format="widowed/users/">Widowed</option>
+		      <option value="separated" format="separated/users/">Separated</option>
+		      <option value="divorced" format="divorced/users/">Divorced</option>
+		      <option value="dating " format="dating/users/">Dating</option>
+		    </select>
+		    Relationship status:
 		</label>
 
 		<hr>
