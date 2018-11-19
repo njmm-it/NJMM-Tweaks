@@ -211,7 +211,7 @@ OUTPUTS: void
 DESCRIPTION: "closeCurrentTab()" closes the tab that called it.
 ==========================*/
 function closeCurrentTab(){
-	window.close();
+	//window.close();
 }
 
 /*
