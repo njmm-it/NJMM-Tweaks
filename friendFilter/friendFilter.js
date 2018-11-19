@@ -105,7 +105,7 @@ function generateSearchURL(){
 					} else if (field.selectedOptions[0].getAttribute('formatnext') != null){
 						//if the "formatnext" attribute is present, we'll use this manner instead.
 						console.log("It had a formatnext attribute", "It's corresponding value is", field.parentNode.querySelector('input').value);
-						if (field.parentNode.querySelector('input').value > 0){
+						if (field.parentNode.querySelector('input').value.length > 0){
 							//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
 							console.log("It has a nonempty value.");
 							if (field.parentNode.querySelector('input').getAttribute('fid') != null){
@@ -126,8 +126,8 @@ function generateSearchURL(){
 						//If there is a date selected, clearly we have to handle it differently!
 						//First we check if the month is selected, then stick in the date.
 						console.log("It had a bornsearch attribute");
-						if (field.parentNode.querySelector('input').value != ""){
-							if (field.parent.querySelector(`select`).value != ""){
+						if (field.parentNode.querySelector('input').value.length > 0){
+							if (field.parent.querySelector(`select`).value.length > 0){
 								encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
 							} else {
 								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
