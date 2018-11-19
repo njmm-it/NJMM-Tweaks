@@ -107,10 +107,13 @@ function generateSearchURL(){
 						console.log("It had a formatnext attribute");
 						if (field.parentNode.querySelector('input').value > 0){
 							//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
+							console.log("It has a nonempty value.");
 							if (field.parentNode.querySelector('input').getAttribute('fid') != null){
 								//if there is a fid attribute that we should replace something in the field with
+								console.log("It had an fid");
 								encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1", field.parentNode.querySelector('input').getAttribute('fid'));
 							} else {
+								console.log("It had no fid");
 								encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1","str/" + field.parentNode.querySelector(`input`).value + "/pages-named");
 							}
 
