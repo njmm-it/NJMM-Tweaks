@@ -92,61 +92,65 @@ function generateSearchURL(){
 	for (var field of fieldsToCheckOver){
 		//Let's do some magic, field by field.
 		console.log("We are about to iterate over ", field);
-		if (field.tagName === "SELECT"){
-			//This is a <select> element.
-			if (!field.disabled){
-				//Verify to make sure that it's not disabled.
-				if (field.selectedOptions[0].getAttribute('format') != null ){
-					//if the "format" attribute is present, we use this manner.
-					console.log("It had a format attribute");
-					encodedSearchQuery += field.selectedOptions[0].getAttribute(`format`).replace("%f1",field.value);
-				} else if (field.selectedOptions[0].getAttribute('formatnext') != null){
-					//if the "formatnext" attribute is present, we'll use this manner instead.
-					console.log("It had a formatnext attribute");
-					if (field.parentNode.querySelector('input').value > 0){
-						//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
-						if (field.parentNode.querySelector('input').getAttribute('fid') != null){
-							//if there is a fid attribute that we should replace something in the field with
-							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1", field.parentNode.querySelector('input').getAttribute('fid'));
-						} else {
-							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1","str/" + field.parentNode.querySelector(`input`).value + "/pages-named");
+		if (field.offsetWidth > 0 && field.offsetHeight > 0){
+			//Make sure that the field is actually rendered on the page
+			if (field.tagName === "SELECT"){
+				//This is a <select> element.
+				if (!field.disabled){
+					//Verify to make sure that it's not disabled.
+					if (field.selectedOptions[0].getAttribute('format') != null ){
+						//if the "format" attribute is present, we use this manner.
+						console.log("It had a format attribute");
+						encodedSearchQuery += field.selectedOptions[0].getAttribute(`format`).replace("%f1",field.value);
+					} else if (field.selectedOptions[0].getAttribute('formatnext') != null){
+						//if the "formatnext" attribute is present, we'll use this manner instead.
+						console.log("It had a formatnext attribute");
+						if (field.parentNode.querySelector('input').value > 0){
+							//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
+							if (field.parentNode.querySelector('input').getAttribute('fid') != null){
+								//if there is a fid attribute that we should replace something in the field with
+								encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1", field.parentNode.querySelector('input').getAttribute('fid'));
+							} else {
+								encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1","str/" + field.parentNode.querySelector(`input`).value + "/pages-named");
+							}
+
 						}
-						
-					}
-					//If the field is empty, there is no need to do anything, so there is no corresponding else statement.
-				} else if (field.selectedOptions[0].getAttribute(`bornsearch`) != null){
-					//If there is a date selected, clearly we have to handle it differently!
-					//First we check if the month is selected, then stick in the date.
-					console.log("It had a bornsearch attribute");
-					if (field.parentNode.querySelector('input').value != ""){
-						if (field.parent.querySelector(`select`).value != ""){
-							encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
-						} else {
-							encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
+						//If the field is empty, there is no need to do anything, so there is no corresponding else statement.
+					} else if (field.selectedOptions[0].getAttribute(`bornsearch`) != null){
+						//If there is a date selected, clearly we have to handle it differently!
+						//First we check if the month is selected, then stick in the date.
+						console.log("It had a bornsearch attribute");
+						if (field.parentNode.querySelector('input').value != ""){
+							if (field.parent.querySelector(`select`).value != ""){
+								encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
+							} else {
+								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
+							}
 						}
 					}
 				}
-			}
-		} else {
-			//This is not a <select> element, therefore it must be an <input> element
-			//First check if it has a specified format and that the value is nonempty
-			if ( (field.getAttribute('format') != null) && (field.value.length > 0) ){
-				
-				if (field.getAttribute('nostr') != null) {
-					//If the field has a "nostr" attribute, then we don't add /str/ at the end.
-					encodedSearchQuery += field.getAttribute('format').replace("%f1",field.value);
-				} else if (field.getAttribute('fid') != null){
-					//If the field has an FID, if it does not, then it should be used as a string.
-					encodedSearchQuery += field.getAttribute('format').replace("%f1", field.getAttribute('fid'));
-				} else {
-					encodedSearchQuery += field.getAttribute('format').replace("%f1", "str/" + field.value + "/pages-named").replace("%af1",field.value);
+			} else {
+				//This is not a <select> element, therefore it must be an <input> element
+				//First check if it has a specified format and that the value is nonempty
+				if ( (field.getAttribute('format') != null) && (field.value.length > 0) ){
+
+					if (field.getAttribute('nostr') != null) {
+						//If the field has a "nostr" attribute, then we don't add /str/ at the end.
+						encodedSearchQuery += field.getAttribute('format').replace("%f1",field.value);
+					} else if (field.getAttribute('fid') != null){
+						//If the field has an FID, if it does not, then it should be used as a string.
+						encodedSearchQuery += field.getAttribute('format').replace("%f1", field.getAttribute('fid'));
+					} else {
+						encodedSearchQuery += field.getAttribute('format').replace("%f1", "str/" + field.value + "/pages-named").replace("%af1",field.value);
+					}
 				}
+
+				console.log(encodedSearchQuery); //Just so we can see what the encodedSearchQuery is.
+				//Now we can make the the search URL! Yay!
+
 			}
-
-			console.log(encodedSearchQuery); //Just so we can see what the encodedSearchQuery is.
-			//Now we can make the the search URL! Yay!
-
 		}
+		
 	}
 	
 	if (encodedSearchQuery.length>0){
