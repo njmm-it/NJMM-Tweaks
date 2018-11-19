@@ -85,17 +85,121 @@ OUTPUTS: string representing the search URL to redirect the browser to.
 DESCRIPTION: "generateSearchURL()" reads the user-inputted data in the html form to generate the search URL.
 ==========================*/
 function generateSearchURL(){
+	var encodedSearchQuery = "";
+	var finalSearchURL = "";
+	//The facebook graphsearch URL search query will go here. Each element in filterFriend.html has the necesary options encoded in it. This just turns them into an actual search URL.
+	var fieldsToCheckOver = document.querySelectorAll(`label select, label input`); //All of the fields that we care about are caught by one of these two selectors
+	for (var field of fieldsToCheckOver){
+		//Let's do some magic, field by field.
+		if (field.tagName === "SELECT"){
+			//This is a <select> element.
+			if (!field.disabled){
+				//Verify to make sure that it's not disabled.
+				if (typeof field.selectedOptions[0].getAttribute(`format`) !== `undefined`){
+					//if the "format" attribute is present, we use this manner.
+					encodedSearchQuery += field.selectedOptions[0].getAttribute(`format`).replace("%f1",field.value);
+				} else if (typeof field.selectedOptions[0].getAttribute('formatnext') !== 'undefined'){
+					//if the "formatnext" attribute is present, we'll use this manner instead.
+					if (field.parentNode.querySelector('input').value > 0){
+						//Basically, this checks to see if the field has any value in it. It doesn't matter what the type of field is (for a multiple-type field) if it is blank.
+						if (typeof field.parentNode.querySelector('input').getAttribute('fid') !== 'undefined'){
+							//if there is a fid attribute that we should replace something in the field with
+							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1", field.parentNode.querySelector('input').getAttribute('fid');
+						} else {
+							encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1","str/" + field.parentNode.querySelector(`input`).value + "/pages-named");
+						}
+						
+					}
+					//If the field is empty, there is no need to do anything, so there is no corresponding else statement.
+				} else if (typeof field.selectedOptions[0].getAttribute(`bornsearch`) !== 'undefined'){
+					//If there is a date selected, clearly we have to handle it differently!
+					//First we check if the month is selected, then stick in the date.
+					if (field.parentNode.querySelector('input').value != ""){
+						if (field.parent.querySelector(`select`).value != ""){
+							encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
+						} else {
+							encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
+						}
+					}
+				}
+			}
+		} else {
+			//This is not a <select> element, therefore it must be an <input> element
+			//First check if it has a specified format and that the value is nonempty
+			if ( (typeof field.getAttribute('format') !== 'undefined') && (field.value.length > 0) ){
+				
+				if (typeof field.getAttribute('nostr') !== 'undefined') {
+					//If the field has a "nostr" attribute, then we don't add /str/ at the end.
+					encodedSearchQuery += field.getAttribute('format').replace("%f1",field.value);
+				} else if (typeof field.getAttribute('fid') !== 'undefined'){
+					//If the field has an FID, if it does not, then it should be used as a string.
+					encodedSearchQuery += field.getAttribute('format').replace("%f1", field.getAttribute('fid'));
+				} else {
+					encodedSearchQuery += field.getAttribute('format').replace("%f1", "str/" + field.value + "/pages-named").replace("%af1",field.value);
+				}
+			}
+
+			console.log(encodedSearchQuery); //Just so we can see what the encodedSearchQuery is.
+			//Now we can make the the search URL! Yay!
+
+		}
+	}
+	
+	if (encodedSearchQuery.length>0){
+		//Make sure the encodedSearchQuery isn't empty, otherwise the next part will return an error.
+		if (isTheDeviceMobile()){
+			//The device truly is mobile, so we should feed it the mobile site.
+			finalSearchURL = "https://m.facebook.com/graphsearch"+encodedSearchQuery+"intersect/";
+		} else {
+			//The device is not mobile, so we should feed it the desktop site.
+			finalSearchURL = "https://www.facebook.com/search/"+encodedSearchQuery+"intersect/";	
+		}
+	} else {
+		//If the encodedSearchQuery is empty, then searching will break facebook. I fear that this could set off some error reporting thing, so I felt to leave this blank.
+		finalSearchURL = "";
+	}
+	return finalSearchURL;
+	
+}
+
+/*==========================
+NAME: isTheDeviceMobile()
+INPUTS: void
+OUTPUTS: boolean that is true if run on a mobile device, and false if not.
+DESCRIPTION: "isTheDeviceMobile()" determines whether the device is mobile or not.
+==========================*/
+function isTheDeviceMobile() { 
+ if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)
+ ){
+    return true;
+  }
+ else {
+    return false;
+  }
 }
 /*==========================
 NAME: createNewTabWithURL(desiredURL)
 INPUTS: string desiredURL is the URL that we need to redirect the browser to.
 OUTPUTS: void
-DESCRIPTION: "createNewTabWithURL(desiredURL)" takes desiredURL and creates a new browser tab directed to the desiredURL.
+DESCRIPTION: "createNewTabWithURL(desiredURL)" takes desiredURL and creates a new browser tab directed to the desiredURL. 
+	If desiredURL is blank, then it alerts the user to not make a blank selection. 
+	Theoretically, it should never be blank. But you can never be sure nowadays.
 ==========================*/
 function createNewTabWithURL(desiredURL){
-	var newTab = browser.tabs.create({
+	if (desiredURL.length > 0){
+		var newTab = browser.tabs.create({
             url: desiredURL
         });
+	} else {
+		alert('Please, input some valid search criteria.');
+	}
+	
 }
 /*==========================
 NAME: closeCurrentTab()
@@ -114,84 +218,6 @@ function closeCurrentTab(){
   return (!check);
 };
 
-$(document).ready( function() {
-	if ($('#events-pronoun').val() == "Show all events") {
-		$('#events-verb').hide();
-		$('#events-status').hide();
-	}
-	else {
-		$('#events-verb').show();
-		$('#events-status').show();	
-	}
-	
-	function showtab(tabname) {
-		$('nav li a').removeClass('selected');
-		$('nav li a[to='+tabname+']').addClass('selected');
-		$('form').hide();
-		$('#'+tabname).show();
-		window.location.hash = tabname;
-	}
-	
-	$('nav li a').click( function(event) {
-		event.preventDefault();
-		showtab($(this).attr('to'));
-	});
-	
-	if(window.location.hash.length > 0)
-		showtab(window.location.hash.substr(1));
-		
-	if(window.mobileAndTabletcheck() == false) {
-		//$('#toevents').hide();
-	}
-	
-	$('#aboutlink').click(function(event) {
-		$('#about').dialog({
-			draggable: false,
-			height: 450,
-			width: 345,
-			position: {my: 'left top', at: 'left+15 top+60'},
-			show: 100,
-			hide: 100,
-			modal: true,
-			resizable: false,
-			open: function(){
-				$('.ui-widget-overlay').bind('click',function(){
-					$('#aboutlink').dialog('close');
-					$('#modify-people').dialog('close');
-				})
-			}
-		});
-
-		
-		event.preventDefault();
-	
-	});
-	
-	$('#aboutlink2').click(function(event) {
-		$('#about').dialog({
-			draggable: false,
-			height: 530,
-			width: 345,
-			position: {my: 'left top', at: 'left+15 top+25'},
-			show: 100,
-			hide: 100,
-			modal: true,
-			resizable: false,
-			open: function(){
-				$('.ui-widget-overlay').bind('click',function(){
-					$('#aboutlink').dialog('close');
-					$('#modify-people').dialog('close');
-				})
-			}
-		});
-
-		
-		event.preventDefault();
-	
-	});
-
-});
-
 // Set up autocompletes
 
 function doAutocomplete(queryobject,searchfield) {
@@ -208,13 +234,13 @@ function doAutocomplete(queryobject,searchfield) {
 				'success': function (data) {
 					json = data;
 				},
-				/* error:function (xhr, ajaxOptions, thrownError){			
-					if(xhr.status==404) jQuery.ajax({
-						type: 'POST',
-						url: 'logerror.php',
-						data: { msg: query + ': ' + thrownError }
-					});
-				} */
+				// error:function (xhr, ajaxOptions, thrownError){			
+				//	if(xhr.status==404) jQuery.ajax({
+				//		type: 'POST',
+				//		url: 'logerror.php',
+				//		data: { msg: query + ': ' + thrownError }
+				//	});
+				//} 
 			});
 			return json;
 		})(); 
