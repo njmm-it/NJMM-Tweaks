@@ -1,21 +1,44 @@
+/*==========Stuff that needs to run immediately===========*/
+/*==========================================================
+Basically, this script does three things. 
+1.It autofills the form with data representing the previous search, which is saved to the Browser Storage.
+2.It sets an event listener that will save the form data to the Browser Storage everytime the form is modified.
+2.It sets an event listener that will save to the Browser Storage one last time and then direct the tab to the search results URL.
+==========================================================*/
+
 //Add the addEventListener that will execute the Search when the submit is pressed.
 document.addEventListener("click",function (e){
     console.log("Page was clicked on ");
     console.log(e.target);
     if (e.target.classList.contains("submit")){
-        //dosearch();
-	executeSearch();
-        return false;
+    	//dosearch();
+		executeSearch();
+    	return false;
     }
 });
 
+//Add the addEventListener that will save the form data to Browser Storage everytime the form is modified.
+//TODO: Do the thing.
+
+//Autofill the form as soon as the page is fully loaded.
+autofillFromJSON(getJsonDataFromBrowserStorage());
+
+
+/*==========FUNCTION DECLARATIONS=============*/
+
 /*==========================
-NAME: executeScript()
+NAME: executeSearch()
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: "executeScript()" generates a URL based on the criteria in the html form, saves the criteria to a json file in the browser storage, then creates a new tab with said url. 
+DESCRIPTION: "executeSearch()" generates a URL based on the criteria in the html form, saves the criteria to a json file in the browser storage, then creates a new tab with said url. 
 ==========================*/
-function executeScript(){
+function executeSearch(){
+	/*Save the form data to a JSON file, so that it can be autopopulated the next time the form page is opened.*/
+	saveJsonToBrowserStorage(convertCriteriaToJSON());
+	/*Redirect to the search page*/
+	createNewTabWithDesiredURL(generateSearchURL());
+	/*Close the Current Tab, as it has no need to be open, and avoid Tab Spam.*/
+	closeCurrentTab();
 }
 
 /*FORM AUTOFILL FUNCTIONS*/
@@ -29,22 +52,56 @@ DESCRIPTION: "convertCriteriaToJSON()" creates a json-string that will be passed
 function convertCriteriaToJSON(){
 }
 /*==========================
-NAME: autofillFromJSON(inputFromBrowserStorage)
-INPUTS: string inputFromBrowserStorage which represents what is stored in the browser Storage.
+NAME: saveJsonToBrowserStorage(jsonString)
+INPUTS: string jsonString is the json object to be saved to the Browser Storage, encoded in a string.
 OUTPUTS: void
-DESCRIPTION: "autofillFromJSON()" takes the JSON in browser.storage and fills in the form using the data saved there.
+DESCRIPTION: "saveJsonToBrowserStorage()" saves the jsonString to the Browser Storage
+==========================*/
+function saveJsonToBrowserStorage(){
+}
+/*==========================
+NAME: autofillFromJSON(inputFromBrowserStorage)
+INPUTS: Promise inputFromBrowserStorage which represents what is stored in the browser Storage.
+OUTPUTS: void
+DESCRIPTION: "autofillFromJSON()" takes inputFromBrowserStorage and fills in the form using the data saved there.
 ==========================*/
 function autofillFromJSON(inputFromBrowserStorage){
 }
 /*==========================
+NAME: getJsonDataFromBrowserStorage()
+INPUTS: void
+OUTPUTS: Promise which represents what is stored in the browser Storage.
+DESCRIPTION: "getJsonDataFromBrowserStorage()" takes the JSON in browser.storage and passes it.
+==========================*/
+function getJsonDataFromBrowserStorage(){
+}
+
+/*REDIRECTION FUNCTIONS*/
+/*These functions are needed to redirect the page to the desired URL.*/
+/*==========================
 NAME: generateSearchURL()
 INPUTS: void
 OUTPUTS: string representing the search URL to redirect the browser to.
-DESCRIPTION: "generateSearchURL()" creates a json-string that will be passed to executeScript to save the criteria to the browser storage.
+DESCRIPTION: "generateSearchURL()" reads the user-inputted data in the html form to generate the search URL.
 ==========================*/
 function generateSearchURL(){
 }
-
+/*==========================
+NAME: createNewTabWithURL(desiredURL)
+INPUTS: string desiredURL is the URL that we need to redirect the browser to.
+OUTPUTS: void
+DESCRIPTION: "createNewTabWithURL(desiredURL)" takes desiredURL and creates a new browser tab directed to the desiredURL.
+==========================*/
+function createNewTabWithURL(desiredURL){
+}
+/*==========================
+NAME: closeCurrentTab()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "closeCurrentTab()" closes the tab that called it.
+==========================*/
+function closeCurrentTab(){
+}
 
 /*
  window.mobileAndTabletcheck = function() {
