@@ -117,8 +117,11 @@ function generateSearchURL(){
 								encodedSearchQuery += field.selectedOptions[0].getAttribute('formatnext').replace("%f1","str/" + field.parentNode.querySelector(`input`).value + "/pages-named");
 							}
 
+						} else {
+							console.log("It had an empty value.");
+							//If the field is empty, there is no need to do anything, so there is no corresponding else statement.
 						}
-						//If the field is empty, there is no need to do anything, so there is no corresponding else statement.
+						
 					} else if (field.selectedOptions[0].getAttribute(`bornsearch`) != null){
 						//If there is a date selected, clearly we have to handle it differently!
 						//First we check if the month is selected, then stick in the date.
