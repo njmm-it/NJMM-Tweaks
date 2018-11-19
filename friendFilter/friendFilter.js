@@ -12,7 +12,7 @@ document.addEventListener("click",function (e){
     console.log(e.target);
     if (e.target.classList.contains("submit")){
     	//dosearch();
-		executeSearch();
+	executeSearch();
     	return false;
     }
 });
@@ -93,6 +93,9 @@ OUTPUTS: void
 DESCRIPTION: "createNewTabWithURL(desiredURL)" takes desiredURL and creates a new browser tab directed to the desiredURL.
 ==========================*/
 function createNewTabWithURL(desiredURL){
+	var newTab = browser.tabs.create({
+            url: desiredURL
+        });
 }
 /*==========================
 NAME: closeCurrentTab()
@@ -101,6 +104,7 @@ OUTPUTS: void
 DESCRIPTION: "closeCurrentTab()" closes the tab that called it.
 ==========================*/
 function closeCurrentTab(){
+	window.close();
 }
 
 /*
