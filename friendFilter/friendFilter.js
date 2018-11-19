@@ -125,6 +125,7 @@ function generateSearchURL(){
 					} else if (field.selectedOptions[0].getAttribute(`bornsearch`) != null){
 						//If there is a date selected, clearly we have to handle it differently!
 						//First we check if the month is selected, then stick in the date.
+						//TODO: Emulate the ":visible" jquery pseudoselector
 						console.log("It had a bornsearch attribute");
 						if (field.parentNode.querySelector('input').value.length > 0){
 							if (field.parent.querySelector(`select`).value.length > 0){
@@ -133,7 +134,20 @@ function generateSearchURL(){
 								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
 							}
 						}
+					/*else if (typeof $(this).find(':selected').attr('bornsearch') !== 'undefined') {
+					// If the date is selected
+					if( $(this).parent().find('input:visible:first').val() != "") {
+						// If the month is selected
+						if( $(this).parent().find('select:visible:first').val() != "")
+							searchquery += "%f1/%f2/date-2/users-born/".replace("%f1",$(this).parent().find('input:visible:first').val()).replace("%f2",$(this).parent().find('select:first').val());
+						else
+							searchquery += "%f1/date/users-born/".replace("%f1",$(this).parent().find('input:visible:first').val());
+					}*/
+}
+					
+					
 					}
+					
 				}
 			} else {
 				//This is not a <select> element, therefore it must be an <input> element
