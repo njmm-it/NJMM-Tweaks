@@ -91,11 +91,14 @@ function generateSearchURL(){
 	var fieldsToCheckOver = document.querySelectorAll(`label select, label input`); //All of the fields that we care about are caught by one of these two selectors
 	for (var field of fieldsToCheckOver){
 		//Let's do some magic, field by field.
+		console.log(field);
 		if (field.tagName === "SELECT"){
 			//This is a <select> element.
+			console.log(field, field.disabled);
 			if (!field.disabled){
 				//Verify to make sure that it's not disabled.
-				if (typeof field.selectedOptions[0].getAttribute(`format`) !== `undefined`){
+				console.log(field, "Selected Options:", field.selectedOptions[0], field.selectedOptions[0].getAttribute('format'));
+				if (typeof field.selectedOptions[0].getAttribute('format') !== `undefined`){
 					//if the "format" attribute is present, we use this manner.
 					encodedSearchQuery += field.selectedOptions[0].getAttribute(`format`).replace("%f1",field.value);
 				} else if (typeof field.selectedOptions[0].getAttribute('formatnext') !== 'undefined'){
