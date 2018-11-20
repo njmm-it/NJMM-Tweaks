@@ -135,16 +135,8 @@ function generateSearchURL(){
 								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
 							}
 						}
-					/*else if (typeof $(this).find(':selected').attr('bornsearch') !== 'undefined') {
-					// If the date is selected
-					if( $(this).parent().find('input:visible:first').val() != "") {
-						// If the month is selected
-						if( $(this).parent().find('select:visible:first').val() != "")
-							searchquery += "%f1/%f2/date-2/users-born/".replace("%f1",$(this).parent().find('input:visible:first').val()).replace("%f2",$(this).parent().find('select:first').val());
-						else
-							searchquery += "%f1/date/users-born/".replace("%f1",$(this).parent().find('input:visible:first').val());
-					}*/
-}
+					
+					}
 					
 					
 					}
