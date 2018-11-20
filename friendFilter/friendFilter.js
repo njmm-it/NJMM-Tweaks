@@ -92,7 +92,7 @@ function generateSearchURL(){
 	for (var field of fieldsToCheckOver){
 		//Let's do some magic, field by field.
 		console.log("We are about to iterate over ", field);
-		if (field.offsetWidth > 0 && field.offsetHeight > 0){
+		if (isVisible(field)){
 			//Make sure that the field is actually rendered on the page
 			if (field.tagName === "SELECT"){
 				//This is a <select> element.
@@ -127,8 +127,9 @@ function generateSearchURL(){
 						//First we check if the month is selected, then stick in the date.
 						//TODO: Emulate the ":visible" jquery pseudoselector
 						console.log("It had a bornsearch attribute");
-						if (field.parentNode.querySelector('input').value.length > 0){
-							if (field.parent.querySelector(`select`).value.length > 0){
+						
+						if (field.parentNode.querySelector('input').value.length > 0 && isVisible(field.parentNode.querySelector('input'))){
+							if (field.parent.querySelector(`select`).value.length > 0 && isVisible(field.parent.querySelector(`select`))){
 								encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
 							} else {
 								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
@@ -211,6 +212,16 @@ function isTheDeviceMobile() {
     return false;
   }
 }
+/*==========================
+NAME: isVisible(element)
+INPUTS: DOMelement element that will be checked if it is visible
+OUTPUTS: void
+DESCRIPTION: "isVisible(element)" simply checks if the offsetWidth and offsetHeight are greater than 0.
+==========================*/
+function isVisible(element){
+	return ((element.offsetWidth > 0) && (element.offsetHeight > 0));
+}
+
 /*==========================
 NAME: createNewTabWithURL(desiredURL)
 INPUTS: string desiredURL is the URL that we need to redirect the browser to.
