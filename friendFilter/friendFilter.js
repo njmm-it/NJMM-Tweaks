@@ -135,10 +135,6 @@ function generateSearchURL(){
 								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
 							}
 						}
-					
-					}
-					
-					
 					}
 					
 				}
