@@ -526,7 +526,9 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     var delay = generateDelayTime();    
 
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
-    console.log('I am considering pressing: ', nextButtonToPress);
+    if (buttonType !== "Cancel"){
+        console.log('I am considering pressing: ', nextButtonToPress);    
+    }
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         //if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
         if (canButtonsBeCurrentlyPressed === true) {
