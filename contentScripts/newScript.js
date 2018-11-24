@@ -572,7 +572,8 @@ function clickNextButton(buttonType, selector, scrollable = true) {
         /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests, 
         then it will scroll. If it isn't scrollable, then it will refresh the page.*/
         /*TODO: Figure out how to deprecate scrollable without breaking things.*/
-        if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
+        //if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
+	if (canButtonsBeCurrentlyPressed === true && scrollable) {
             console.log(`I ran out of buttons!`, `I will scroll instead!`);
             setTimeout(clickNextButton, delay, buttonType, selector, scrollable); //The timeout used to be 4000+delay.
             setTimeout(function() { //We need to wait 4 seconds to check if new buttons have appeared before we refresh the page.
