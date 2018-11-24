@@ -536,7 +536,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                     inline: "nearest"
                 });
 		console.log("Checking if the button is visible!");
-		    if (isVisble(nextButtonToPress)){
+		    if (isVisible(nextButtonToPress)){
 			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
                 console.log("The Button is visible!")
 			    nextButtonToPress.click();
