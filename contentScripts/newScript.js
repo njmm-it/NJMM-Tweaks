@@ -536,40 +536,68 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                     behavior: "smooth",
                     block: "center",
                     inline: "nearest"
-                });
-		console.log("Checking if the button is visible!");
-		if (isVisible(nextButtonToPress)){
-		    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
-            console.log("The Button is visible!")
-			nextButtonToPress.click();
-		}
+            });
         nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
         /*checks the button type and deals with it as necessary.*/
         if (buttonType === "Add") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
             addToCount();
             console.log('You just added ' + recentButtonsPressed + ' friends!');
             postToBox("Buttons pressed: " + recentButtonsPressed);
                 /*TODO: Make a way to check if the user has been blocked. This could be done with some search on the page for the word "block" when a new div appears?*/
                 /*TODO: Make this more useful.*/
-            } else if (buttonType === "Undo") {
-                postToBox("Cleared 1 Friend");
-                /*TODO: Make this more useful.*/
-            } else if (buttonType === "Cancel") {
-                /*TODO: Make this do something.*/
-            } else if (buttonType === "Unfollow") {
-                /*TODO: Make this do something.*/
-            }  else if (buttonType === "injectedUnfriend") {
-                /*TODO: Make this do something useful*/
-            }/*else if (buttonType === "Unfriend") {
-                //This then proceeds to click the actual unfriend button after a moment.
-                setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
-            }*/
-            /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
-            We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
-            /*TODO: Deprecate the old unfriend method.*/
+        } else if (buttonType === "Undo") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+		    	//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+            	console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            postToBox("Cleared 1 Friend");
+            /*TODO: Make this more useful.*/
+        } else if (buttonType === "Cancel") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+				//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				if (nextButtonToPress.parentNode.querySelector(".layerConfirm") == null){
+					nextButtonToPress.click();
+				} else {
+					nextButtonToPress.parentNode.querySelector(".layerConfirm").click();
+				}
+			}
+            /*TODO: Make this do something.*/
+        } else if (buttonType === "Unfollow") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            /*TODO: Make this do something.*/
+        }  else if (buttonType === "injectedUnfriend") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            /*TODO: Make this do something useful*/
+        }/*else if (buttonType === "Unfriend") {
+            //This then proceeds to click the actual unfriend button after a moment.
+            setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
+        }*/
+        /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
+        We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
+        /*TODO: Deprecate the old unfriend method.*/
             
-            setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
-        }
+        setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
+	}
     } else {
         /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests, 
         then it will scroll. If it isn't scrollable, then it will refresh the page.*/
