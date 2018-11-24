@@ -433,6 +433,17 @@ DESCRIPTION: "mod(dividend, divisor)" returns dividend modulo divisor. This coul
 function mod(dividend, divisor) {
     return dividend - divisor * Math.floor(dividend / divisor);
 }
+
+/*==========================
+NAME: isVisible(element)
+INPUTS: DOMelement element that will be checked if it is visible
+OUTPUTS: void
+DESCRIPTION: "isVisible(element)" simply checks if the offsetWidth and offsetHeight are greater than 0.
+==========================*/
+function isVisible(element){
+	return ((element.offsetWidth > 0) && (element.offsetHeight > 0));
+}
+
 /*==========================
 NAME:stopAllButtonPressing()
 INPUTS: void 
@@ -515,7 +526,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     var delay = generateDelayTime();    
 
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
-    if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
+    if (nextButtonToPress !== null && isVisble(nextButtonToPress)) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         //if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
         if (canButtonsBeCurrentlyPressed === true) {
             nextButtonToPress.scrollIntoView({
