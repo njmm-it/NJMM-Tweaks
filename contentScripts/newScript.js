@@ -39,7 +39,7 @@ var hamburgerMenuButton = document.createElement("div");
 /*These, theoretically, should describe a CSS selector that catches each of the desired buttons on a facebook page and nothing else. Experience has shown, however, that this rarely works precisely as desired.*/
 /*TODO: Figure out how to make these adjust automatically (or atleast notify the developers) if a desired button is not caught in the CSS selector. This probably could be done with a "Report a problem" link.*/
 /*const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know]):not([data-store*=pymk])';*/
-const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know])';
+const defaultAddFriendSelector = '[aria-label*="Add"]:not(.hidden_elem):not([data-store*=people_you_may_know])';
 const defaultErrorMessageSelector = `[value="OK"],[value = "Cancel"]:not(.uiLinkButtonInput),.layerCancel,.layerConfirm`;
 const defaultUndoFriendSelector = `[aria-label="Undo"]:not([alreadyClicked = true]):not([display=none])`;
 const defaultUnfollowSelector = `[data-store*="is_following"]:not([alreadyClicked=true])`;
@@ -535,6 +535,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                     block: "center",
                     inline: "nearest"
                 });
+		console.log("Checking if the button is visible!");
 		    if (isVisble(nextButtonToPress)){
 			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
                 console.log("The Button is visible!")
