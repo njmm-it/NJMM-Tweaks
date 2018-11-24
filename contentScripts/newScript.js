@@ -526,6 +526,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     var delay = generateDelayTime();    
 
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
+    console.log('I am considering pressing: ', nextButtonToPress);
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         //if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
         if (canButtonsBeCurrentlyPressed === true) {
@@ -534,11 +535,11 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                     block: "center",
                     inline: "nearest"
                 });
-			if (isVisble(nextButtonToPress)){
-				//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
-				nextButtonToPress.click();
-			}
-
+		    if (isVisble(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+                console.log("The Button is visible!")
+			    nextButtonToPress.click();
+		    }
             nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
             /*checks the button type and deals with it as necessary.*/
             if (buttonType === "Add") {
