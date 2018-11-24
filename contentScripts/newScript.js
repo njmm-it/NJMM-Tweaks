@@ -317,13 +317,10 @@ a:hover
     continueButton.setAttribute("class", "njmmButton");
     continueButton.setAttribute("id", "stopButton");
 
-    /*instructionsText.setAttribute("class","njmmText");
-       instructionsText.innerHTML="<b>Instructions:</b><br />\
-       1. Pray. <br />\
-       2. Set current city on right.<br />\
-       3. Choose filters on right.<br />\
-       4. Press Button.";
-        */
+    instructionsText.setAttribute("class","njmmText");
+    instructionsText.innerHTML="Only run the auto-adder on one page at a time.<br>\
+	If you do more than that, you will likely be blocked!";
+        
 
     /*add a little counter that acts as a place to put progress.*/
     countInput.type = "text";
@@ -350,7 +347,7 @@ a:hover
     }
     menuUL.appendChild(continueButton);
     menuUL.appendChild(countInput);
-    /*njmmDiv.appendChild(instructionsText);*/
+    menuUL.appendChild(instructionsText);
 }
 
 /*==========================
