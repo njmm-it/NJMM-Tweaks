@@ -527,7 +527,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
 
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
     if (buttonType !== "Cancel"){
-        console.log('I am considering pressing: ', nextButtonToPress);    
+        console.log('I am considering pressing the button of type: ',buttonType, nextButtonToPress);    
     }
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         //if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
@@ -538,17 +538,17 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                     inline: "nearest"
                 });
 		console.log("Checking if the button is visible!");
-		    if (isVisible(nextButtonToPress)){
-			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
-                console.log("The Button is visible!")
-			    nextButtonToPress.click();
-		    }
-            nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
-            /*checks the button type and deals with it as necessary.*/
-            if (buttonType === "Add") {
-                addToCount();
-                console.log('You just added ' + recentButtonsPressed + ' friends!');
-                postToBox("Buttons pressed: " + recentButtonsPressed);
+		if (isVisible(nextButtonToPress)){
+		    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+            console.log("The Button is visible!")
+			nextButtonToPress.click();
+		}
+        nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
+        /*checks the button type and deals with it as necessary.*/
+        if (buttonType === "Add") {
+            addToCount();
+            console.log('You just added ' + recentButtonsPressed + ' friends!');
+            postToBox("Buttons pressed: " + recentButtonsPressed);
                 /*TODO: Make a way to check if the user has been blocked. This could be done with some search on the page for the word "block" when a new div appears?*/
                 /*TODO: Make this more useful.*/
             } else if (buttonType === "Undo") {
