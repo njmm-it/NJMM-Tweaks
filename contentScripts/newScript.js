@@ -39,7 +39,7 @@ var hamburgerMenuButton = document.createElement("div");
 /*These, theoretically, should describe a CSS selector that catches each of the desired buttons on a facebook page and nothing else. Experience has shown, however, that this rarely works precisely as desired.*/
 /*TODO: Figure out how to make these adjust automatically (or atleast notify the developers) if a desired button is not caught in the CSS selector. This probably could be done with a "Report a problem" link.*/
 /*const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know]):not([data-store*=pymk])';*/
-const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know])';
+const defaultAddFriendSelector = '[aria-label*="Add"]:not(.hidden_elem):not([data-store*=people_you_may_know]):not([alreadyClicked=true])';
 const defaultErrorMessageSelector = `[value="OK"],[value = "Cancel"]:not(.uiLinkButtonInput),.layerCancel,.layerConfirm`;
 const defaultUndoFriendSelector = `[aria-label="Undo"]:not([alreadyClicked = true]):not([display=none])`;
 const defaultUnfollowSelector = `[data-store*="is_following"]:not([alreadyClicked=true])`;
@@ -317,13 +317,10 @@ a:hover
     continueButton.setAttribute("class", "njmmButton");
     continueButton.setAttribute("id", "stopButton");
 
-    /*instructionsText.setAttribute("class","njmmText");
-       instructionsText.innerHTML="<b>Instructions:</b><br />\
-       1. Pray. <br />\
-       2. Set current city on right.<br />\
-       3. Choose filters on right.<br />\
-       4. Press Button.";
-        */
+    instructionsText.setAttribute("class","njmmText");
+    instructionsText.innerHTML="Only run the auto-adder on one page at a time.<br>\
+	If you do more than that, you will likely be blocked!";
+        
 
     /*add a little counter that acts as a place to put progress.*/
     countInput.type = "text";
@@ -350,7 +347,7 @@ a:hover
     }
     menuUL.appendChild(continueButton);
     menuUL.appendChild(countInput);
-    /*njmmDiv.appendChild(instructionsText);*/
+    menuUL.appendChild(instructionsText);
 }
 
 /*==========================
@@ -433,6 +430,17 @@ DESCRIPTION: "mod(dividend, divisor)" returns dividend modulo divisor. This coul
 function mod(dividend, divisor) {
     return dividend - divisor * Math.floor(dividend / divisor);
 }
+
+/*==========================
+NAME: isVisible(element)
+INPUTS: DOMelement element that will be checked if it is visible
+OUTPUTS: void
+DESCRIPTION: "isVisible(element)" simply checks if the offsetWidth and offsetHeight are greater than 0.
+==========================*/
+function isVisible(element){
+	return ((element.offsetWidth > 0) && (element.offsetHeight > 0));
+}
+
 /*==========================
 NAME:stopAllButtonPressing()
 INPUTS: void 
@@ -504,17 +512,20 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                 spreadsheet. It spits out a value between 3000 and 7000, given a random decimal between 0 and 1. We needed something that has a vertical asymptote just after 1, a y-value of 3000 at x=0, a function that is 
                 everywhere-increasing on the interval of [0,1], that grows really rapidly at the edge, but not rapidly at all near the beginning. I wish I could explain at a mathematical level why it does what we want, but all I 
                 can say is that it does. I am so sorry to black-box it!*/
-            return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
             if (buttonType !== "Cancel") {
                 /*Send a message saying how long we are waiting to press the next button*/
                 console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
-            } 
+            }
+            return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
         }
     }
     
     var delay = generateDelayTime();    
 
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
+    if (buttonType !== "Cancel"){
+        console.log('I am considering pressing the button of type: ',buttonType, nextButtonToPress);    
+    }
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         //if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
         if (canButtonsBeCurrentlyPressed === true) {
@@ -522,40 +533,74 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                     behavior: "smooth",
                     block: "center",
                     inline: "nearest"
-                });
-            nextButtonToPress.click();
-            nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
-            /*checks the button type and deals with it as necessary.*/
-            if (buttonType === "Add") {
-                addToCount();
-                console.log('You just added ' + recentButtonsPressed + ' friends!');
-                postToBox("Buttons pressed: " + recentButtonsPressed);
+            });
+        nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
+        /*checks the button type and deals with it as necessary.*/
+        if (buttonType === "Add") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            addToCount();
+            console.log('You just added ' + recentButtonsPressed + ' friends!');
+            postToBox("Buttons pressed: " + recentButtonsPressed);
                 /*TODO: Make a way to check if the user has been blocked. This could be done with some search on the page for the word "block" when a new div appears?*/
                 /*TODO: Make this more useful.*/
-            } else if (buttonType === "Undo") {
-                postToBox("Cleared 1 Friend");
-                /*TODO: Make this more useful.*/
-            } else if (buttonType === "Cancel") {
-                /*TODO: Make this do something.*/
-            } else if (buttonType === "Unfollow") {
-                /*TODO: Make this do something.*/
-            }  else if (buttonType === "injectedUnfriend") {
-                /*TODO: Make this do something useful*/
-            }/*else if (buttonType === "Unfriend") {
-                //This then proceeds to click the actual unfriend button after a moment.
-                setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
-            }*/
-            /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
-            We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
-            /*TODO: Deprecate the old unfriend method.*/
+        } else if (buttonType === "Undo") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+		    	//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+            	console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            postToBox("Cleared 1 Friend");
+            /*TODO: Make this more useful.*/
+        } else if (buttonType === "Cancel") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+				//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				if (nextButtonToPress.parentNode.querySelector(".layerConfirm") == null){
+					nextButtonToPress.click();
+				} else {
+					nextButtonToPress.parentNode.querySelector(".layerConfirm").click();
+				}
+			}
+            /*TODO: Make this do something.*/
+        } else if (buttonType === "Unfollow") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            /*TODO: Make this do something.*/
+        }  else if (buttonType === "injectedUnfriend") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            /*TODO: Make this do something useful*/
+        }/*else if (buttonType === "Unfriend") {
+            //This then proceeds to click the actual unfriend button after a moment.
+            setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
+        }*/
+        /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
+        We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
+        /*TODO: Deprecate the old unfriend method.*/
             
-            setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
-        }
+        setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
+	}
     } else {
         /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests, 
         then it will scroll. If it isn't scrollable, then it will refresh the page.*/
         /*TODO: Figure out how to deprecate scrollable without breaking things.*/
-        if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
+        //if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
+	if (canButtonsBeCurrentlyPressed === true && scrollable) {
             console.log(`I ran out of buttons!`, `I will scroll instead!`);
             setTimeout(clickNextButton, delay, buttonType, selector, scrollable); //The timeout used to be 4000+delay.
             setTimeout(function() { //We need to wait 4 seconds to check if new buttons have appeared before we refresh the page.
