@@ -19,7 +19,7 @@
                 <div class="first-person-chooser">
                     <label>
                         Search for  
-                        <select id="people-pronoun" style="margin-bottom:8px;" fillpeople="true" fillpeopleadd="Friends of " formatfillpeople="%fid/friends/" tabindex="10">
+                        <select id="people-pronoun" style="margin-bottom:8px;" fillpeople="true" fillpeopleadd="Friends of " formatfillpeople="%fid/friends/" >
                             <option format="" value="ANY">All people</option>
                             <option format="me/non-friends/" value="OTHER" selected>Non-friends</option>
                             <option format="me/friends/" value="OTHER">Friends</option>
@@ -38,8 +38,8 @@
         <hr>
         <b>Locations/Languages:</b>
         <label class="labelcontainer">
-           <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" tabindex="80">
-           <select id="location-currentpast1" tabindex="70">
+           <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" >
+           <select id="location-currentpast1" >
                <option formatnext="%f1/residents/present/">Current location:</option>
                <option formatnext="%f1/residents/past/">Former location:</option>
                <option formatnext="%f1/visitors/">Visited:</option>
@@ -49,8 +49,8 @@
         </label>
 
         <label class="labelcontainer">
-            <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" tabindex="80">
-            <select id="location-currentpast2" tabindex="70">
+            <input id="people-visited" name="location" type="text" class="tab" autocompletesource="location" >
+            <select id="location-currentpast2" >
                 <option formatnext="%f1/residents/present/">Current location:</option>
                 <option formatnext="%f1/residents/past/">Former location:</option>
                 <option formatnext="%f1/visitors/">Visited:</option>
@@ -60,18 +60,18 @@
 		</label>
    
         <label>
-		    <input id="language" name="language" type="text" class="tab" format="%f1/speakers/" tabindex="150">
+		    <input id="language" name="language" type="text" class="tab" format="%f1/speakers/" >
 		    Language spoken:
 		</label>
             
         <hr>
 	<b>Demographics:</b>
 	<label>
-		<input id="people-name" name="people-name" type="text" class="tab" format="str/%f1/users-named/" nostr tabindex="190">
+		<input id="people-name" name="people-name" type="text" class="tab" format="str/%f1/users-named/" nostr >
 		Name: 
 	</label>
 	<label>
-            <select name="gender" class="tab" tabindex="30">
+            <select name="gender" class="tab" >
               <option value="" format="">All</option>
               <option value="females" format="females/">Female</option>
               <option value="males" format="males/">Male</option>
@@ -81,12 +81,12 @@
             
 	<label>
             <span id="yearrange" style="display:none;">
-                <input id="bornbefore" name="bornbefore" placeholder="to" type="text" class="tab inputright" format="%f1/before/users-born/" nostr tabindex="180">
-                <input id="bornafter" name="bornafter" placeholder="from" type="text" class="tab inputleft" format="%f1/after/users-born/" nostr tabindex="170">
+                <input id="bornbefore" name="bornbefore" placeholder="to" type="text" class="tab inputright" format="%f1/before/users-born/" nostr >
+                <input id="bornafter" name="bornafter" placeholder="from" type="text" class="tab inputleft" format="%f1/after/users-born/" nostr >
             </span>
             <span id="yearmonth">
-                <input id="bornyear" name="bornyear" placeholder="year" type="text" class="tab" nostr tabindex="170">
-                <select id="bornmonth" name="bornmonth" tabindex="180" class="tab inputleft" style="visibility:hidden;">
+                <input id="bornyear" name="bornyear" placeholder="year" type="text" class="tab" nostr >
+                <select id="bornmonth" name="bornmonth"  class="tab inputleft" style="visibility:hidden;">
                     <option value="">month</option>
                     <option value="jan">Jan</option>
                     <option value="feb">Feb</option>
@@ -102,7 +102,7 @@
                     <option value="dec">Dec</option>
                 </select>
             </span>
-            <select id="born-selector" tabindex="165">
+            <select id="born-selector" >
                 <option bornsearch selected>Born</option>
                 <option>Born (year range)</option>
             </select>
@@ -110,13 +110,13 @@
 		</label>
         <script src = "birthday.js"></script>
 		<label>
-            <input id="interests" name="interests" type="text" class="tab" format="%f1/likers/" autocompletesource="interest" tabindex="90">
+            <input id="interests" name="interests" type="text" class="tab" format="%f1/likers/" autocompletesource="interest" >
 		    Interests: 
 		</label>
         <hr>
         <b>Relationships:</b>
 		<label>
-		    <select name="interestedin" class="tab" tabindex="40" >
+		    <select name="interestedin" class="tab"  >
 		      <option value="" format="">All</option>
 		      <option value="females" format="females/users-interested/">Women</option>
 		      <option value="males" format="males/users-interested/">Men</option>
@@ -125,7 +125,7 @@
 		</label>
 	
 		<label>
-		    <select name="relationship" class="tab" tabindex="50">
+		    <select name="relationship" class="tab" >
 		      <option value="" format="">All</option>
 		      <option value="single" format="single/users/">Single</option>
 		      <option value="inarlxn" format="in-any-relationship/users/">In a Relationship</option>
@@ -146,8 +146,8 @@
 		<hr>
             <b>Vocation/Education:</b>
 		<label class="labelcontainer">
-            <input id="company" name="company" type="text" class="tab" autocompletesource="company" tabindex="110">
-            <select id="company-currentpast" tabindex="100">
+            <input id="company" name="company" type="text" class="tab" autocompletesource="company" >
+            <select id="company-currentpast" >
                 <option formatnext="%f1/employees/present/" selected>Current</option>
                 <option formatnext="%f1/employees/past/">Former</option>
             </select>
@@ -155,8 +155,8 @@
 		</label>
 
 		<label class="labelcontainer">
-            <input id="school" name="school" type="text" class="tab" autocompletesource="school" tabindex="130">
-            <select id="school-currentpast" tabindex="120">
+            <input id="school" name="school" type="text" class="tab" autocompletesource="school" >
+            <select id="school-currentpast" >
                 <option formatnext="%f1/students/present/" selected>Current</option>
                 <option formatnext="%f1/students/past/">Former</option>
             </select>
@@ -164,24 +164,21 @@
 		</label>
 		
 		<label>
-            <input id="jobtitle" name="jobtitle" type="text" class="tab" format="%f1/employees/"  autocompletesource="jobtitle" tabindex="140">
+            <input id="jobtitle" name="jobtitle" type="text" class="tab" format="%f1/employees/"  autocompletesource="jobtitle" >
             Job title:
 		</label>
             
 		<label>
-            <input id="major" name="major" type="text" class="tab" format="%f1/major/students/present/" autocompletesource="major" tabindex="160">
+            <input id="major" name="major" type="text" class="tab" format="%f1/major/students/present/" autocompletesource="major" >
             Major:
 		</label>
 		<hr>
+		<p>Note: Faithbook is a fickle beast. Sometimes searches work, sometimes they don't. If a particular search does not work, try changing something or try again later.</p>
 		<div class="centernoblock">
-			<button class="submit" tabindex="200">Find people!</button>
+			<button class="submit" >Find people!</button>
 		</div>
 
 	</form>
-	<div id="modify-people" title="Add / Remove People" style="display:none;">
-		<ul>
-		</ul>
-	</div>
 </div>
 
 <script src="friendFilter.js"></script>
