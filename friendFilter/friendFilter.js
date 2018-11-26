@@ -128,11 +128,14 @@ function generateSearchURL(){
 						//TODO: Emulate the ":visible" jquery pseudoselector
 						console.log("It had a bornsearch attribute");
 						
-						if (field.parentNode.querySelector('input').value.length > 0 && isVisible(field.parentNode.querySelector('input'))){
-							if (field.parent.querySelector(`select`).value.length > 0 && isVisible(field.parent.querySelector(`select`))){
-								encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",field.parentNode.querySelector('input').value).replace("%f2",field.parentNode.querySelector('select').value);
+						
+						//if (field.parentNode.querySelector('input').value.length > 0 && isVisible(field.parentNode.querySelector('input'))){
+						if (getVisibleChild(field.parentNode,'input').value.length > 0){
+							//The issue is that thie needs to get the visible children, but it only gets the children and checks if it's visible.
+							if (getVisibleChild(field.parentNode,`select`).value.length > 0){
+								encodedSearchQuery += "%f1/%f2/date-2/users-born/".replace("%f1",getVisibleChild(field.parentNode,'input').value).replace("%f2",field.parentNode.querySelector('select').value);
 							} else {
-								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",field.parentNode.querySelector('input').value);
+								encodedSearchQuery += "%f1/date/users-born/".replace("%f1",getVisibleChild(field.parentNode,'input').value);
 							}
 						}
 					}
@@ -209,6 +212,22 @@ DESCRIPTION: "isVisible(element)" simply checks if the offsetWidth and offsetHei
 function isVisible(element){
 	return ((element.offsetWidth > 0) && (element.offsetHeight > 0));
 }
+/*==========================
+NAME: getVisibleChild(element,selector)
+INPUTS: DOMelement element that will be checked if it is visible
+		string selector that represents the CSS selector to find.
+OUTPUTS:  DOMelement that is the first visible child of element
+DESCRIPTION: "getVisibleChild(element,selector)" finds all elements that match the CSS selector that are also visible. Emulates the :visible psuedo-selector in jquery.
+==========================*/
+function getVisibleChild(element,selector){
+	var children = element.querySelectorAll(selector);
+	for (var child of children){
+		if (isVisible(child)){
+			return child;
+		}
+	}
+}
+
 
 /*==========================
 NAME: createNewTabWithURL(desiredURL)
