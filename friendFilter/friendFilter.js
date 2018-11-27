@@ -43,16 +43,16 @@ function executeSearch(){
 
 /*FORM AUTOFILL FUNCTIONS*/
 /*These functions are neded to make the page save and load its last search from JSON*/
+
 /*==========================
 NAME: convertCriteriaToJSON()
 INPUTS: void
-OUTPUTS: string that represents the JSON data
-DESCRIPTION: "convertCriteriaToJSON()" creates a json-string that will be passed to executeScript to save the criteria to the browser storage.
+OUTPUTS: object that represents the JSON data
+DESCRIPTION: "convertCriteriaToJSON()" creates an object that will be passed to executeScript to save the criteria to the browser storage.
 ==========================*/
 function convertCriteriaToJSON(){
 	var arrayOfInputs = []; //Basically, we'll put the datas
 	var arrayOfSelects = [];
-	var jsonStringToReturn = "";
 	var allInputs = document.getElementsByTagName("input");
 	for (var input of allInputs){
 		arrayOfInputs.push([input.id,input.type,input.checked,input.value]);
@@ -61,15 +61,12 @@ function convertCriteriaToJSON(){
 	for (var input of allSelects){
 		arrayOfSelects.push([input.id,input.selectedIndex]);
 	}
-	console.log(allInputs);
-	console.log(arrayOfInputs);
-	console.log(allSelects);
-	console.log(arrayOfSelects);
+	return {inputs:allInputs,selects:allSelects};
 	
 }
 /*==========================
-NAME: saveJsonToBrowserStorage(jsonString)
-INPUTS: string jsonString is the json object to be saved to the Browser Storage, encoded in a string.
+NAME: saveJsonToBrowserStorage(jsonObject)
+INPUTS: object jsonObject is the json object to be saved to the Browser Storage.
 OUTPUTS: void
 DESCRIPTION: "saveJsonToBrowserStorage()" saves the jsonString to the Browser Storage
 ==========================*/
