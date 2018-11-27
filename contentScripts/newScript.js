@@ -267,7 +267,7 @@ a:hover
         unfollowButton.setAttribute("class", "njmmButton");
         unfollowButton.setAttribute("id", "addFriendButton");
         unfollowFriendsBool = true;
-    } else if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1 || (window.location.href.indexOf("me/friends")>-1 && window.location.href.indexOf("me/friends/friends")==-1){
+    } else if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1 || (window.location.href.indexOf("me/friends")>-1 && window.location.href.indexOf("me/friends/friends")==-1)){
         /*This block is slightly different than the above. Because there is no (known) page on facebook that makes Unfriending an easy experience, we had to be clever and make our own unfriend Buttons by piggybacking off of the 
             ajax built into the facebook graph search pages. We basically have to add a unique unfriendButton to each user that shows up in a graphsearch. This is done iteratively over each person, first extracting their userID from 
             the "data-bt" attribute on their user element. We then add a new element that convinces the webpage that it is an unfriend button by having a specific ajaxify attribute. Why does this work? We're not quite sure, but it 
