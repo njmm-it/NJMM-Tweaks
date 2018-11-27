@@ -61,8 +61,8 @@ function convertCriteriaToJSON(){
 	for (var input of allSelects){
 		arrayOfSelects.push([input.id,input.selectedIndex]);
 	}
-	return {inputs:arrayOfInputs,selects:arrayOfSelects};
-	
+	var finalObject = {allObjects:{inputs:arrayOfInputs,selects:arrayOfSelects}}
+	return finalObject;
 }
 /*==========================
 NAME: saveJsonToBrowserStorage(jsonObject)
@@ -70,7 +70,8 @@ INPUTS: object jsonObject is the json object to be saved to the Browser Storage.
 OUTPUTS: void
 DESCRIPTION: "saveJsonToBrowserStorage()" saves the jsonString to the Browser Storage
 ==========================*/
-function saveJsonToBrowserStorage(){
+function saveJsonToBrowserStorage(jsonObject){
+	return browser.storage.local.set(jsonObject);
 }
 /*==========================
 NAME: autofillFromJSON(inputFromBrowserStorage)
@@ -79,14 +80,21 @@ OUTPUTS: void
 DESCRIPTION: "autofillFromJSON()" takes inputFromBrowserStorage and fills in the form using the data saved there.
 ==========================*/
 function autofillFromJSON(inputFromBrowserStorage){
+	inputFromBrowserStorage.then((object)=>{
+		var inputs = object.allObjects.inputs;
+		//Iterate over the inputs first
+		var selects = object.allObjects.selects;
+		//Then interate over the selects
+	});
 }
 /*==========================
 NAME: getJsonDataFromBrowserStorage()
 INPUTS: void
-OUTPUTS: Promise which represents what is stored in the browser Storage.
+OUTPUTS: Promise which when fulfilled represents what is stored in the browser Storage.
 DESCRIPTION: "getJsonDataFromBrowserStorage()" takes the JSON in browser.storage and passes it.
 ==========================*/
 function getJsonDataFromBrowserStorage(){
+	return browser.storage.local.get("allObjects")
 }
 
 /*REDIRECTION FUNCTIONS*/
