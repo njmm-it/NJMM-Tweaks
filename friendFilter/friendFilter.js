@@ -61,7 +61,7 @@ function convertCriteriaToJSON(){
 	for (var input of allSelects){
 		arrayOfSelects.push([input.id,input.selectedIndex]);
 	}
-	return {inputs:allInputs,selects:allSelects};
+	return {inputs:arrayOfInputs,selects:arrayOfSelects};
 	
 }
 /*==========================
