@@ -61,6 +61,11 @@ function convertCriteriaToJSON(){
 	for (var input of allSelects){
 		arrayOfSelects.push([input.id,input.selectedIndex]);
 	}
+	console.log(allInputs);
+	console.log(arrayOfInputs);
+	console.log(allSelects);
+	console.log(arrayOfSelects);
+	
 }
 /*==========================
 NAME: saveJsonToBrowserStorage(jsonString)
