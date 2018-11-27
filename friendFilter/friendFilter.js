@@ -46,10 +46,21 @@ function executeSearch(){
 /*==========================
 NAME: convertCriteriaToJSON()
 INPUTS: void
-OUTPUTS: void
+OUTPUTS: string that represents the JSON data
 DESCRIPTION: "convertCriteriaToJSON()" creates a json-string that will be passed to executeScript to save the criteria to the browser storage.
 ==========================*/
 function convertCriteriaToJSON(){
+	var arrayOfInputs = []; //Basically, we'll put the datas
+	var arrayOfSelects = [];
+	var jsonStringToReturn = "";
+	var allInputs = document.getElementsByTagName("input");
+	for (var input of allInputs){
+		arrayOfInputs.push([input.id,input.type,input.checked,input.value]);
+	}
+	var allSelects = document.getElementsByTagName("select");
+	for (var input of allSelects){
+		arrayOfSelects.push([input.id,input.selectedIndex]);
+	}
 }
 /*==========================
 NAME: saveJsonToBrowserStorage(jsonString)
