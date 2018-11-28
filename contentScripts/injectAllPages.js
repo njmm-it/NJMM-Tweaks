@@ -136,52 +136,48 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
-//Load all the stuff.
-browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
-browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
-browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
+//Change banner and hessify mode
+	browser.storage.local.get("color").then((result)=>{
+		//This changes the header bar to the color put into the options UI.
+		var color = result.color.toLowerCase();
+		changeColorOfHeader(color);
+		if (result.color.toLowerCase().includes("hess")){
+			hmode = true;
+		} 
+	},onError);
+//Load all the stuff, as long as we're not on a group page.
+if (window.location.href.match("groups\/*")){
+	browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
+	browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
+	browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
+	//hide all profile images
+	setInterval(hideProfileImages,500);
+}
 
-//Hessify Mode
-browser.storage.local.get("color").then((result)=>{
-        //This changes the header bar to the color put into the options UI.
-	var color = result.color.toLowerCase();
-    changeColorOfHeader(color);
-    var hessurl=browser.extension.getURL("icons/h.jpg");
-    if (result.color.toLowerCase().includes("hess")){
-        hmode = true;
-        setInterval(function(){
-            var list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
-            for (var i = 0; i <list.length;i++){
-                var wid = list[i].style.width;
-                var hei = list[i].style.height;
-                list[i].setAttribute(`src`,`${hessurl}`);
-                list[i].setAttribute(`style`,list[i].style+`background-image: ${hessurl}`);
-                list[i].classList.add("njmm-override")
-                list[i].style.visibility="visible";
-                list[i].width = wid;
-                list[i].height = hei;
-            }
-        },500);
-        
-    } 
 
-    
-},onError);
-setInterval(function(){
-    if (hmode===false){
-        var list = document.querySelectorAll(hideProfileCSS);
-        for (var i = 0; i <list.length;i++){
-            var wid = list[i].style.width;
-            var hei = list[i].style.height;
-            list[i].setAttribute(`src`,`${profilePhotoURL}`);
-            list[i].setAttribute(`style`,list[i].style+`background-image: ${profilePhotoURL}`);
-            list[i].classList.add(`njmm-override`);
-            list[i].style.visibility="visible";
-            list[i].width = wid;
-            list[i].height = hei;
-        }
-    }
-},500);
+function hideProfileImages(){
+	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
+	var list;
+	var profileURL;
+	if (hmode===true){
+		list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
+		profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
+	}else{
+		list = document.querySelectorAll(hideProfileCSS);
+		profileURL = profilePhotoURL;
+	}
+	for (var i = 0; i <list.length;i++){
+		var wid = list[i].style.width;
+		var hei = list[i].style.height;
+		list[i].setAttribute(`src`,`${profileURL}`);
+		list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
+		list[i].classList.add(`njmm-override`);
+		list[i].style.visibility="visible";
+		list[i].width = wid;
+		list[i].height = hei;
+	}
+}
+
 
 /*==========================
 NAME: getPageHTML
