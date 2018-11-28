@@ -15,7 +15,16 @@ var totalButtonsPressed = 0; /*This theoretically stores the number of total but
 var recentButtonsPressed = 0; /*This theoretically stores the number of total buttons pressed in the last set of buttons pressed*/
 const buttonPressInterval = 4000; /*Minimum time in milliseconds between button presses*/
 const maximumButtonPressInterval = 8000; /*Maximum time in milliseconds between button presses*/
-const maximumFriendRequestsSent = 50; /*Maximum number of Friend Requests sent in a single set before stopping*/
+//const maximumFriendRequestsSent = 50; /*Maximum number of Friend Requests sent in a single set before stopping*/
+var maximumFriendRequestsSent;
+browser.storage.local.get("maxpresses").then(
+    function(maxPressesFromStorage){
+      maximumFriendRequestsSent = maxPressesFromStorage; 
+    },
+    function(error){
+    
+    }
+)
 
 
 var canButtonsBeCurrentlyPressed = true; /*Boolean which is checked every time a button is pressed. If this is false at the time of a proposed button press, the buttons should not be pressed.*/
