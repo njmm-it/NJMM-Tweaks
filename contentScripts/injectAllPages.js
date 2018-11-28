@@ -57,9 +57,9 @@ function hideProfileImages(){
 			var hei = list[i].offsetHeight;
 			list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			list[i].setAttribute(`src`,`${profileURL}`);
-			list[i].style.visibility="visible";
 			list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
 			list[i].classList.add(`njmm-override`);
+			list[i].style.visibility="visible";
 			list[i].width = wid;
 			list[i].height = hei;
 		}
@@ -68,9 +68,9 @@ function hideProfileImages(){
 		list = document.querySelectorAll(hideProfileCSS);
 		for (var i = 0; i <list.length;i++){
 			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
-			list[i].style.visibility="visible";
 			list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
 			list[i].classList.add(`njmm-override`);
+			list[i].style.visibility="visible";
 		}
 	}
 
