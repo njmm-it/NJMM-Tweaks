@@ -21,7 +21,7 @@ document.addEventListener("click",function (e){
 //TODO: Do the thing.
 
 //Autofill the form as soon as the page is fully loaded.
-autofillFromJSON(getJsonDataFromBrowserStorage());
+getJsonDataFromBrowserStorage().then(autofillFromJSON);
 
 
 /*==========FUNCTION DECLARATIONS=============*/
@@ -75,17 +75,29 @@ function saveJsonToBrowserStorage(jsonObject){
 }
 /*==========================
 NAME: autofillFromJSON(inputFromBrowserStorage)
-INPUTS: Promise inputFromBrowserStorage which represents what is stored in the browser Storage.
+INPUTS: Object object that contains the input and outputArrays
 OUTPUTS: void
 DESCRIPTION: "autofillFromJSON()" takes inputFromBrowserStorage and fills in the form using the data saved there.
 ==========================*/
-function autofillFromJSON(inputFromBrowserStorage){
-	inputFromBrowserStorage.then((object)=>{
-		var inputs = object.allObjects.inputs;
-		//Iterate over the inputs first
-		var selects = object.allObjects.selects;
-		//Then interate over the selects
-	});
+function autofillFromJSON(object){
+	var inputs = object.allObjects.inputs;
+	//Iterate over the inputs first
+	for (var input of inputs){
+		console.log("Checking the saved input ", input);
+		if (input[1]==="checkbox"){
+			//This is the type of the input that is saved
+			document.getElementById(input[0]).checked = input[2];//The original checked property is there.
+		} else {
+			document.getElementById(input[0]).value = input[3];//The original value property is there.
+		}
+	}
+
+	var selects = object.allObjects.selects;
+	//Then interate over the selects
+	for (var select of selects){
+		console.log("Checking the saved select ", select);
+		document.getElementById(select[0]).selectedIndex = input[1];
+	}
 }
 /*==========================
 NAME: getJsonDataFromBrowserStorage()
