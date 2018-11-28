@@ -64,6 +64,7 @@ function hideProfileImages(){
 		}
 	} else {
 	//If we are on a group page, it's okay to show them.
+		list = document.querySelectorAll(hideProfileCSS);
 		for (var i = 0; i <list.length;i++){
 			list[i].classList.add(`njmm-override`);
 			list[i].style.visibility="visible";
