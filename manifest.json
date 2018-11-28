@@ -14,6 +14,7 @@
  "content_scripts": [
    {
      "matches": ["*://*.facebook.com/*","*://*.messenger.com/*"],
+     "exclude_matches": ["*://*.facebook.com/groups/*"],
      "js": ["/contentScripts/injectAllPages.js", "/contentScripts/newScript.js"],
      "css": ["/css/masterCSS.css"],
      "run_at": "document_start"
