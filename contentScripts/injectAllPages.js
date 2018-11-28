@@ -17,7 +17,7 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
-//Change banner and hessify mode
+//Hide Profile Images and Hessifymode
 browser.storage.local.get("color").then((result)=>{
 	//This changes the header bar to the color put into the options UI.
 	var color = result.color.toLowerCase();
@@ -25,39 +25,51 @@ browser.storage.local.get("color").then((result)=>{
 	if (result.color.toLowerCase().includes("hess")){
 		hmode = true;
 	} 
+
 	//Load all the stuff, as long as we're not on a group page.
 	if (!window.location.href.match("groups\/*")){
 		browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
 		browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
 		browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
-		//hide all profile images
-		setInterval(hideProfileImages,500);
+	} else {
+		//If the page is open to a group page, then we can 
 	}
-},onError);
 
+},onError);
+setInterval(hideProfileImages,500); //hide the images
 
 
 function hideProfileImages(){
 	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
 	var list;
 	var profileURL;
-	if (hmode===true){
-		list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
-		profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
-	}else{
-		list = document.querySelectorAll(hideProfileCSS);
-		profileURL = profilePhotoURL;
+	if (!window.location.href.match("groups\/*")){
+	//If we aren't on a group page, then we should hide all the profile pictures
+		if (hmode===true){
+			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
+			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
+		}else{
+			list = document.querySelectorAll(hideProfileCSS);
+			profileURL = profilePhotoURL;
+		}
+		for (var i = 0; i <list.length;i++){
+			var wid = list[i].style.width;
+			var hei = list[i].style.height;
+			list[i].setAttribute(`src`,`${profileURL}`);
+			list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
+			list[i].classList.add(`njmm-override`);
+			list[i].style.visibility="visible";
+			list[i].width = wid;
+			list[i].height = hei;
+		}
+	} else {
+	//If we are on a group page, it's okay to show them.
+		for (var i = 0; i <list.length;i++){
+			list[i].classList.add(`njmm-override`);
+			list[i].style.visibility="visible";
+		}
 	}
-	for (var i = 0; i <list.length;i++){
-		var wid = list[i].style.width;
-		var hei = list[i].style.height;
-		list[i].setAttribute(`src`,`${profileURL}`);
-		list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
-		list[i].classList.add(`njmm-override`);
-		list[i].style.visibility="visible";
-		list[i].width = wid;
-		list[i].height = hei;
-	}
+
 }
 function installCSS(code){
     console.log(`Installing CSS: ${code}`);
