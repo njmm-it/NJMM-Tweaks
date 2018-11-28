@@ -55,9 +55,13 @@ function hideProfileImages(){
 		for (var i = 0; i <list.length;i++){
 			var wid = list[i].offsetWidth;
 			var hei = list[i].offsetHeight;
-			list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
+			//We want to be able to grab the original source later
+			if (!list.getAttribute('srcOriginal'){
+				list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
+			}
 			list[i].setAttribute(`src`,`${profileURL}`);
-			list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
+			//list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
+			list[i].style.backgroundImage = profileURL;
 			list[i].classList.add(`njmm-override`);
 			list[i].style.visibility="visible";
 			list[i].width = wid;
@@ -68,7 +72,8 @@ function hideProfileImages(){
 		list = document.querySelectorAll(hideProfileCSS);
 		for (var i = 0; i <list.length;i++){
 			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
-			list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
+			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
+			list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
 			list[i].classList.add(`njmm-override`);
 			list[i].style.visibility="visible";
 		}
