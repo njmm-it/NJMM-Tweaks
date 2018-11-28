@@ -10,6 +10,55 @@ var hideProfileCSS = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*=
 var profilePhotoURL = browser.extension.getURL("icons/prof.png");
 var hmode = false;
 
+
+
+/*Add the appropriate settings CSS*/
+function onError(error) {
+    console.log(`Error: ${error}`);
+}
+
+//Change banner and hessify mode
+browser.storage.local.get("color").then((result)=>{
+	//This changes the header bar to the color put into the options UI.
+	var color = result.color.toLowerCase();
+	changeColorOfHeader(color);
+	if (result.color.toLowerCase().includes("hess")){
+		hmode = true;
+	} 
+	//Load all the stuff, as long as we're not on a group page.
+	if (!window.location.href.match("groups\/*")){
+		browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
+		browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
+		browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
+		//hide all profile images
+		setInterval(hideProfileImages,500);
+	}
+},onError);
+
+
+
+function hideProfileImages(){
+	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
+	var list;
+	var profileURL;
+	if (hmode===true){
+		list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
+		profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
+	}else{
+		list = document.querySelectorAll(hideProfileCSS);
+		profileURL = profilePhotoURL;
+	}
+	for (var i = 0; i <list.length;i++){
+		var wid = list[i].style.width;
+		var hei = list[i].style.height;
+		list[i].setAttribute(`src`,`${profileURL}`);
+		list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
+		list[i].classList.add(`njmm-override`);
+		list[i].style.visibility="visible";
+		list[i].width = wid;
+		list[i].height = hei;
+	}
+}
 function installCSS(code){
     console.log(`Installing CSS: ${code}`);
     var cssInject = document.createElement("style");
@@ -130,54 +179,6 @@ function changeColorOfHeader(desiredColor) {
         console.log(desiredColor); //debug
     }
 }
-
-/*Add the appropriate settings CSS*/
-function onError(error) {
-    console.log(`Error: ${error}`);
-}
-
-//Change banner and hessify mode
-	browser.storage.local.get("color").then((result)=>{
-		//This changes the header bar to the color put into the options UI.
-		var color = result.color.toLowerCase();
-		changeColorOfHeader(color);
-		if (result.color.toLowerCase().includes("hess")){
-			hmode = true;
-		} 
-	},onError);
-//Load all the stuff, as long as we're not on a group page.
-if (window.location.href.match("groups\/*")){
-	browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
-	browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
-	browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
-	//hide all profile images
-	setInterval(hideProfileImages,500);
-}
-
-
-function hideProfileImages(){
-	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
-	var list;
-	var profileURL;
-	if (hmode===true){
-		list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
-		profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
-	}else{
-		list = document.querySelectorAll(hideProfileCSS);
-		profileURL = profilePhotoURL;
-	}
-	for (var i = 0; i <list.length;i++){
-		var wid = list[i].style.width;
-		var hei = list[i].style.height;
-		list[i].setAttribute(`src`,`${profileURL}`);
-		list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
-		list[i].classList.add(`njmm-override`);
-		list[i].style.visibility="visible";
-		list[i].width = wid;
-		list[i].height = hei;
-	}
-}
-
 /*==========================
 NAME: getPageHTML
 INPUTS: void
