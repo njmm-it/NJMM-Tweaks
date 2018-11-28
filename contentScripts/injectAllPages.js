@@ -53,8 +53,8 @@ function hideProfileImages(){
 			profileURL = profilePhotoURL;
 		}
 		for (var i = 0; i <list.length;i++){
-			var wid = list[i].style.width;
-			var hei = list[i].style.height;
+			var wid = list[i].offsetWidth;
+			var hei = list[i].offsetHeight;
 			list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			list[i].setAttribute(`src`,`${profileURL}`);
 			list[i].style.visibility="visible";
