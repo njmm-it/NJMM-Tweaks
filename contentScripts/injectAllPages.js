@@ -55,6 +55,7 @@ function hideProfileImages(){
 		for (var i = 0; i <list.length;i++){
 			var wid = list[i].style.width;
 			var hei = list[i].style.height;
+			list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			list[i].setAttribute(`src`,`${profileURL}`);
 			list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
 			list[i].classList.add(`njmm-override`);
@@ -66,6 +67,8 @@ function hideProfileImages(){
 	//If we are on a group page, it's okay to show them.
 		list = document.querySelectorAll(hideProfileCSS);
 		for (var i = 0; i <list.length;i++){
+			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
+			list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
 			list[i].classList.add(`njmm-override`);
 			list[i].style.visibility="visible";
 		}
