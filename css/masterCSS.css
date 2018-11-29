@@ -74,4 +74,4 @@
     z-index: 1;
 }
 
-body>* {margin-left: 65px;}
+body>*:not(.njmmInject) {padding-bottom: 65px;}
