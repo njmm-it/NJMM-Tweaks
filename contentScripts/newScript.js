@@ -20,7 +20,8 @@ var maximumFriendRequestsSent = 50;
 
 browser.storage.local.get("maxpresses").then(
     function(maxPressesFromStorage){
-      maximumFriendRequestsSent = maxPressesFromStorage; 
+      maximumFriendRequestsSent = maxPressesFromStorage;
+      console.log("Maximum Friend Requests Set To: " + maximumFriendRequestsSent);
     },
     function(error){
     console.error(error);
@@ -29,7 +30,8 @@ browser.storage.local.get("maxpresses").then(
 
 browser.storage.local.get("minwait").then(
     function(minWaitFromStorage){
-      buttonPressInterval = minWaitFromStorage; 
+      buttonPressInterval = minWaitFromStorage;
+      console.log("Minimum Button Wait Time Set To: " + buttonPressInterval);
     },
     function(error){
     console.error(error);
@@ -38,7 +40,8 @@ browser.storage.local.get("minwait").then(
 
 browser.storage.local.get("maxwait").then(
     function(maxWaitFromStorage){
-      maxButtonPressInterval = maxWaitFromStorage; 
+      maximumButtonPressInterval = maxWaitFromStorage; 
+      console.log("Maximum Button Wait Time Set To: " + maximumButtonPressInterval;
     },
     function(error){
     console.error(error);
