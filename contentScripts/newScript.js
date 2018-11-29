@@ -519,6 +519,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     (understandably) hates bots that add people. But we can do better than that. "It doesn't matter what Facebook thinks, because we're on the Lord's Errand." --Elder Sansom (2018)  
     ==========================*/
     function generateDelayTime(){
+        console.log(maximumButtonPressInterval + " is the max, and " + buttonPressInterval + " is the min.");
         var max = maximumButtonPressInterval - buttonPressInterval; /*This is the difference between the minumum and maximum time to press a button. Neessary to make equation simpler.*/
         var stretch = 2; /*Arbitrary constant that allows one to stretch the distribution. This effects how drasticly the distribution will favor shorter times.*/
         var horizontalShiftConstant = Math.log(Math.exp(stretch - 1) + 1 / max) - stretch + 1; /*This is necessary to line up the vertical asymptote.*/
