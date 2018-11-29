@@ -10,7 +10,7 @@ var hideProfileCSS = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*=
 var profilePhotoURL = browser.extension.getURL("icons/prof.png");
 var hmode = false;
 
-
+console.log("Activated Inject All Pages!")
 
 /*Add the appropriate settings CSS*/
 function onError(error) {
