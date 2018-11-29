@@ -57,7 +57,7 @@ function hideProfileImages(){
 			var wid = list[i].offsetWidth;
 			var hei = list[i].offsetHeight;
 			//We want to be able to grab the original source later
-			if (!list[i].getAttribute('srcOriginal'){
+			if (!list[i].getAttribute('srcOriginal')){
 				list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			}
 			list[i].setAttribute(`src`,`${profileURL}`);
