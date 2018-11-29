@@ -535,17 +535,15 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                 spreadsheet. It spits out a value between 3000 and 7000, given a random decimal between 0 and 1. We needed something that has a vertical asymptote just after 1, a y-value of 3000 at x=0, a function that is 
                 everywhere-increasing on the interval of [0,1], that grows really rapidly at the edge, but not rapidly at all near the beginning. I wish I could explain at a mathematical level why it does what we want, but all I 
                 can say is that it does. I am so sorry to black-box it!*/
-            
-        if (buttonType !== "Cancel") {
-                /*Send a message saying how long we are waiting to press the next button*/
-                console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
-            } 
             return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
         }
     }
     
     var delay = generateDelayTime();    
-
+    if (buttonType !== "Cancel") {
+        /*Send a message saying how long we are waiting to press the next button*/
+        console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
+    }
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
