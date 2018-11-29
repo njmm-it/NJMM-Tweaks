@@ -13,6 +13,7 @@
 .njmmCounter {width:85%; height:30px;text-align: center;margin:3px;} /*The counter that acts as as a console instance.*/
 .njmmText {width:85%; background-color:rgb(255,255,255); padding: 3px; text-align: left; margin:3px;} 
 ._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],[style*=cover],._4ld-,[alt*="Seen by"] {visibility:hidden} /*Hides profile images*/
+.njmmOverride {visibility:visible !important}
 #addFriendButton {background-color:#4CAF50;color:white;}
 #stopButton{background-color:#f13232;color:white;}
 .njmmUnfriend {background-color:rgb(245,246,247); /*This is modeled after facebook's buttons.*/
