@@ -48,7 +48,9 @@ function hideProfileImages(){
 		console.log("hideProfileImages() thinks that we're on a group page!");
 		list = document.querySelectorAll(hideProfileCSS);
 		for (var i = 0; i <list.length;i++){
-			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
+			if (list[i].getAttribute('srcOriginal')){
+				list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
+			}
 			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
 			//list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
 			list[i].classList.add(`njmm-override`);
@@ -57,10 +59,11 @@ function hideProfileImages(){
 	} else {
 	//If we aren't on a group page, then we should hide all the profile pictures
 		console.log("hideProfileImages() thinks that we are NOT on a group page!");
+		console.log("hmode is on?: " + hmode);
 		if (hmode===true){
 			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
 			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
-		}else{
+		} else {
 			list = document.querySelectorAll(hideProfileCSS);
 			profileURL = profilePhotoURL;
 		}
