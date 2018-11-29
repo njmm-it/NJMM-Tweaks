@@ -54,8 +54,6 @@ function hideProfileImages(){
 			list[i].classList.add(`njmm-override`);
 			list[i].style.visibility="visible";
 		}
-	
-		}
 	} else {
 	//If we aren't on a group page, then we should hide all the profile pictures
 		console.log("hideProfileImages() thinks that we are NOT on a group page!");
@@ -81,6 +79,7 @@ function hideProfileImages(){
 			list[i].style.visibility="visible";
 			list[i].width = wid;
 			list[i].height = hei;	
+		}
 	}
 
 }
