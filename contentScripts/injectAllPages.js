@@ -78,7 +78,7 @@ function hideProfileImages(){
 			list[i].setAttribute(`src`,`${profileURL}`);
 			//list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
 			list[i].classList.add(`njmm-override`);
-			list[i].style.backgroundImage = `url('${profileURL}'})`;
+			list[i].style.backgroundImage = `url("${profileURL}"})`;
 			list[i].style.visibility="visible";
 			list[i].width = wid;
 			list[i].height = hei;	
