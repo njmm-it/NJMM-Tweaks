@@ -41,7 +41,7 @@ browser.storage.local.get("minwait").then(
 browser.storage.local.get("maxwait").then(
     function(maxWaitFromStorage){
       maximumButtonPressInterval = maxWaitFromStorage.maxwait; 
-      console.log("Maximum Button Wait Time Set To: " + maximumButtonPressInterval;
+      console.log("Maximum Button Wait Time Set To: " + maximumButtonPressInterval);
     },
     function(error){
     console.error(error);
