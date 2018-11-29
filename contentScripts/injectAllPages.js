@@ -53,6 +53,7 @@ function hideProfileImages(){
 			profileURL = profilePhotoURL;
 		}
 		for (var i = 0; i <list.length;i++){
+			
 			var wid = list[i].offsetWidth;
 			var hei = list[i].offsetHeight;
 			//We want to be able to grab the original source later
@@ -73,7 +74,7 @@ function hideProfileImages(){
 		for (var i = 0; i <list.length;i++){
 			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
 			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
-			list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
+			//list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
 			list[i].classList.add(`njmm-override`);
 			list[i].style.visibility="visible";
 		}
