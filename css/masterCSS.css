@@ -23,7 +23,7 @@
 }
 
 .njmmInject ul {width:100%; float:left}
-.njmmInject ul * {float:left; margin-left: 10px;}
+.njmmInject ul * {float:left; margin-left: 10px; width:45px;}
 .njmmInject p {background-color:rgba(255,0,0,0);}
 #menu {left:60px;bottom:0px;}
 
