@@ -43,8 +43,22 @@ function hideProfileImages(){
 	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
 	var list;
 	var profileURL;
-	if (!window.location.href.match("groups\/*")){
+	if (window.location.href.match("groups\/*")){
+	//If we are on a group page, it's okay to show the profile pictures.
+		console.log("hideProfileImages() thinks that we're on a group page!");
+		list = document.querySelectorAll(hideProfileCSS);
+		for (var i = 0; i <list.length;i++){
+			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
+			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
+			//list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
+			list[i].classList.add(`njmm-override`);
+			list[i].style.visibility="visible";
+		}
+	
+		}
+	} else {
 	//If we aren't on a group page, then we should hide all the profile pictures
+		console.log("hideProfileImages() thinks that we are NOT on a group page!");
 		if (hmode===true){
 			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
 			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
@@ -66,18 +80,7 @@ function hideProfileImages(){
 			list[i].style.backgroundImage = profileURL;
 			list[i].style.visibility="visible";
 			list[i].width = wid;
-			list[i].height = hei;
-		}
-	} else {
-	//If we are on a group page, it's okay to show them.
-		list = document.querySelectorAll(hideProfileCSS);
-		for (var i = 0; i <list.length;i++){
-			list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
-			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
-			//list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
-			list[i].classList.add(`njmm-override`);
-			list[i].style.visibility="visible";
-		}
+			list[i].height = hei;	
 	}
 
 }
