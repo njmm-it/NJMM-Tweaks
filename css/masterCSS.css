@@ -23,9 +23,11 @@
 }
 
 .njmmInject ul {width:100%; float:left}
-.njmmInject ul * {float:left; margin-left: 10px; width:45px;}
+.njmmInject ul * {float:left; margin-left: 10px; min-width:90px;}
+.njmmInject ul button:first-of-type {margin-left: 60px}
+
 .njmmInject p {background-color:rgba(255,0,0,0);}
-#menu {left:60px;bottom:0px;}
+#menu {left:0px;bottom:0px;}
 
 .njmmButton {/*width:90%;*/ height:30px;margin:3px; display:inline;} /*Buttons*/
 .njmmCounter {/*width:85%;*/ height:30px;text-align: center;margin:3px;} /*The counter that acts as as a console instance.*/
