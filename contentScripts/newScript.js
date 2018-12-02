@@ -215,7 +215,7 @@ a:hover
   background-color: rgba(255,255,255,0.7);
   padding: 0px;
   text-align: center; 
-  width: 150px; 
+  /*width: 150px;*/ 
   /*margin: 10px;*/
   margin: 0px -10px;
   position: fixed;
