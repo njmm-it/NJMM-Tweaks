@@ -543,6 +543,8 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     if (buttonType !== "Cancel") {
         /*Send a message saying how long we are waiting to press the next button*/
         console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
+        postToBox(`Pressing next button in ${(delay/1000).toFixed(2)} seconds`); //Tell the User that we are waiting that long.
+        
     }
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
