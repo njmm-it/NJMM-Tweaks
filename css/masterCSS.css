@@ -23,12 +23,15 @@
 }
 
 .njmmInject ul {width:100%; float:left}
-.njmmInject ul * {float:left; margin-left: 10px;}
-.njmmInject p {background-color:rgba(255,0,0,0);}
-#menu {left:60px;bottom:0px;}
+.njmmInject ul * {float:left; margin-left: 10px; min-width:90px;}
+.njmmInject ul *:not(p) {max-width:150px;}
+.njmmInject ul button:first-of-type {margin-left: 60px}
 
-.njmmButton {width:100px; height:30px;margin:3px; display:inline;} /*Buttons*/
-.njmmCounter {width:95px; height:30px;text-align: center;margin:3px; display:inline;} /*The counter that acts as as a console instance.*/
+.njmmInject p {background-color:rgba(255,0,0,0);}
+#menu {left:0px;bottom:0px;}
+
+.njmmButton {/*width:90%;*/ height:30px;margin:3px; display:inline;} /*Buttons*/
+.njmmCounter {/*width:85%;*/ height:30px;text-align: center;margin:3px;} /*The counter that acts as as a console instance.*/
 .njmmText {/*width:85%;*/ background-color:rgb(255,255,255); padding: 3px; text-align: left; margin:3px;} 
 ._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],[style*=cover],._4ld-,[alt*="Seen by"] {visibility:hidden} /*Hides profile images*/
 #addFriendButton {background-color:#4CAF50;color:white;}
