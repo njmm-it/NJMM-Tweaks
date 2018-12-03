@@ -520,9 +520,9 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     ==========================*/
     function generateDelayTime(){
         console.log(maximumButtonPressInterval + " is the max, and " + buttonPressInterval + " is the min.");
-        var max = maximumButtonPressInterval - buttonPressInterval; /*This is the difference between the minumum and maximum time to press a button. Neessary to make equation simpler.*/
+        var max = (maximumButtonPressInterval - buttonPressInterval)/1000; /*This is the difference between the minumum and maximum time to press a button. Neessary to make equation simpler.*/
         var stretch = 2; /*Arbitrary constant that allows one to stretch the distribution. This effects how drasticly the distribution will favor shorter times.*/
-        var horizontalShiftConstant = Math.log(Math.exp(stretch - 1) + 1 / max) - stretch + 1; /*This is necessary to line up the vertical asymptote.*/
+        var horizontalShiftConstant = Math.log(Math.exp(stretch - 1) + (1 / max)) - stretch + 1; /*This is necessary to line up the vertical asymptote.*/
     
         if (buttonPressInterval <= 0 || buttonType === "Undo" || buttonType === "Unfollow") {
             /*Will press Undo or Unfollow buttons every 300 to 500 milliseconds, distributed roughly randomly. We don't need a fancy human-esque delay generator. Facebook doesn't even care if buttons are pressed 
