@@ -35,7 +35,6 @@ OUTPUTS: void
 DESCRIPTION: "executeSearch()" generates a URL based on the criteria in the html form, saves the criteria to a json file in the browser storage, then creates a new tab with said url. 
 ==========================*/
 function executeSearch(){
-	event.preventDefault();
 	/*Save the form data to a JSON file, so that it can be autopopulated the next time the form page is opened.*/
 	saveJsonToBrowserStorage(convertCriteriaToJSON());
 	/*Redirect to the search page*/
@@ -109,7 +108,7 @@ function autofillFromJSON(object){
 	for (var select of selects){
 		console.log("Checking the saved select ", select);
 		if (select[0]==="people-pronoun" && window.location.href.includes("#friendsOnly")){
-			document.getElementByID("people-pronoun").selectedIndex = 2;//This will set it to friends, because that is the Selected Index of the Friends option.
+			document.getElementById("people-pronoun").selectedIndex = 2;//This will set it to friends, because that is the Selected Index of the Friends option.
 		} else {
 			document.getElementById(select[0]).selectedIndex = select[1];//The original selectedIndex is hidden away there.
 		}
