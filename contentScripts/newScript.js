@@ -267,7 +267,19 @@ a:hover
         unfollowButton.setAttribute("class", "njmmButton");
         unfollowButton.setAttribute("id", "addFriendButton");
         unfollowFriendsBool = true;
-    } else if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1) {
+    } else {
+        /*add an Add Friend button*/
+        /*Test URL: https://www.facebook.com/search/me/non-friends/intersect/*/
+        /*There are many ways to skin a cat. In particular, there are many pages to add friends from. We just let it default to the Add Friends because that makes it easier than trying to outsmart the user.*/
+        /*If this script is injected on that web page and when cued will click every person's add button on that page, then it is considered successful.*/
+        friendButton.innerHTML = "Start Adding";
+        friendButton.addEventListener("click", addFriends);
+        friendButton.setAttribute("class", "njmmButton");
+        friendButton.setAttribute("id", "addFriendButton");
+        addFriendsBool = true;
+    }
+    //This next if statement is outside the previous because there might be BOTH add and unfriend buttons on the same page. We always want the add button to show up if there are.
+    if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1 || (window.location.href.indexOf("me/friends")>-1 && window.location.href.indexOf("me/friends/friends")==-1)){
         /*This block is slightly different than the above. Because there is no (known) page on facebook that makes Unfriending an easy experience, we had to be clever and make our own unfriend Buttons by piggybacking off of the 
             ajax built into the facebook graph search pages. We basically have to add a unique unfriendButton to each user that shows up in a graphsearch. This is done iteratively over each person, first extracting their userID from 
             the "data-bt" attribute on their user element. We then add a new element that convinces the webpage that it is an unfriend button by having a specific ajaxify attribute. Why does this work? We're not quite sure, but it 
@@ -275,7 +287,7 @@ a:hover
         /*The second half adds a button to the control panel that presses all the newly inserted unfriend buttons.*/
         /*Test URL: https://www.facebook.com/search/me/friends/intersect/#njmmTweaksUnfriend*/
         /*If this script is injected on that web page and will add an unfriend button to each person, and when cued will click every person's unfriend button on that page, then it is considered successful.*/
-
+        /*This checks to see if the URL contains "#njmmTweaksUnfriend" or if it contains "me/friends" which signifies that the graphsearch is searching over the signed-in user's friends. It also checks to make sure that "me/friends/friends" is not contained, as that searches instead over the signed-in user's friends of friends.*/
 
         /*This block creates an unFriendButton to each user*/
         arrayOfElementsRepresentingPeople = document.querySelectorAll(`._3u1._gli._6pe1`);
@@ -299,17 +311,8 @@ a:hover
         unfriendButton.setAttribute("class", "njmmButton");
         unfriendButton.setAttribute("id", "addFriendButton");
         unfriendFriendsBool = true;
-    } else {
-        /*add an Add Friend button*/
-        /*Test URL: https://www.facebook.com/search/me/non-friends/intersect/*/
-        /*There are many ways to skin a cat. In particular, there are many pages to add friends from. We just let it default to the Add Friends because that makes it easier than trying to outsmart the user.*/
-        /*If this script is injected on that web page and when cued will click every person's add button on that page, then it is considered successful.*/
-        friendButton.innerHTML = "Start Adding";
-        friendButton.addEventListener("click", addFriends);
-        friendButton.setAttribute("class", "njmmButton");
-        friendButton.setAttribute("id", "addFriendButton");
-        addFriendsBool = true;
-    }
+    } 
+    
 
     /*add a Stop override. This is will run the function stopAllButtonPressing, which changes the canButtonsBeCurrentlyPressed variable for a few seconds to interupt all button-pressing functions.*/
     continueButton.innerHTML = "Stop!";
