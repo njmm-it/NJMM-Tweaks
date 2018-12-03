@@ -18,7 +18,8 @@ document.addEventListener("click",function (e){
 });
 
 //Add the addEventListener that will save the form data to Browser Storage everytime the form is modified.
-//TODO: Do the thing.
+
+addAllListenersThatSaveData();
 
 //Autofill the form as soon as the page is fully loaded.
 getJsonDataFromBrowserStorage().then(autofillFromJSON);
@@ -72,6 +73,15 @@ DESCRIPTION: "saveJsonToBrowserStorage()" saves the jsonString to the Browser St
 ==========================*/
 function saveJsonToBrowserStorage(jsonObject){
 	return browser.storage.local.set(jsonObject);
+}
+/*==========================
+NAME: saveDataToBrowserStorage()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "saveDataToBrowserStorage()" saves the data on the page to the Browser Storage. Equivalent to saveJsonToBrowserStorage(convertCriteriaToJSON()).
+==========================*/
+function saveDataToBrowserStorage(){
+	saveJsonToBrowserStorage(convertCriteriaToJSON());
 }
 /*==========================
 NAME: autofillFromJSON(inputFromBrowserStorage)
@@ -288,4 +298,30 @@ DESCRIPTION: "closeCurrentTab()" closes the tab that called it.
 ==========================*/
 function closeCurrentTab(){
 	//window.close();
+}
+
+/*==========================
+NAME: addAllListenersThatSaveData()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "addAllListenersThatSaveData()" generates all the page event listeners necessary to save all the data to browser storage everytime the page is modified. This uses the same hack as options.js.
+==========================*/
+function addAllListenersThatSaveData(){
+    /*if (document.querySelector("form") !== null){
+        document.querySelector("form").addEventListener("submit", saveOptions);
+        var elements = document.querySelectorAll("*");
+        for (var j = 0;j<elements.length;j++){
+            elements[j].addEventListener("change",saveOptions);
+        }
+    }*/
+    
+    //Is this the most hacky way of fixing the save? Yes. Yes it is. But it came after much prayer and contemplation. So we're going for it.
+    //This will simply save the settings everytime an event listed in "eventList" is triggered.
+    
+    var eventList = ["click","paste","keyup","select","beforeunload"];
+    for (var eve = 0; eve <eventList.length;eve++){
+        document.addEventListener(eventList[eve],saveDataToBrowserStorage);
+    }
+    
+    
 }
