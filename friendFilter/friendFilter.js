@@ -107,6 +107,7 @@ function autofillFromJSON(object){
 	//Then interate over the selects
 	for (var select of selects){
 		console.log("Checking the saved select ", select);
+		console.log("Window HREF is ", window.location.href);
 		if (select[0]==="people-pronoun" && window.location.href.includes("#friendsOnly")){
 			document.getElementById("people-pronoun").selectedIndex = 2;//This will set it to friends, because that is the Selected Index of the Friends option.
 		} else {
