@@ -106,7 +106,7 @@ function autofillFromJSON(object){
 	//Then interate over the selects
 	for (var select of selects){
 		console.log("Checking the saved select ", select);
-		document.getElementById(select[0]).selectedIndex = input[1];
+		document.getElementById(select[0]).selectedIndex = select[1];
 	}
 }
 /*==========================
