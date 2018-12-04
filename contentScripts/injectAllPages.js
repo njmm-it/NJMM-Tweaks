@@ -1,18 +1,42 @@
-/* THIS IS THE NEW SCRIPT THAT WILL BE INJECTED INTO ALL PAGES. newScript.js will be injected as requested. */
+/*=============INJECTALLPAGES.JS================
+DESCRIPTION:    injectAllPages.js has multiple responsibilities.
+			1. Hide all profile images (i.e. changes them to another image).
+			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
+			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
+			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
+AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes 
+VERSION:        ???
+VERSION DATE:   ???
+=============INJECTALLPAGES.JS================*/
 
 /*The custom CSS strings to block certain things*/
 //var hideImagesCSS = `.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img] {display:none}`; //Old one
-var hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`;
-var hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;
-var hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`;
-var hideAdsCSS = `#pagelet_ego_pane {display:none}`;
-var hideProfileCSS = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
-var profilePhotoURL = browser.extension.getURL("icons/prof.png");
+const hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`; //If 'Hide All Images' is selected, this will be injected.
+const hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;//If 'Hide Videos' is selected, this will be injected.
+const hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`; //If 'Hide Newsfeed' is selected, this will be injected.
+const hideAdsCSS = `#pagelet_ego_pane {display:none}`; //If 'Hide Ads' is selected, this will be injected.
+
+/*This helps us find all the profile images. 
+This was found after what likely adds up to hours and hours of manually finding attributes that will find profile images without finding others. 
+If that breaks, sorry. There's probably a better way to find them, but this is the best we have for now.*/
+const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
+
+const profilePhotoURL = browser.extension.getURL("icons/prof.png");
 var hmode = false;
 
 console.log("Activated Inject All Pages!")
 
+
+
+
+/*==========FUNCTIONS=============*/
 /*Add the appropriate settings CSS*/
+/*==========================
+NAME: onError
+INPUTS: Error error that is the error that is fed by a Promise.
+OUTPUTS: void
+DESCRIPTION: "onError(error)" outputs error to the console.
+==========================*/
 function onError(error) {
     console.log(`Error: ${error}`);
 }
@@ -46,7 +70,7 @@ function hideProfileImages(){
 	if (window.location.href.match("groups\/*")){
 	//If we are on a group page, it's okay to show the profile pictures.
 		console.log("hideProfileImages() thinks that we're on a group page!");
-		list = document.querySelectorAll(hideProfileCSS);
+		list = document.querySelectorAll(hideProfileSelector);
 		for (var i = 0; i <list.length;i++){
 			if (list[i].getAttribute('srcOriginal')){
 				list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
@@ -61,10 +85,10 @@ function hideProfileImages(){
 		console.log("hideProfileImages() thinks that we are NOT on a group page!");
 		console.log("hmode is on?: " + hmode);
 		if (hmode===true){
-			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
+			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCelector);
 			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
 		} else {
-			list = document.querySelectorAll(hideProfileCSS);
+			list = document.querySelectorAll(hideProfileSelector);
 			profileURL = profilePhotoURL;
 		}
 		for (var i = 0; i <list.length;i++){
