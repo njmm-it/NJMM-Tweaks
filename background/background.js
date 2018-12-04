@@ -2,6 +2,7 @@
 /*
 DESCRIPTION:    This script listens for messages from the browser.runtime APIs from contentScripts saying that there are automatablly pressable buttons on a page.
                 If such a message is recieved, it injects "newScript.js" into the tab that sent the message.
+                More information about the browser.runtime.onMessage can be found at https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#Communicating_with_background_scripts
 AUTHOR:          Elder Andrew P. Sansom 
 VERSION:         ???
 VERSION DATE:    ???
