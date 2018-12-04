@@ -542,7 +542,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
             console.log(waitTime);
             console.log(horizontalShiftConstant + " is the horizontal Shift Constant in this equation");
             console.log(buttonPressInterval + " is the minimum button press wait time in this equation");
-            console.log(stretch + " is the stretch variable in this equation"):
+            console.log(stretch + " is the stretch variable in this equation");
             var underBar = (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
             console.log(underBar + " is what 1000 is divided by in this equation");
             return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
