@@ -63,9 +63,24 @@ Within the root directory, there is a crucial file called "manifest.json", this 
 - Tell the browser to run an (invisible) background page that runs background.js, which allows the contentScripts (which normally cannot access most browser APIs) to indirectly access said functions.
 
 ### background
-The background directory contains one file (*background.js*) which is a javascript run in a background context. It exists, because it has full permissions to all browser APIs that the addon has permission for. Content Scripts, however, do not. Content Scripts are able to use the messaging APIs to send messages to the background scripts, which can in turn run otherwise unaccesible APIs. Background scripts, on the other hand, have no access to page data.
+The background directory contains one file (*background.js*) which is a [javascript run in a background context](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension#Background_scripts). It exists, because it has full permissions to all browser APIs that the addon has permission for. Content Scripts, however, do not. Content Scripts are able to use the messaging APIs to send messages to the background scripts, which can in turn run otherwise unaccesible APIs. Background scripts, on the other hand, have no access to page data.
 
 The only currently implemented use of this dichotomy is with *injectAllPages.js*. It checks all pages on the facebook.com and messenger.com domains if there are "Add", "Undo", "Unfollow", or "Cancel" buttons. If one is detected, it asks the background page to inject *newScript.js* which controls the automated button pressing functions. This prevents a lot of screen-real spam.
+
+### contentScripts
+
+[Content Scripts](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension#Content_scripts) are javascripts injected into a web page that can manipulate and access page data. They run in a similar scope as scripts in the web page itself. See the link to see the more subtle differences between content scripts and page scripts.
+
+#### injectAllPages.js
+injectAllPages.js has multiple responsibilities.
+			1. Hide all profile images (i.e. changes them to another image).
+			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
+			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
+			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
+
+#### newScript.js
+
+This is the script that does all the magic that most users are aware of. This is also the script that is usually the culprit if the users find an error. It does most of the interfacing with facebook that is noncosmetic. It's complete function and feature lists are explained more indepth internally, but its primary responsibility is to allow the user to automatically press Add/Undo/Unfollow buttons on the facebook website.
 
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
