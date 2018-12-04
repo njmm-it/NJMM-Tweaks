@@ -42,14 +42,23 @@ The Mozilla Developer Network will be your best friend as you dissect the Add-on
 Within the root directory, there is a crucial file called "manifest.json", this outlines the skeleton of the Add-on. This defines many things for the browser, including:
 
 -Tell the browser to inject certain contentScripts (scripts that are injected in the scope of the webpage) and css files into all webpages within the facebook.com and messenger.com domains
+
  -injectAllPages.js is injected into all pages. This does the image blocking and other cosmetic changes. 
+ 
  -If it detects buttons that could be pressed, it will automatically inject the other script (newScript.js) which handles automated button-pressing.
+ 
 -Define the content security policy. It currently allows jQuery (and anything else, I suppose) from ajax.googleapis.com
+
 -Declare which browser permissions the Add-on needs to run its functions. These are approved by the user at install.
+
 -Define the update_url, i.e. where the browser should automatically check for updates. This is currently linked to a publicly shared folder on Google Drive. Firefox checks for add-on updates every run (on desktop) or once daily (on mobile). If you are clever with about:config in Firefox for mobile, you can make it update upto every 2 minutes.
+
 -Define the "Browser Action", which is just a button on the browser toolbar (on desktop) or the browser menu (on mobile). It is attached to an html page that is opened in a popup window.
+
 -Define the "Page Action", which is just a button on the URL bar (omnibar) (on desktop) or the browser menu (on mobile). It is attached to an html page that is opened in a popup window.
+
 -Define the Options page which is loaded when looking at the add-on's options on about:addons
+
 -Tell the browser to run an (invisible) background page that runs background.js, which allows the contentScripts (which normally cannot access most browser APIs) to indirectly access said functions.
 
 ## Code Example
