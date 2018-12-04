@@ -519,11 +519,11 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     (understandably) hates bots that add people. But we can do better than that. "It doesn't matter what Facebook thinks, because we're on the Lord's Errand." --Elder Sansom (2018)  
     ==========================*/
     function generateDelayTime(){
-        console.log(maximumButtonPressInterval + " is the max, and " + buttonPressInterval + " is the min.");
+        //console.log(maximumButtonPressInterval + " is the max, and " + buttonPressInterval + " is the min.");
         var max = (maximumButtonPressInterval - buttonPressInterval)/1000; /*This is the difference between the minumum and maximum time to press a button. Neessary to make equation simpler.*/
-        console.log("The max variable is: " + max);
+        //console.log("The max variable is: " + max);
         var stretch = 2; /*Arbitrary constant that allows one to stretch the distribution. This effects how drasticly the distribution will favor shorter times.*/
-        console.log(`With all the variables, the equation should be the natural log of the natural exponent of ${stretch} - 1, plus 1 / ${max} , then subtract ${stretch} and then add 1`)
+        //console.log(`With all the variables, the equation should be the natural log of the natural exponent of ${stretch} - 1, plus 1 / ${max} , then subtract ${stretch} and then add 1`)
         var horizontalShiftConstant = Math.log(Math.exp(stretch - 1) + (1 / max)) - stretch + 1; /*This is necessary to line up the vertical asymptote.*/
         
     
@@ -538,13 +538,13 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                 spreadsheet. It spits out a value between 3000 and 7000, given a random decimal between 0 and 1. We needed something that has a vertical asymptote just after 1, a y-value of 3000 at x=0, a function that is 
                 everywhere-increasing on the interval of [0,1], that grows really rapidly at the edge, but not rapidly at all near the beginning. I wish I could explain at a mathematical level why it does what we want, but all I 
                 can say is that it does. I am so sorry to black-box it!*/
-            var waitTime = buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
-            console.log(waitTime);
-            console.log(horizontalShiftConstant + " is the horizontal Shift Constant in this equation");
-            console.log(buttonPressInterval + " is the minimum button press wait time in this equation");
-            console.log(stretch + " is the stretch variable in this equation");
+            //var waitTime = buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
+            //console.log(waitTime);
+            //console.log(horizontalShiftConstant + " is the horizontal Shift Constant in this equation");
+            //console.log(buttonPressInterval + " is the minimum button press wait time in this equation");
+            //console.log(stretch + " is the stretch variable in this equation");
             var underBar = (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
-            console.log(underBar + " is what 1000 is divided by in this equation");
+            //console.log(underBar + " is what 1000 is divided by in this equation");
             return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
         }
     }
