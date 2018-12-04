@@ -39,7 +39,7 @@ Please try to match the coding style and especially comment style for each funct
 
 The Mozilla Developer Network will be your best friend as you dissect the Add-on. It has documentation for the Add-on technology, Javascript APIs, HTML, CSS, etc…. 
 
-###manifest.json
+### manifest.json
 Within the root directory, there is a crucial file called "manifest.json", this outlines the skeleton of the Add-on. This defines many things for the browser, including:
 
 - Tell the browser to inject certain contentScripts (scripts that are injected in the scope of the webpage) and css files into all webpages within the facebook.com and messenger.com domains
@@ -62,7 +62,7 @@ Within the root directory, there is a crucial file called "manifest.json", this 
 
 - Tell the browser to run an (invisible) background page that runs background.js, which allows the contentScripts (which normally cannot access most browser APIs) to indirectly access said functions.
 
-###background
+### background
 The background directory contains one file (*background.js*) which is a javascript run in a background context. It exists, because it has full permissions to all browser APIs that the addon has permission for. Content Scripts, however, do not. Content Scripts are able to use the messaging APIs to send messages to the background scripts, which can in turn run otherwise unaccesible APIs. Background scripts, on the other hand, have no access to page data.
 
 The only currently implemented use of this dichotomy is with *injectAllPages.js*. It checks all pages on the facebook.com and messenger.com domains if there are "Add", "Undo", "Unfollow", or "Cancel" buttons. If one is detected, it asks the background page to inject *newScript.js* which controls the automated button pressing functions. This prevents a lot of screen-real spam.
