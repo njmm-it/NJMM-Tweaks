@@ -15,39 +15,8 @@ var totalButtonsPressed = 0; /*This theoretically stores the number of total but
 var recentButtonsPressed = 0; /*This theoretically stores the number of total buttons pressed in the last set of buttons pressed*/
 var buttonPressInterval = 4000; /*Minimum time in milliseconds between button presses*/
 var maximumButtonPressInterval = 8000; /*Maximum time in milliseconds between button presses*/
-//const maximumFriendRequestsSent = 50; /*Maximum number of Friend Requests sent in a single set before stopping*/
-var maximumFriendRequestsSent = 50;
-
-browser.storage.local.get("maxpresses").then(
-    function(maxPressesFromStorage){
-      maximumFriendRequestsSent = parseFloat(maxPressesFromStorage.maxpresses) || 50;
-      console.log("Maximum Friend Requests Set To: " + maximumFriendRequestsSent);
-    },
-    function(error){
-    console.error(error);
-    }
-)
-
-browser.storage.local.get("minwait").then(
-    function(minWaitFromStorage){
-      buttonPressInterval = parseFloat(minWaitFromStorage.minwait) || 4000;
-      console.log("Minimum Button Wait Time Set To: " + buttonPressInterval);
-    },
-    function(error){
-    console.error(error);
-    }
-)
-
-browser.storage.local.get("maxwait").then(
-    function(maxWaitFromStorage){
-      maximumButtonPressInterval = parseFloat(maxWaitFromStorage.maxwait) || 8000; 
-      console.log("Maximum Button Wait Time Set To: " + maximumButtonPressInterval);
-    },
-    function(error){
-    console.error(error);
-    }
-)
-
+//const maximumFriendRequestsSent = 50; 
+var maximumFriendRequestsSent = 50; /*Maximum number of Friend Requests sent in a single set before stopping*/
 var canButtonsBeCurrentlyPressed = true; /*Boolean which is checked every time a button is pressed. If this is false at the time of a proposed button press, the buttons should not be pressed.*/
 const pauseTime = 7000; /*Used to determine how long the variable canButtonsBeCurrentlyPressed should be changed to false when the override is triggered*/
 
@@ -86,6 +55,48 @@ const defaultInjectedUnfriendButtonSelector = `.njmmUnfriend: not([alreadyClicke
 
 /*================Elias Functions (those that come before)=========*/
 /*All the stuff that is necessary to make things work, but aren't directly involved in the automated stuff.*/
+
+/*==========================
+NAME: getCustomVariables
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: This function pulls the user's chosen maximum button press limit, and minimum and maximum wait time between
+button presses from browser storage ("maxpresses", "minwait", and "maxwait" respectively). It changes them from strings to 
+floats to avoid math issues, and then stores them in their proper variables here. (maximumFriendRequestsSent, 
+buttonPressInterval, and maximumButtonPressInterval respectively). 
+==========================*/
+
+function getCustomVariables(){
+    browser.storage.local.get("maxpresses").then(
+        function(maxPressesFromStorage){
+          maximumFriendRequestsSent = parseFloat(maxPressesFromStorage.maxpresses) || 50;
+          console.log("Maximum Friend Requests Set To: " + maximumFriendRequestsSent);
+        },
+        function(error){
+        console.error(error);
+        }
+    )
+
+    browser.storage.local.get("minwait").then(
+        function(minWaitFromStorage){
+          buttonPressInterval = parseFloat(minWaitFromStorage.minwait) || 4000;
+          console.log("Minimum Button Wait Time Set To: " + buttonPressInterval);
+        },
+        function(error){
+        console.error(error);
+        }
+    )
+
+    browser.storage.local.get("maxwait").then(
+        function(maxWaitFromStorage){
+          maximumButtonPressInterval = parseFloat(maxWaitFromStorage.maxwait) || 8000; 
+          console.log("Maximum Button Wait Time Set To: " + maximumButtonPressInterval);
+        },
+        function(error){
+        console.error(error);
+        }
+    )
+}
 
 /*==========================
 NAME: makeControlPanel
@@ -558,7 +569,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     }
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
-        if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
+        if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) { /*Checks to see if we've already reached the limit on how many buttons to press and stops pressing if so.*/
         //if (canButtonsBeCurrentlyPressed === true) {
             nextButtonToPress.scrollIntoView({
                     behavior: "smooth",
@@ -702,10 +713,12 @@ DESCRIPTION: The main function starts the process of continually closing all the
             document.addEventListener("DOMContentLoaded", removeLightningRedirectionBug);
             document.addEventListener("DOMContentLoaded", makeControlPanel); //Once the DOM is loaded, it will then fire the main function.
             document.addEventListener("DOMContentLoaded", continuallyCloseAllErrors);
+            document.addEventListener("DOMContentLoaded", getCustomVariables);
         } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
             removeLightningRedirectionBug();
             makeControlPanel(); //Run that puppy.
             continuallyCloseAllErrors();
+            getCustomVariables();
         }
     }  
 })();
