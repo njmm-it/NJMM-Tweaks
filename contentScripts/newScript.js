@@ -39,12 +39,12 @@ var hamburgerMenuButton = document.createElement("div");
 /*These, theoretically, should describe a CSS selector that catches each of the desired buttons on a facebook page and nothing else. Experience has shown, however, that this rarely works precisely as desired.*/
 /*TODO: Figure out how to make these adjust automatically (or atleast notify the developers) if a desired button is not caught in the CSS selector. This probably could be done with a "Report a problem" link.*/
 /*const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know]):not([data-store*=pymk])';*/
-const defaultAddFriendSelector = '[aria-label*="Add"]:not([alreadyClicked=true]):not(.hidden_elem):not([display=none]):not([data-store*=people_you_may_know])';
-const defaultErrorMessageSelector = ` [value = "OK"], [value = "Cancel"], .layerCancel, .layerConfirm`;
-const defaultUndoFriendSelector = ` [aria - label = "Undo"]: not([alreadyClicked = true]): not([display = none])`;
-const defaultUnfollowSelector = ` [data - store *= "is_following"]: not([alreadyClicked = true])`;
-const defaultUnfriendMenuSelector = `.FriendRequestFriends: not([alreadyClicked = true])`;
-const defaultUnfriendButtonSelector = ` [ajaxify *= removefriendconfirm]: not([alreadyClicked = true])`; //This is currently just in here for historical purposes. Eventually, this one should be removed. But I simply haven't gone through the code to see what it would break.
+const defaultAddFriendSelector = '[aria-label*="Add"]:not(.hidden_elem):not([data-store*=people_you_may_know]):not([alreadyClicked=true])';
+const defaultErrorMessageSelector = `[value="OK"],[value = "Cancel"]:not(.uiLinkButtonInput),.layerCancel,.layerConfirm`;
+const defaultUndoFriendSelector = `[aria-label="Undo"]:not([alreadyClicked = true]):not([display=none])`;
+const defaultUnfollowSelector = `[data-store*="is_following"]:not([alreadyClicked=true])`;
+const defaultUnfriendMenuSelector = `.FriendRequestFriends:not([alreadyClicked=true])`;
+const defaultUnfriendButtonSelector = `[ajaxify *= removefriendconfirm]:not([alreadyClicked=true])`; //This is currently just in here for historical purposes. Eventually, this one should be removed. But I simply haven't gone through the code to see what it would break.
 const defaultInjectedUnfriendButtonSelector = `.njmmUnfriend: not([alreadyClicked = true])`; //This was added once we figured out how to inject a custom Unfriend button on each person. Custom classes, ftw!
 
 
@@ -76,7 +76,7 @@ function makeControlPanel() {
         return;
     }
 
-    //Change the style tag's innerHTML so that we can do some good inline Editing.
+    //Change the style tag's innerHTML so that we can do some good inline Editing. We add this style tag inline, because we're running into some conflicts with external sheets otherwise. It makes this script a lot longer, but such is the price to pay. The hamburger menu is pure-html/css, so conflicts break it.
     styleTag.innerHTML = `
 /*
  * Made by Erik Terwan
@@ -215,7 +215,7 @@ a:hover
   background-color: rgba(255,255,255,0.7);
   padding: 0px;
   text-align: center; 
-  width: 150px; 
+  /*width: 150px;*/ 
   /*margin: 10px;*/
   margin: 0px -10px;
   position: fixed;
@@ -250,7 +250,7 @@ a:hover
 
     /*Check what type of top button we should add. This will depend on the location of the webpage. For example, there should not be any add friend buttons on an Undo Sent Request page.*/
     if (window.location.href.match(".*.\/\/.*\.facebook\.com\/friends\/center\/requests\/outgoing\/.*")) {
-        /*Add an Undo Friend Requests Button*/
+        /*Add an Undo Friend Requests Button*/ //BEING FIXED
         /*Test URL: https://touch.facebook.com/friends/center/requests/outgoing/?fb_ref=jwl*/
         /*If this script is injected on that web page and when cued will click every Undo button on that page, then it is considered successful.*/
         undoRequestsButton.innerHTML = "Undo Friend Requests";
@@ -267,7 +267,19 @@ a:hover
         unfollowButton.setAttribute("class", "njmmButton");
         unfollowButton.setAttribute("id", "addFriendButton");
         unfollowFriendsBool = true;
-    } else if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1) {
+    } else {
+        /*add an Add Friend button*/
+        /*Test URL: https://www.facebook.com/search/me/non-friends/intersect/*/
+        /*There are many ways to skin a cat. In particular, there are many pages to add friends from. We just let it default to the Add Friends because that makes it easier than trying to outsmart the user.*/
+        /*If this script is injected on that web page and when cued will click every person's add button on that page, then it is considered successful.*/
+        friendButton.innerHTML = "Start Adding";
+        friendButton.addEventListener("click", addFriends);
+        friendButton.setAttribute("class", "njmmButton");
+        friendButton.setAttribute("id", "addFriendButton");
+        addFriendsBool = true;
+    }
+    //This next if statement is outside the previous because there might be BOTH add and unfriend buttons on the same page. We always want the add button to show up if there are.
+    if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1 || (window.location.href.indexOf("me/friends")>-1 && window.location.href.indexOf("me/friends/friends")==-1)){
         /*This block is slightly different than the above. Because there is no (known) page on facebook that makes Unfriending an easy experience, we had to be clever and make our own unfriend Buttons by piggybacking off of the 
             ajax built into the facebook graph search pages. We basically have to add a unique unfriendButton to each user that shows up in a graphsearch. This is done iteratively over each person, first extracting their userID from 
             the "data-bt" attribute on their user element. We then add a new element that convinces the webpage that it is an unfriend button by having a specific ajaxify attribute. Why does this work? We're not quite sure, but it 
@@ -275,15 +287,17 @@ a:hover
         /*The second half adds a button to the control panel that presses all the newly inserted unfriend buttons.*/
         /*Test URL: https://www.facebook.com/search/me/friends/intersect/#njmmTweaksUnfriend*/
         /*If this script is injected on that web page and will add an unfriend button to each person, and when cued will click every person's unfriend button on that page, then it is considered successful.*/
-
+        /*This checks to see if the URL contains "#njmmTweaksUnfriend" or if it contains "me/friends" which signifies that the graphsearch is searching over the signed-in user's friends. It also checks to make sure that "me/friends/friends" is not contained, as that searches instead over the signed-in user's friends of friends.*/
 
         /*This block creates an unFriendButton to each user*/
         arrayOfElementsRepresentingPeople = document.querySelectorAll(`._3u1._gli._6pe1`);
         for (var i = 0; i < arrayOfElementsRepresentingPeople.length; i++) {
             elementRepresentingPeople = arrayOfElementsRepresentingPeople[i];
             str = elementRepresentingPeople.getAttribute("data-bt"); //The userID is embedded inside of the data-bt attribute of the elements in the above array. It is contained immediately after `"id":` and before a comma. We need the user ID to make the unfriend button unfriend the right person
-            userID = str.substring(str.indexOf(`"id": `) + 5, str.indexOf(",")); //The "+ 5" is to compensate for the length of `"id": `
-            var htmlStringOfNewUnfriendButton = ` <a class = "itemAnchor" role = "menuitem" tabindex = "-1" ajaxify = "/ajax/profile/removefriendconfirm.php?uid=${userID}&amp;unref=button_dropdown" href = "#" rel = "async-post" > < button class = "itemLabel fsm _517h njmmUnfriend" > Unfriend < /button></a > `;
+            //userID = str.substring(str.indexOf(`"id": `) + 5, str.indexOf(",")); //The "+ 5" is to compensate for the length of `"id": `
+            const regexToMatch = `"id"\s?:(.*?)\,`;
+            userID = str.match(regexToMatch)[1];
+            var htmlStringOfNewUnfriendButton = `<a class = "itemAnchor" role = "menuitem" tabindex = "-1" ajaxify = "/ajax/profile/removefriendconfirm.php?uid=${userID}&unref=button_dropdown" href = "#" rel = "async-post"> <button class = "itemLabel fsm _517h njmmUnfriend"> Unfriend </button></a> `;
             var injectedUnfriendButton = document.createElement("a");
             elementRepresentingPeople.appendChild(injectedUnfriendButton);
             injectedUnfriendButton.outerHTML = htmlStringOfNewUnfriendButton;
@@ -297,17 +311,8 @@ a:hover
         unfriendButton.setAttribute("class", "njmmButton");
         unfriendButton.setAttribute("id", "addFriendButton");
         unfriendFriendsBool = true;
-    } else {
-        /*add an Add Friend button*/
-        /*Test URL: https://www.facebook.com/search/me/non-friends/intersect/*/
-        /*There are many ways to skin a cat. In particular, there are many pages to add friends from. We just let it default to the Add Friends because that makes it easier than trying to outsmart the user.*/
-        /*If this script is injected on that web page and when cued will click every person's add button on that page, then it is considered successful.*/
-        friendButton.innerHTML = "Start Adding";
-        friendButton.addEventListener("click", addFriends);
-        friendButton.setAttribute("class", "njmmButton");
-        friendButton.setAttribute("id", "addFriendButton");
-        addFriendsBool = true;
-    }
+    } 
+    
 
     /*add a Stop override. This is will run the function stopAllButtonPressing, which changes the canButtonsBeCurrentlyPressed variable for a few seconds to interupt all button-pressing functions.*/
     continueButton.innerHTML = "Stop!";
@@ -315,13 +320,10 @@ a:hover
     continueButton.setAttribute("class", "njmmButton");
     continueButton.setAttribute("id", "stopButton");
 
-    /*instructionsText.setAttribute("class","njmmText");
-       instructionsText.innerHTML="<b>Instructions:</b><br />\
-       1. Pray. <br />\
-       2. Set current city on right.<br />\
-       3. Choose filters on right.<br />\
-       4. Press Button.";
-        */
+    instructionsText.setAttribute("class","njmmText");
+    instructionsText.innerHTML="Only run the auto-adder on one page at a time.<br>\
+	If you do more than that, you will likely be blocked!";
+        
 
     /*add a little counter that acts as a place to put progress.*/
     countInput.type = "text";
@@ -348,7 +350,7 @@ a:hover
     }
     menuUL.appendChild(continueButton);
     menuUL.appendChild(countInput);
-    /*njmmDiv.appendChild(instructionsText);*/
+    menuUL.appendChild(instructionsText);
 }
 
 /*==========================
@@ -431,6 +433,17 @@ DESCRIPTION: "mod(dividend, divisor)" returns dividend modulo divisor. This coul
 function mod(dividend, divisor) {
     return dividend - divisor * Math.floor(dividend / divisor);
 }
+
+/*==========================
+NAME: isVisible(element)
+INPUTS: DOMelement element that will be checked if it is visible
+OUTPUTS: void
+DESCRIPTION: "isVisible(element)" simply checks if the offsetWidth and offsetHeight are greater than 0.
+==========================*/
+function isVisible(element){
+	return ((element.offsetWidth > 0) && (element.offsetHeight > 0));
+}
+
 /*==========================
 NAME:stopAllButtonPressing()
 INPUTS: void 
@@ -502,57 +515,95 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                 spreadsheet. It spits out a value between 3000 and 7000, given a random decimal between 0 and 1. We needed something that has a vertical asymptote just after 1, a y-value of 3000 at x=0, a function that is 
                 everywhere-increasing on the interval of [0,1], that grows really rapidly at the edge, but not rapidly at all near the beginning. I wish I could explain at a mathematical level why it does what we want, but all I 
                 can say is that it does. I am so sorry to black-box it!*/
-            return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
             if (buttonType !== "Cancel") {
                 /*Send a message saying how long we are waiting to press the next button*/
                 console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
-            } 
+            }
+            return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
         }
     }
     
     var delay = generateDelayTime();    
 
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
+    if (buttonType !== "Cancel"){
+        console.log('I am considering pressing the button of type: ',buttonType, nextButtonToPress);    
+    }
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
-        if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
+        //if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) {
+        if (canButtonsBeCurrentlyPressed === true) {
             nextButtonToPress.scrollIntoView({
                     behavior: "smooth",
                     block: "center",
                     inline: "nearest"
-                });
-            nextButtonToPress.click();
-            nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
-            /*checks the button type and deals with it as necessary.*/
-            if (buttonType === "Add") {
-                addToCount();
-                console.log('You just added ' + recentButtonsPressed + ' friends!');
-                postToBox("Buttons pressed: " + recentButtonsPressed);
+            });
+        nextButtonToPress.setAttribute("alreadyClicked", "true"); /*Our selectors should (theoretically) filter this object out on the next pass.*/
+        /*checks the button type and deals with it as necessary.*/
+        if (buttonType === "Add") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            addToCount();
+            console.log('You just added ' + recentButtonsPressed + ' friends!');
+            postToBox("Buttons pressed: " + recentButtonsPressed);
                 /*TODO: Make a way to check if the user has been blocked. This could be done with some search on the page for the word "block" when a new div appears?*/
                 /*TODO: Make this more useful.*/
-            } else if (buttonType === "Undo") {
-                postToBox("Cleared 1 Friend");
-                /*TODO: Make this more useful.*/
-            } else if (buttonType === "Cancel") {
-                /*TODO: Make this do something.*/
-            } else if (buttonType === "Unfollow") {
-                /*TODO: Make this do something.*/
-            }  else if (buttonType === "injectedUnfriend") {
-                /*TODO: Make this do something useful*/
-            }/*else if (buttonType === "Unfriend") {
-                //This then proceeds to click the actual unfriend button after a moment.
-                setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
-            }*/
-            /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
-            We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
-            /*TODO: Deprecate the old unfriend method.*/
+        } else if (buttonType === "Undo") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+		    	//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+            	console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            postToBox("Cleared 1 Friend");
+            /*TODO: Make this more useful.*/
+        } else if (buttonType === "Cancel") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+				//If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				if (nextButtonToPress.parentNode.querySelector(".layerConfirm") == null){
+					nextButtonToPress.click();
+				} else {
+					nextButtonToPress.parentNode.querySelector(".layerConfirm").click();
+				}
+			}
+            /*TODO: Make this do something.*/
+        } else if (buttonType === "Unfollow") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            /*TODO: Make this do something.*/
+        }  else if (buttonType === "injectedUnfriend") {
+			console.log("Checking if the button is visible!");
+			if (isVisible(nextButtonToPress)){
+			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        	    console.log("The Button is visible!")
+				nextButtonToPress.click();
+			}
+            /*TODO: Make this do something useful*/
+        }/*else if (buttonType === "Unfriend") {
+            //This then proceeds to click the actual unfriend button after a moment.
+            setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
+        }*/
+        /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
+        We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
+        /*TODO: Deprecate the old unfriend method.*/
             
-            setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
-        }
+        setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
+	}
     } else {
         /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests, 
         then it will scroll. If it isn't scrollable, then it will refresh the page.*/
         /*TODO: Figure out how to deprecate scrollable without breaking things.*/
-        if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
+        //if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
+	if (canButtonsBeCurrentlyPressed === true && scrollable) {
             console.log(`I ran out of buttons!`, `I will scroll instead!`);
             setTimeout(clickNextButton, delay, buttonType, selector, scrollable); //The timeout used to be 4000+delay.
             setTimeout(function() { //We need to wait 4 seconds to check if new buttons have appeared before we refresh the page.

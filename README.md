@@ -61,6 +61,9 @@ Let people know how they can contribute into your project. A [contributing guide
 ## Credits
 Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project. 
 
+- The Friend Filter was inspired by and modeled on [*Search is Back!*](https://searchisback.com/). Thank you Michael Morgenstern!
+
+
 #### Anything else that seems useful
 
 ## License

@@ -2,7 +2,7 @@
 
  "manifest_version": 2,
  "name": "NJMM Facebook Tweaks",
- "version": "3.4.4",
+ "version": "3.5.0",
 
  "description": "Inserts the NJMM Facebook Tweaks GUIs onto facebook pages.",
 
@@ -14,7 +14,7 @@
  "content_scripts": [
    {
      "matches": ["*://*.facebook.com/*","*://*.messenger.com/*"],
-     "js": ["/contentScripts/injectAllPages.js", "/contentScripts/newScript.js"],
+     "js": ["/contentScripts/injectAllPages.js"],
      "css": ["/css/masterCSS.css"],
      "run_at": "document_start"
    }
