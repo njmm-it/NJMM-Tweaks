@@ -85,4 +85,5 @@
     z-index: 1;
 }
 
+/*This makes it so the page can scroll all the way, even with the hamburger menu open.*/
 body>* {margin-bottom: 65px;}
