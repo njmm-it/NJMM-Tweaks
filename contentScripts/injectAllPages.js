@@ -44,6 +44,36 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
+/*==========================
+NAME: startHidingAllProfilePictures
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "startHidingAllProfilePictures()" starts hiding all profile images on the page.
+==========================*/
+function startHidingAllProfilePictures(){
+	//Hide Profile Images and Hessifymode
+	browser.storage.local.get("color").then((result)=>{
+		//This changes the header bar to the color put into the options UI.
+		var color = result.color.toLowerCase();
+		changeColorOfHeader(color);
+		if (result.color.toLowerCase().includes("hess")){
+			hmode = true;
+		} 
+
+		//Load all the stuff, as long as we're not on a group page.
+		if (!window.location.href.match("groups\/*")){
+			browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
+			browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
+			browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
+		} else {
+			//If the page is open to a group page, then we can 
+		}
+
+	},onError);
+	setInterval(hideProfileImages,500); //hide the images
+}
+
+
 //Hide Profile Images and Hessifymode
 browser.storage.local.get("color").then((result)=>{
 	//This changes the header bar to the color put into the options UI.
@@ -273,6 +303,21 @@ function notifyExtension(e) {
   }
 }
 
+
+
+/*===============Main “Function”==================*/
+/*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/                    
+/*==========================
+NAME: (main())()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: The main function starts the process of continually closing all the error messages, then checks if the DOMContent of a facebook.com page has been loaded. 
+    If it has, it makes the Control Panel. If it hasn't, then it sets an event listener to do so when it is finished loading.
+==========================*/
+
+(function main(){
+	
+})();
 
 
 
