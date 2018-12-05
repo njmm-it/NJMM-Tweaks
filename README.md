@@ -83,14 +83,32 @@ injectAllPages.js has multiple responsibilities.
 This is the script that does all the magic that most users are aware of. This is also the script that is usually the culprit if the users find an error. It does most of the interfacing with facebook that is noncosmetic. It's complete function and feature lists are explained more indepth internally, but its primary responsibility is to allow the user to automatically press Add/Undo/Unfollow buttons on the facebook website.
 
 ### css
+These store the stylesheets that are used in the Addons.
+
+#### masterCSS.css 
+This stores the bulk of most random, custom styles. It's injected into every facebook.com and messenger.com page, by default.
+
+#### extension.css
+Elder Berrett plays with this one to make the popup look cooler.
+
+#### options.css
+This is the default firefox CSS sheet that matches the browser UI.
 
 ### friendFilter
+These are the friendFilter Tools. They are inspired by [*Search is Back!*](https://searchisback.com/), and work similarly to that webpage, with some distinct differences. The HTML page is the webpage. The CSS is its corresponding CSS. The JS is used by the page to work. Further documentation is available in those files.
 
 ### icons
 
+These are the icons and photos that are used.
+[border_big_plain.svg](icons/border_big_plain.svg) is the icon for the addon, courtesy of Elder Reyes.
+[h.jpg](icons/h.jpg) is the easter egg photo to change profile pictures to.
+[prof.png](icons/prof.png) is the default picture that we will change all profile pictures to.
+
 ### options
+This is the options UI. It is loaded into both the BrowserAction popup and the Options UI on the about:addons page.
 
 ### popup
+This is the [popup](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Popups) that is triggered by the Browser Action and the Page Action.
  
 ### Other Stuff
 
