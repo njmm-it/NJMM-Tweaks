@@ -45,12 +45,14 @@ function onError(error) {
 }
 
 /*==========================
-NAME: startHidingAllProfilePictures
+NAME: startHidingAllProfilePicturesAndOtherThings
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: "startHidingAllProfilePictures()" starts hiding all profile images on the page.
+DESCRIPTION: "startHidingAllProfilePicturesAndOtherThings()" starts hiding all profile images on the page. 
+	It also checked if hmode is enabled, and sets the variable as such. It also checks if we should block 
+	other things and block those, too.
 ==========================*/
-function startHidingAllProfilePictures(){
+function startHidingAllProfilePicturesAndOtherThings(){
 	//Hide Profile Images and Hessifymode
 	browser.storage.local.get("color").then((result)=>{
 		//This changes the header bar to the color put into the options UI.
@@ -70,72 +72,63 @@ function startHidingAllProfilePictures(){
 		}
 
 	},onError);
+	
+	//THIS MAKES THE PROFILE IMAGES HIDE EVERY HALF SECOND!!
+	//IF THEY ARE NOT HIDING PROPERLY, CHECK function hideProfileImages()!!
 	setInterval(hideProfileImages,500); //hide the images
 }
 
-
-//Hide Profile Images and Hessifymode
-browser.storage.local.get("color").then((result)=>{
-	//This changes the header bar to the color put into the options UI.
-	var color = result.color.toLowerCase();
-	changeColorOfHeader(color);
-	if (result.color.toLowerCase().includes("hess")){
-		hmode = true;
-	} 
-
-	//Load all the stuff, as long as we're not on a group page.
-	if (!window.location.href.match("groups\/*")){
-		browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
-		browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
-		browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
-	} else {
-		//If the page is open to a group page, then we can 
-	}
-
-},onError);
-setInterval(hideProfileImages,500); //hide the images
-
-
+/*==========================
+NAME: hideProfileImages()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "hideProfileImages()" hides the profile images on the page. It will only hide them if we are not on a group page. This is intentional.
+==========================*/
 function hideProfileImages(){
 	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
 	var list;
 	var profileURL;
 	if (window.location.href.match("groups\/*")){
-	//If we are on a group page, it's okay to show the profile pictures.
+		//If we are on a group page, it's okay to show the profile pictures.
 		console.log("hideProfileImages() thinks that we're on a group page!");
 		list = document.querySelectorAll(hideProfileSelector);
 		for (var i = 0; i <list.length;i++){
 			if (list[i].getAttribute('srcOriginal')){
+				//If the is a srcOriginal attribute, that means that the image was originally blocked but shouldn't be any more. 
+				//I'm not sure why we would ever actually need this, but it seemed like a good idea at the time. And it doesn't actually break anything.
+				//If some future programmer believes this is vestigial, por favor remove it.
 				list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
 			}
-			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
-			//list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
-			list[i].classList.add(`njmm-override`);
-			list[i].style.visibility="visible";
+			list[i].classList.add(`njmm-override`); //Adding this class tells the filter to not block it. Also, probably vestigial.
+			list[i].style.visibility="visible"; //Force it to be visible, just in case.
 		}
 	} else {
 	//If we aren't on a group page, then we should hide all the profile pictures
 		console.log("hideProfileImages() thinks that we are NOT on a group page!");
 		console.log("hmode is on?: " + hmode);
+		//This next conditional exists so that we can simply use the same "replacement" code, regardless of what it's being replaced to.
+		//If hmode is true, then we should use the easter egg selector and url, instead of the default.
 		if (hmode===true){
+			//If easter egg mode is on, then we should replace all the images with the easter egg image instead.
 			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCelector);
 			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
 		} else {
 			list = document.querySelectorAll(hideProfileSelector);
 			profileURL = profilePhotoURL;
 		}
+		//This will loop over 
 		for (var i = 0; i <list.length;i++){
-			
 			var wid = list[i].width;
 			var hei = list[i].height;
 			//We want to be able to grab the original source later
+			//This is probably vestigial. If some future programmer wants to remove it, feel free.
+			//I can't be bothered to test the code without it.
 			if (!list[i].getAttribute('srcOriginal')){
 				list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			}
-			list[i].setAttribute(`src`,`${profileURL}`);
-			//list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
+			list[i].setAttribute(`src`,`${profileURL}`); //Change the source, if it uses the source attribute
 			list[i].classList.add(`njmm-override`);
-			list[i].style.backgroundImage = `url("${profileURL}")`;
+			list[i].style.backgroundImage = `url("${profileURL}")`;//Change the source, if it uses the backgroundImage attribute
 			list[i].style.visibility="visible";
 			list[i].width = wid;
 			list[i].height = hei;	
@@ -316,7 +309,17 @@ DESCRIPTION: The main function starts the process of continually closing all the
 ==========================*/
 
 (function main(){
-	
+	startHidingAllProfilePicturesAndOtherThings();
+	/*
+	//We check if the page is still loading. If it is, then we wait until it has finished loading to run the script/
+	//We commented this out, because we realized that we shouldn't actually wait to load this. Once the script is loaded, it's fine.
+	if (document.readyState === "loading") { //Occasionally, it'll try to load before the page has loaded the Document Object Model (DOM). This is an issue. This checks if it's loaded or not.
+            document.addEventListener("DOMContentLoaded", startHidingAllProfilePicturesAndOtherThings);
+        } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
+            startHidingAllProfilePicturesAndOtherThings();
+        }
+	*/
+		
 })();
 
 
