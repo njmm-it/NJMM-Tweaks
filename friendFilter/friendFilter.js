@@ -218,7 +218,7 @@ function generateSearchURL(){
 		//Make sure the encodedSearchQuery isn't empty, otherwise the next part will return an error.
 		if (isTheDeviceMobile()){
 			//The device truly is mobile, so we should feed it the mobile site.
-			finalSearchURL = "https://m.facebook.com/graphsearch"+encodedSearchQuery+"intersect/";
+			finalSearchURL = "https://m.facebook.com/graphsearch/"+encodedSearchQuery+"intersect/";
 		} else {
 			//The device is not mobile, so we should feed it the desktop site.
 			finalSearchURL = "https://www.facebook.com/search/"+encodedSearchQuery+"intersect/";	
