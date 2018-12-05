@@ -103,7 +103,7 @@ function hideProfileImages(){
 			list[i].style.visibility="visible"; //Force it to be visible, just in case.
 		}
 	} else {
-	//If we aren't on a group page, then we should hide all the profile pictures
+		//If we aren't on a group page, then we should hide all the profile pictures
 		console.log("hideProfileImages() thinks that we are NOT on a group page!");
 		console.log("hmode is on?: " + hmode);
 		//This next conditional exists so that we can simply use the same "replacement" code, regardless of what it's being replaced to.
@@ -118,8 +118,8 @@ function hideProfileImages(){
 		}
 		//This will loop over 
 		for (var i = 0; i <list.length;i++){
-			var wid = list[i].width;
-			var hei = list[i].height;
+			var wid = list[i].width; //We need the width because the browser will adjust the element's width and height when we change the source. Retaining this will allow us to fix them.
+			var hei = list[i].height; //Ditto
 			//We want to be able to grab the original source later
 			//This is probably vestigial. If some future programmer wants to remove it, feel free.
 			//I can't be bothered to test the code without it.
@@ -127,22 +127,29 @@ function hideProfileImages(){
 				list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			}
 			list[i].setAttribute(`src`,`${profileURL}`); //Change the source, if it uses the source attribute
-			list[i].classList.add(`njmm-override`);
+			list[i].classList.add(`njmm-override`); //Adding this class will tell the selectors to not hide it.
 			list[i].style.backgroundImage = `url("${profileURL}")`;//Change the source, if it uses the backgroundImage attribute
-			list[i].style.visibility="visible";
-			list[i].width = wid;
-			list[i].height = hei;	
+			list[i].style.visibility="visible"; //Force it to be visible anyway, just in case.
+			list[i].width = wid; //Set the width to the original width.
+			list[i].height = hei; //Set the height to the original height
 		}
 	}
 
 }
+/*==========================
+NAME: installCSS(code)
+INPUTS: string code is the CSS code that we will inject into the page
+OUTPUTS: void
+DESCRIPTION: "installCSS(code)" injects CSS code code into the page by creating a new css style element to the header.
+==========================*/
 function installCSS(code){
     console.log(`Installing CSS: ${code}`);
-    var cssInject = document.createElement("style");
+    var cssInject = document.createElement("style"); //We will put the code into this element
     cssInject.setAttribute("type","text/css");
     cssInject.innerHTML = code;
-    document.head.appendChild(cssInject);
+    document.head.appendChild(cssInject); //Injecting the element into the head of the html DOM will allow everything in the body to use it.
 }
+
 /*==========================
 NAME: changeColorOfHeader
 INPUTS: string desiredColor is the color that we want to change the Header
@@ -229,13 +236,13 @@ function changeColorOfHeader(desiredColor) {
             desiredBorderColor = "#29487d"
         }
         else {
-            console.log("I'm line 106");
+            //console.log("I'm line 106");
             desiredBorderColor = colorToHex(desiredColor);
-            console.log(desiredBorderColor);
+            //console.log(desiredBorderColor);
             desiredBorderColor = shadeColor(desiredBorderColor, -0.2);
-            console.log(desiredBorderColor);
-            console.log("I'm going to try to spit out popOver:");
-            console.log(popOver);
+            //console.log(desiredBorderColor);
+            //console.log("I'm going to try to spit out popOver:");
+            //console.log(popOver);
             if(popOver){
                 popOver.style.background = desiredBorderColor;
             }
@@ -256,6 +263,7 @@ function changeColorOfHeader(desiredColor) {
         console.log(desiredColor); //debug
     }
 }
+
 /*==========================
 NAME: getPageHTML
 INPUTS: void
@@ -270,21 +278,33 @@ function getPageHTML(){
 }
 
 /*==========================
-NAME: recieve the requestPageHTML and send a response with the getPageHTML function's output.
+NAME: addEventListenerToRecieveRequest() 
 INPUTS: void
-OUTPUTS: string that represents the page's HTML.
-DESCRIPTION: "getPageHTML()" returns the page's HTML.
+OUTPUTS: void
+DESCRIPTION: "addEventListenerToRecieveRequest()" recieves the requestPageHTML and sends a response with the getPageHTML function's output.
 ==========================*/
-browser.runtime.onMessage.addListener(requestFromBrowserAction => {
-  if (requestFromBrowserAction.request==="The browserAction would like your page's outerHTML"){
-      var pageHTML = getPageHTML();
-      return Promise.resolve({response: pageHTML});
-  }
-});
+function addEventListenerToRecieveRequest(){
+	//We add an event listener to trigger when we recieve a message
+	browser.runtime.onMessage.addListener(requestFromBrowserAction => {
+		//Check if the extension want's the page's outerHTML.
+		if (requestFromBrowserAction.request==="The browserAction would like your page's outerHTML"){
+			//If it does want the outerHTML, then send a respond.
+			var pageHTML = getPageHTML();
+			//The send response is as simple as returning a new Promise that resolves with the new message.
+			return Promise.resolve({response: pageHTML});
+		}
+	});
+}
 
 
-window.addEventListener("load", notifyExtension);
 
+
+/*==========================
+NAME: notifyExtension()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "notifyExtension()" tells the extension that there are buttons on the page.
+==========================*/
 function notifyExtension(e) {
   //browser.runtime.sendMessage({pageLoaded: true});
   if (document.querySelector('[aria-label*="Add"]')) { //There are Add Buttons on the page
@@ -310,6 +330,9 @@ DESCRIPTION: The main function starts the process of continually closing all the
 
 (function main(){
 	startHidingAllProfilePicturesAndOtherThings();
+	window.addEventListener("load", notifyExtension);
+	addEventListenerToRecieveRequest();
+
 	/*
 	//We check if the page is still loading. If it is, then we wait until it has finished loading to run the script/
 	//We commented this out, because we realized that we shouldn't actually wait to load this. Once the script is loaded, it's fine.
@@ -318,95 +341,5 @@ DESCRIPTION: The main function starts the process of continually closing all the
         } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
             startHidingAllProfilePicturesAndOtherThings();
         }
-	*/
-		
+	*/		
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*==========================
-NAME: long-press.js
-INPUTS: void
-OUTPUTS: void
-DESCRIPTION: This adds the long-press event to the html DOM. Courtesy of John Doherty <www.johndoherty.info> under the MIT license. This will be used to determine whether or not an image should be hidden.
-==========================*/
-
-/*!
- * long-press.js
- * Pure JavaScript long-press event
- * https://github.com/john-doherty/long-press
- * @author John Doherty <www.johndoherty.info>
- * @license MIT
- */
-!function(t,e){"use strict";function n(){this.dispatchEvent(new CustomEvent("long-press",{bubbles:!0,cancelable:!0})),clearTimeout(o),console&&console.log&&console.log("long-press fired on "+this.outerHTML)}var o=null,u="ontouchstart"in t||navigator.MaxTouchPoints>0||navigator.msMaxTouchPoints>0,s=u?"touchstart":"mousedown",i=u?"touchcancel":"mouseout",a=u?"touchend":"mouseup",c=u?"touchmove":"mousemove";"initCustomEvent"in e.createEvent("CustomEvent")&&(t.CustomEvent=function(t,n){n=n||{bubbles:!1,cancelable:!1,detail:void 0};var o=e.createEvent("CustomEvent");return o.initCustomEvent(t,n.bubbles,n.cancelable,n.detail),o},t.CustomEvent.prototype=t.Event.prototype),e.addEventListener(s,function(t){var e=t.target,u=parseInt(e.getAttribute("data-long-press-delay")||"1500",10);o=setTimeout(n.bind(e),u)}),e.addEventListener(a,function(t){clearTimeout(o)}),e.addEventListener(i,function(t){clearTimeout(o)}),e.addEventListener(c,function(t){clearTimeout(o)})}(this,document);
-
-function isImg(ob){
-    if (ob.classList.contains("img")){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function findTheEmbeddedImage(ob){
-    if (isImg(ob) === true){ //ob is an image
-	console.log(`Found the image!`, ob);
-        return ob; //return ob
-    } else {
-        for (var i = 0; i < ob.children.length; i++){ //runs over each childNode
-	    console.log(`Checking if child is image!`, ob.children[i]);
-            if (isImg(ob.children[i])===true){ //check if is an image.
-		console.log(`Found the image!`, ob.children[i]);
-                return ob.children[i]; //If so, return this new object
-            } else if (findTheEmbeddedImage(ob.children[i]) !== null){
-                return findTheEmbeddedImage(ob.children[i]);             //If not, run this same function on this childNode
-            }
-	}
-	console.log(`No image found in`, ob);
-        return null;    //if none of the children have images, then return null.
-    }
-}
-
-function hideImage(){
-    
-}
-
-function showImage(){
-    
-}
-
-
-
-// listen for long-press events
-document.addEventListener('long-press', function(e) {
-    var object = findTheEmbeddedImage(e.target);
-    if (object !== null){
-        object.setAttribute('njmmImgOverride', 'true');    
-    }
-    
-});
-
