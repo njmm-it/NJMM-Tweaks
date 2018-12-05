@@ -82,6 +82,21 @@ injectAllPages.js has multiple responsibilities.
 
 This is the script that does all the magic that most users are aware of. This is also the script that is usually the culprit if the users find an error. It does most of the interfacing with facebook that is noncosmetic. It's complete function and feature lists are explained more indepth internally, but its primary responsibility is to allow the user to automatically press Add/Undo/Unfollow buttons on the facebook website.
 
+### css
+
+### friendFilter
+
+### icons
+
+### options
+
+### popup
+ 
+### Other Stuff
+
+#### .github and .gitignore
+These only make things more convenient for working with github.
+
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
 
