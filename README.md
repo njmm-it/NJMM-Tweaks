@@ -32,24 +32,88 @@ Include logo/demo screenshot etc.
 
 # Developer Stuff
 
-## Build status
-Currently, the project is maintained on a google drive. This makes “Build Status” a very complicated topic. More or less, It's in a state of constant development, and it's expected to always build properly. We are considering moving to a github project to make build status easier to maintain and branch, etc… 
-
 ## Code style
-Please try to match the coding style and especially comment style for each function and individual lines. This is passed down so frequently that code needs to be thoroughly explained. Remember, code written 6 months ago is indistinguishable from code written by someone else. Focus more on the <i>WHY</i> rather than the <i>HOW</i> of algorithms and functions.
- 
-
-## Tech/framework used
-Ex. -
-
-<b>Built with</b>
-- [Electron](https://electron.atom.io)
+Please try to match the coding style and especially comment style for each function and individual lines. This is passed down so frequently that code needs to be thoroughly explained. Remember, code written 6 months ago is indistinguishable from code written by someone else. Focus more on the *WHY* rather than the *HOW* of algorithms and functions.
 
 ## Add-on Organization
 
 The Mozilla Developer Network will be your best friend as you dissect the Add-on. It has documentation for the Add-on technology, Javascript APIs, HTML, CSS, etc…. 
 
-Within the root 
+### manifest.json
+Within the root directory, there is a crucial file called "manifest.json", this outlines the skeleton of the Add-on. This defines many things for the browser, including:
+
+- Tell the browser to inject certain contentScripts (scripts that are injected in the scope of the webpage) and css files into all webpages within the facebook.com and messenger.com domains
+
+ - injectAllPages.js is injected into all pages. This does the image blocking and other cosmetic changes. 
+ 
+ - If it detects buttons that could be pressed, it will automatically inject the other script (newScript.js) which handles automated button-pressing.
+ 
+- Define the content security policy. It currently allows jQuery (and anything else, I suppose) from ajax.googleapis.com
+
+- Declare which browser permissions the Add-on needs to run its functions. These are approved by the user at install.
+
+- Define the update_url, i.e. where the browser should automatically check for updates. This is currently linked to a publicly shared folder on Google Drive. Firefox checks for add-on updates every run (on desktop) or once daily (on mobile). If you are clever with about:config in Firefox for mobile, you can make it update upto every 2 minutes.
+
+- Define the "Browser Action", which is just a button on the browser toolbar (on desktop) or the browser menu (on mobile). It is attached to an html page that is opened in a popup window.
+
+- Define the "Page Action", which is just a button on the URL bar (omnibar) (on desktop) or the browser menu (on mobile). It is attached to an html page that is opened in a popup window.
+
+- Define the Options page which is loaded when looking at the add-on's options on about:addons
+
+- Tell the browser to run an (invisible) background page that runs background.js, which allows the contentScripts (which normally cannot access most browser APIs) to indirectly access said functions.
+
+### background
+The background directory contains one file (*background.js*) which is a [javascript run in a background context](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension#Background_scripts). It exists, because it has full permissions to all browser APIs that the addon has permission for. Content Scripts, however, do not. Content Scripts are able to [use the messaging APIs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#Communicating_with_background_scripts) to send messages to the background scripts, which can in turn run otherwise unaccesible APIs. Background scripts, on the other hand, have no access to page data.
+
+The only currently implemented use of this dichotomy is with *injectAllPages.js*. It checks all pages on the facebook.com and messenger.com domains if there are "Add", "Undo", "Unfollow", or "Cancel" buttons. If one is detected, it asks the background page to inject *newScript.js* which controls the automated button pressing functions. This prevents a lot of screen-real spam.
+
+### contentScripts
+
+[Content Scripts](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension#Content_scripts) are javascripts injected into a web page that can manipulate and access page data. They run in a similar scope as scripts in the web page itself. See the link to see the more subtle differences between content scripts and page scripts.
+
+#### injectAllPages.js
+injectAllPages.js has multiple responsibilities.
+			1. Hide all profile images (i.e. changes them to another image).
+			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
+			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
+			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
+
+#### newScript.js
+
+This is the script that does all the magic that most users are aware of. This is also the script that is usually the culprit if the users find an error. It does most of the interfacing with facebook that is noncosmetic. It's complete function and feature lists are explained more indepth internally, but its primary responsibility is to allow the user to automatically press Add/Undo/Unfollow buttons on the facebook website.
+
+### css
+These store the stylesheets that are used in the Addons.
+
+#### masterCSS.css 
+This stores the bulk of most random, custom styles. It's injected into every facebook.com and messenger.com page, by default.
+
+#### extension.css
+Elder Berrett plays with this one to make the popup look cooler.
+
+#### options.css
+This is the default firefox CSS sheet that matches the browser UI.
+
+### friendFilter
+These are the friendFilter Tools. They are inspired by [*Search is Back!*](https://searchisback.com/), and work similarly to that webpage, with some distinct differences. The HTML page is the webpage. The CSS is its corresponding CSS. The JS is used by the page to work. Further documentation is available in those files.
+
+### icons
+
+These are the icons and photos that are used.
+[border_big_plain.svg](icons/border_big_plain.svg) is the icon for the addon, courtesy of Elder Reyes.
+[h.jpg](icons/h.jpg) is the easter egg photo to change profile pictures to.
+[prof.png](icons/prof.png) is the default picture that we will change all profile pictures to.
+
+### options
+This is the options UI. It is loaded into both the BrowserAction popup and the Options UI on the about:addons page.
+
+### popup
+This is the [popup](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Popups) that is triggered by the Browser Action and the Page Action.
+ 
+### Other Stuff
+
+#### .github and .gitignore
+These only make things more convenient for working with github.
 
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
@@ -62,7 +126,7 @@ Provide step by step series of examples and explanations about how to get a deve
 Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
 
 ## Tests
-Describe and show how to run the tests with code examples.
+Unit tests will be written and engineered at a later date.
 
 
 ## Contribute
