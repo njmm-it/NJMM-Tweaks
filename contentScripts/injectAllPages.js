@@ -246,7 +246,7 @@ function changeColorOfHeader(desiredColor) {
             //console.log(popOver);
             //if(popOver){
             //    popOver.style.background = desiredBorderColor;
-            }
+            //}
 	    colorTag.innerHTML = `.popOver > a {background : ${desiredBorderColor}}`;
 	    document.head.appendChild(colorTag);
             outlineElement.style.borderBottom = `1px solid ${desiredBorderColor}`;
