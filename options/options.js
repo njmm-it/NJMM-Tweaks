@@ -1,3 +1,9 @@
+/*==========================
+NAME: saveOptions(e)
+INPUTS: Event e is an event that is listened for by an EventListener
+OUTPUTS: void
+DESCRIPTION: "saveOptions(e)" saves the value of all configuration settings to the browser storage and then flashes a "Saved." message
+==========================*/
 function saveOptions(e) {
   	//e.preventDefault();
 	//Set all of the keys and their values to the browser storage. See the Mozilla Developer Network to see how the APIs work.
