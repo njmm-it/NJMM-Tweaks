@@ -247,7 +247,7 @@ function changeColorOfHeader(desiredColor) {
             //if(popOver){
             //    popOver.style.background = desiredBorderColor;
             //}
-	    colorTag.innerHTML = `.popOver > a {background : ${desiredBorderColor}}`;
+	    colorTag.innerHTML = `.popoverOpen > a {background : ${desiredBorderColor}}`;
 	    document.head.appendChild(colorTag);
             outlineElement.style.borderBottom = `1px solid ${desiredBorderColor}`;
             searchElement.style.border = `1px solid ${desiredBorderColor}`;
