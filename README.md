@@ -73,10 +73,15 @@ The only currently implemented use of this dichotomy is with *injectAllPages.js*
 
 #### injectAllPages.js
 injectAllPages.js has multiple responsibilities.
+
 			1. Hide all profile images (i.e. changes them to another image).
+			
 			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
+			
 			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
+			
 			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
+			
 
 #### newScript.js
 
@@ -105,10 +110,18 @@ These are the icons and photos that are used.
 [prof.png](icons/prof.png) is the default picture that we will change all profile pictures to.
 
 ### options
-This is the options UI. It is loaded into both the BrowserAction popup and the Options UI on the about:addons page.
+This is the options UI. It is loaded into both the BrowserAction popup and the Options UI on the about:addons page. This page allows the user to set many different configuration settings, such as their Favorite Color (which adjusts the facebook header bar color), whether to block all images, videos, and/or newsfeed, and also allows for some advanced options. This uses *a lot* of [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), so be prepared to read those.
 
 ### popup
 This is the [popup](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Popups) that is triggered by the Browser Action and the Page Action.
+
+#### popup.html
+This is a menu with two panels. The first panel "Features" is a list of features (aptly named). The second, "Options", is simply an iframe that loads [](/options/options.html).
+
+The "Features" panel has a bunch of menu items (class "panel-list-item"), which each contain an icon (which we cheated and simply made an emoji, a type (which is either "url", "urlscript",  "script", or "errorreport"), and a value (which is a link, if such is applicable). It was easier to embed these directly into the html than to try and put it in the javascript.
+
+#### popup.js
+popup.js does the appropriate action, depending on the type of item pressed on the list. It also has all of the functions necessary for generating error reports that are sent via email. There are a bunch of vestigial functions that are useful for obtaining the html of the page, but I realized that the email mailto protocol has a character limit far less than the html of any page. Perhaps they'll be of use to some future programmer at a later date.
  
 ### Other Stuff
 
