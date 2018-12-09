@@ -1,98 +1,155 @@
-/* THIS IS THE NEW SCRIPT THAT WILL BE INJECTED INTO ALL PAGES. newScript.js will be injected as requested. */
+/*=============INJECTALLPAGES.JS================
+DESCRIPTION:    injectAllPages.js has multiple responsibilities.
+			1. Hide all profile images (i.e. changes them to another image).
+			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
+			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
+			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
+AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes 
+VERSION:        ???
+VERSION DATE:   ???
+=============INJECTALLPAGES.JS================*/
 
 /*The custom CSS strings to block certain things*/
 //var hideImagesCSS = `.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img] {display:none}`; //Old one
-var hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`;
-var hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;
-var hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`;
-var hideAdsCSS = `#pagelet_ego_pane {display:none}`;
-var hideProfileCSS = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
-var profilePhotoURL = browser.extension.getURL("icons/prof.png");
-var hmode = false;
+const hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`; //If 'Hide All Images' is selected, this will be injected.
+const hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;//If 'Hide Videos' is selected, this will be injected.
+const hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`; //If 'Hide Newsfeed' is selected, this will be injected.
+const hideAdsCSS = `#pagelet_ego_pane {display:none}`; //If 'Hide Ads' is selected, this will be injected.
 
-console.log("Activated Inject All Pages!")
+/*===IMPORTANT===
+This helps us find all the profile images. 
+This was found after what likely adds up to hours and hours of manually finding attributes that will find profile images without finding others. 
+If that breaks, sorry. There's probably a better way to find them, but this is the best we have for now.
+===IMPORTANT===*/
+const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
 
+const profilePhotoURL = browser.extension.getURL("icons/prof.png"); //This is the default image that we will replace all the profile pictures with.
+var hmode = false; //This activates the easter egg mode.
+
+
+//console.log("Activated Inject All Pages!")
+
+
+
+
+/*==========FUNCTIONS=============*/
 /*Add the appropriate settings CSS*/
+/*==========================
+NAME: onError
+INPUTS: Error error that is the error that is fed by a Promise.
+OUTPUTS: void
+DESCRIPTION: "onError(error)" outputs error to the console.
+==========================*/
 function onError(error) {
     console.log(`Error: ${error}`);
 }
 
-//Hide Profile Images and Hessifymode
-browser.storage.local.get("color").then((result)=>{
-	//This changes the header bar to the color put into the options UI.
-	var color = result.color.toLowerCase();
-	changeColorOfHeader(color);
-	if (result.color.toLowerCase().includes("hess")){
-		hmode = true;
-	} 
+/*==========================
+NAME: startHidingAllProfilePicturesAndOtherThings
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "startHidingAllProfilePicturesAndOtherThings()" starts hiding all profile images on the page. 
+	It also checked if hmode is enabled, and sets the variable as such. It also checks if we should block 
+	other things and block those, too.
+==========================*/
+function startHidingAllProfilePicturesAndOtherThings(){
+	//Hide Profile Images and Hessifymode
+	browser.storage.local.get("color").then((result)=>{
+		//This changes the header bar to the color put into the options UI.
+		var color = result.color.toLowerCase();
+		changeColorOfHeader(color);
+		if (result.color.toLowerCase().includes("hess")){
+			hmode = true;
+		} 
 
-	//Load all the stuff, as long as we're not on a group page.
-	if (!window.location.href.match("groups\/*")){
-		browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
-		browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
-		browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
-	} else {
-		//If the page is open to a group page, then we can 
-	}
+		//Load all the stuff, as long as we're not on a group page.
+		if (!window.location.href.match("groups\/*")){
+			browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
+			browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
+			browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
+		} else {
+			//If the page is open to a group page, then we can 
+		}
 
-},onError);
-setInterval(hideProfileImages,500); //hide the images
+	},onError);
+	
+	//THIS MAKES THE PROFILE IMAGES HIDE EVERY HALF SECOND!!
+	//IF THEY ARE NOT HIDING PROPERLY, CHECK function hideProfileImages()!!
+	setInterval(hideProfileImages,500); //hide the images
+}
 
-
+/*==========================
+NAME: hideProfileImages()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "hideProfileImages()" hides the profile images on the page. It will only hide them if we are not on a group page. This is intentional.
+==========================*/
 function hideProfileImages(){
 	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
 	var list;
 	var profileURL;
 	if (window.location.href.match("groups\/*")){
-	//If we are on a group page, it's okay to show the profile pictures.
+		//If we are on a group page, it's okay to show the profile pictures.
 		console.log("hideProfileImages() thinks that we're on a group page!");
-		list = document.querySelectorAll(hideProfileCSS);
+		list = document.querySelectorAll(hideProfileSelector);
 		for (var i = 0; i <list.length;i++){
 			if (list[i].getAttribute('srcOriginal')){
+				//If the is a srcOriginal attribute, that means that the image was originally blocked but shouldn't be any more. 
+				//I'm not sure why we would ever actually need this, but it seemed like a good idea at the time. And it doesn't actually break anything.
+				//If some future programmer believes this is vestigial, por favor remove it.
 				list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
 			}
-			//list[i].setAttribute(`style`,list[i].style+`background-image: ${list[i].getAttribute('srcOriginal')}`);
-			//list[i].style.backgroundImage = list[i].getAttribute('srcOriginal');
-			list[i].classList.add(`njmm-override`);
-			list[i].style.visibility="visible";
+			list[i].classList.add(`njmm-override`); //Adding this class tells the filter to not block it. Also, probably vestigial.
+			list[i].style.visibility="visible"; //Force it to be visible, just in case.
 		}
 	} else {
-	//If we aren't on a group page, then we should hide all the profile pictures
+		//If we aren't on a group page, then we should hide all the profile pictures
 		console.log("hideProfileImages() thinks that we are NOT on a group page!");
 		console.log("hmode is on?: " + hmode);
+		//This next conditional exists so that we can simply use the same "replacement" code, regardless of what it's being replaced to.
+		//If hmode is true, then we should use the easter egg selector and url, instead of the default.
 		if (hmode===true){
-			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCSS);
+			//If easter egg mode is on, then we should replace all the images with the easter egg image instead.
+			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCelector);
 			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
 		} else {
-			list = document.querySelectorAll(hideProfileCSS);
+			list = document.querySelectorAll(hideProfileSelector);
 			profileURL = profilePhotoURL;
 		}
+		//This will loop over 
 		for (var i = 0; i <list.length;i++){
-			
-			var wid = list[i].width;
-			var hei = list[i].height;
+			var wid = list[i].width; //We need the width because the browser will adjust the element's width and height when we change the source. Retaining this will allow us to fix them.
+			var hei = list[i].height; //Ditto
 			//We want to be able to grab the original source later
+			//This is probably vestigial. If some future programmer wants to remove it, feel free.
+			//I can't be bothered to test the code without it.
 			if (!list[i].getAttribute('srcOriginal')){
 				list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
 			}
-			list[i].setAttribute(`src`,`${profileURL}`);
-			//list[i].setAttribute(`style`,list[i].style+`background-image: ${profileURL}`);
-			list[i].classList.add(`njmm-override`);
-			list[i].style.backgroundImage = `url("${profileURL}")`;
-			list[i].style.visibility="visible";
-			list[i].width = wid;
-			list[i].height = hei;	
+			list[i].setAttribute(`src`,`${profileURL}`); //Change the source, if it uses the source attribute
+			list[i].classList.add(`njmm-override`); //Adding this class will tell the selectors to not hide it.
+			list[i].style.backgroundImage = `url("${profileURL}")`;//Change the source, if it uses the backgroundImage attribute
+			list[i].style.visibility="visible"; //Force it to be visible anyway, just in case.
+			list[i].width = wid; //Set the width to the original width.
+			list[i].height = hei; //Set the height to the original height
 		}
 	}
 
 }
+/*==========================
+NAME: installCSS(code)
+INPUTS: string code is the CSS code that we will inject into the page
+OUTPUTS: void
+DESCRIPTION: "installCSS(code)" injects CSS code code into the page by creating a new css style element to the header.
+==========================*/
 function installCSS(code){
     console.log(`Installing CSS: ${code}`);
-    var cssInject = document.createElement("style");
+    var cssInject = document.createElement("style"); //We will put the code into this element
     cssInject.setAttribute("type","text/css");
     cssInject.innerHTML = code;
-    document.head.appendChild(cssInject);
+    document.head.appendChild(cssInject); //Injecting the element into the head of the html DOM will allow everything in the body to use it.
 }
+
 /*==========================
 NAME: changeColorOfHeader
 INPUTS: string desiredColor is the color that we want to change the Header
@@ -102,6 +159,7 @@ by finding and selecting the header element and search bar element, changing the
 ==========================*/
 function changeColorOfHeader(desiredColor) {
     console.log(`Attempting to Change Color...`)
+    var colorTag = document.createElement("style");
     function colorToRGBA(color) {
         // Returns the color as an array of [r, g, b, a] -- all range from 0 - 255
         // color must be a valid canvas fillStyle. This will cover most anything
@@ -179,16 +237,18 @@ function changeColorOfHeader(desiredColor) {
             desiredBorderColor = "#29487d"
         }
         else {
-            console.log("I'm line 106");
+            //console.log("I'm line 106");
             desiredBorderColor = colorToHex(desiredColor);
-            console.log(desiredBorderColor);
+            //console.log(desiredBorderColor);
             desiredBorderColor = shadeColor(desiredBorderColor, -0.2);
-            console.log(desiredBorderColor);
-            console.log("I'm going to try to spit out popOver:");
-            console.log(popOver);
-            if(popOver){
-                popOver.style.background = desiredBorderColor;
-            }
+            //console.log(desiredBorderColor);
+            //console.log("I'm going to try to spit out popOver:");
+            //console.log(popOver);
+            //if(popOver){
+            //    popOver.style.background = desiredBorderColor;
+            //}
+	    colorTag.innerHTML = `.popoverOpen > a {background : ${desiredBorderColor}}`;
+	    document.head.appendChild(colorTag);
             outlineElement.style.borderBottom = `1px solid ${desiredBorderColor}`;
             searchElement.style.border = `1px solid ${desiredBorderColor}`;
             searchElement.style.borderBottom = `1px solid ${desiredBorderColor}`; 
@@ -206,6 +266,7 @@ function changeColorOfHeader(desiredColor) {
         console.log(desiredColor); //debug
     }
 }
+
 /*==========================
 NAME: getPageHTML
 INPUTS: void
@@ -220,21 +281,33 @@ function getPageHTML(){
 }
 
 /*==========================
-NAME: recieve the requestPageHTML and send a response with the getPageHTML function's output.
+NAME: addEventListenerToRecieveRequest() 
 INPUTS: void
-OUTPUTS: string that represents the page's HTML.
-DESCRIPTION: "getPageHTML()" returns the page's HTML.
+OUTPUTS: void
+DESCRIPTION: "addEventListenerToRecieveRequest()" recieves the requestPageHTML and sends a response with the getPageHTML function's output.
 ==========================*/
-browser.runtime.onMessage.addListener(requestFromBrowserAction => {
-  if (requestFromBrowserAction.request==="The browserAction would like your page's outerHTML"){
-      var pageHTML = getPageHTML();
-      return Promise.resolve({response: pageHTML});
-  }
-});
+function addEventListenerToRecieveRequest(){
+	//We add an event listener to trigger when we recieve a message
+	browser.runtime.onMessage.addListener(requestFromBrowserAction => {
+		//Check if the extension want's the page's outerHTML.
+		if (requestFromBrowserAction.request==="The browserAction would like your page's outerHTML"){
+			//If it does want the outerHTML, then send a respond.
+			var pageHTML = getPageHTML();
+			//The send response is as simple as returning a new Promise that resolves with the new message.
+			return Promise.resolve({response: pageHTML});
+		}
+	});
+}
 
 
-window.addEventListener("load", notifyExtension);
 
+
+/*==========================
+NAME: notifyExtension()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "notifyExtension()" tells the extension that there are buttons on the page.
+==========================*/
 function notifyExtension(e) {
   //browser.runtime.sendMessage({pageLoaded: true});
   if (document.querySelector('[aria-label*="Add"]')) { //There are Add Buttons on the page
@@ -248,88 +321,28 @@ function notifyExtension(e) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*===============Main “Function”==================*/
+/*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/                    
 /*==========================
-NAME: long-press.js
+NAME: (main())()
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: This adds the long-press event to the html DOM. Courtesy of John Doherty <www.johndoherty.info> under the MIT license. This will be used to determine whether or not an image should be hidden.
+DESCRIPTION: The main function starts the process of continually closing all the error messages, then checks if the DOMContent of a facebook.com page has been loaded. 
+    If it has, it makes the Control Panel. If it hasn't, then it sets an event listener to do so when it is finished loading.
 ==========================*/
 
-/*!
- * long-press.js
- * Pure JavaScript long-press event
- * https://github.com/john-doherty/long-press
- * @author John Doherty <www.johndoherty.info>
- * @license MIT
- */
-!function(t,e){"use strict";function n(){this.dispatchEvent(new CustomEvent("long-press",{bubbles:!0,cancelable:!0})),clearTimeout(o),console&&console.log&&console.log("long-press fired on "+this.outerHTML)}var o=null,u="ontouchstart"in t||navigator.MaxTouchPoints>0||navigator.msMaxTouchPoints>0,s=u?"touchstart":"mousedown",i=u?"touchcancel":"mouseout",a=u?"touchend":"mouseup",c=u?"touchmove":"mousemove";"initCustomEvent"in e.createEvent("CustomEvent")&&(t.CustomEvent=function(t,n){n=n||{bubbles:!1,cancelable:!1,detail:void 0};var o=e.createEvent("CustomEvent");return o.initCustomEvent(t,n.bubbles,n.cancelable,n.detail),o},t.CustomEvent.prototype=t.Event.prototype),e.addEventListener(s,function(t){var e=t.target,u=parseInt(e.getAttribute("data-long-press-delay")||"1500",10);o=setTimeout(n.bind(e),u)}),e.addEventListener(a,function(t){clearTimeout(o)}),e.addEventListener(i,function(t){clearTimeout(o)}),e.addEventListener(c,function(t){clearTimeout(o)})}(this,document);
+(function main(){
+	startHidingAllProfilePicturesAndOtherThings();
+	window.addEventListener("load", notifyExtension);
+	addEventListenerToRecieveRequest();
 
-function isImg(ob){
-    if (ob.classList.contains("img")){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function findTheEmbeddedImage(ob){
-    if (isImg(ob) === true){ //ob is an image
-	console.log(`Found the image!`, ob);
-        return ob; //return ob
-    } else {
-        for (var i = 0; i < ob.children.length; i++){ //runs over each childNode
-	    console.log(`Checking if child is image!`, ob.children[i]);
-            if (isImg(ob.children[i])===true){ //check if is an image.
-		console.log(`Found the image!`, ob.children[i]);
-                return ob.children[i]; //If so, return this new object
-            } else if (findTheEmbeddedImage(ob.children[i]) !== null){
-                return findTheEmbeddedImage(ob.children[i]);             //If not, run this same function on this childNode
-            }
-	}
-	console.log(`No image found in`, ob);
-        return null;    //if none of the children have images, then return null.
-    }
-}
-
-function hideImage(){
-    
-}
-
-function showImage(){
-    
-}
-
-
-
-// listen for long-press events
-document.addEventListener('long-press', function(e) {
-    var object = findTheEmbeddedImage(e.target);
-    if (object !== null){
-        object.setAttribute('njmmImgOverride', 'true');    
-    }
-    
-});
-
+	/*
+	//We check if the page is still loading. If it is, then we wait until it has finished loading to run the script/
+	//We commented this out, because we realized that we shouldn't actually wait to load this. Once the script is loaded, it's fine.
+	if (document.readyState === "loading") { //Occasionally, it'll try to load before the page has loaded the Document Object Model (DOM). This is an issue. This checks if it's loaded or not.
+            document.addEventListener("DOMContentLoaded", startHidingAllProfilePicturesAndOtherThings);
+        } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
+            startHidingAllProfilePicturesAndOtherThings();
+        }
+	*/		
+})();
