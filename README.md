@@ -213,6 +213,7 @@ Give proper credits. This could be a link to any repo which inspired you to buil
 > 9 And I said: Lord, whither shall I go that I may find ore to molten, that I may make tools to construct the ship after the manner which thou hast shown unto me?
 >
 >10 And it came to pass that the Lord told me whither I should go to find ore, that I might make tools. 
+>
 >1 Nephi 17:9-10
 
 ## License
