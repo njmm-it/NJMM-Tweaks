@@ -208,7 +208,7 @@ Give proper credits. This could be a link to any repo which inspired you to buil
 
 - Elder Kai C. K. Reyes (NJMM) took over the project in December 2018 and also contributed multiple features.
 
-- Our Holy Ghost provided the bulk of the algorithmic design and syntax correction. We were gifted a vision of what the tweaks should look like, and we put ourselves to work to make them  happen. Frequently, difficult problems were solved with direct revelation, and we learned javascript, html, and css via the Gift of Tongues more than any other thing.
+- The Holy Ghost provided the bulk of the algorithmic design and syntax correction. We were gifted a vision of what the tweaks should look like, and we put ourselves to work to make them  happen. Frequently, difficult problems were solved with direct revelation, and we learned javascript, html, and css via the Gift of Tongues more than any other thing.
 
 > 9 And I said: Lord, whither shall I go that I may find ore to molten, that I may make tools to construct the ship after the manner which thou hast shown unto me?
 >
