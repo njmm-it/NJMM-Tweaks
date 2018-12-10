@@ -16,12 +16,18 @@ For add-on installation instructions on a Missionary Device, please see [the Goo
 
 ## Features
 The NJMM Tweaks adds a variety of tools to Facebook within the firefox browser to assist in online proselyting. These features include:
-Automatically hiding profile pictures, and (optionally) newsfeeds, videos, and all other images
-A new way of searching for potential friends
-Automated sending of friend requests
-Automated friend request clearing
-Automatically unfriending of people based on user-defined filters
-Some cosmetic adjustments
+
+-Automatically hiding profile pictures, and (optionally) newsfeeds, videos, and all other images
+
+-A new way of searching for potential friends
+
+-Automated sending of friend requests
+
+-Automated friend request clearing
+
+-Automatically unfriending of people based on user-defined filters
+
+-Some cosmetic adjustments
 
 
 ## Screenshots
@@ -74,13 +80,13 @@ The only currently implemented use of this dichotomy is with *injectAllPages.js*
 #### injectAllPages.js
 injectAllPages.js has multiple responsibilities.
 
-			1. Hide all profile images (i.e. changes them to another image).
+1. Hide all profile images (i.e. changes them to another image).
 			
-			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
+2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
 			
-			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
+3. Changes the Header Color of the facebook page to match the configuration in browser storage.
 			
-			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
+4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
 			
 
 #### newScript.js
@@ -128,33 +134,87 @@ popup.js does the appropriate action, depending on the type of item pressed on t
 #### .github and .gitignore
 These only make things more convenient for working with github.
 
-## Code Example
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
-## Installation
-Provide step by step series of examples and explanations about how to get a development env running.
-
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+#### README.md
+This is is this document. It is written in [Markdown](https://guides.github.com/features/mastering-markdown/).
 
 ## Tests
-Unit tests will be written and engineered at a later date.
+Unit tests will be written and engineered at a later date. Currently, we're not familiar enough with the technologies to know how to even approach automated testing.
 
+## Development Environment
+While theoretically, any IDE/code-editor could be used, we (as of December 2018) have been simply using github's built in code editor to write code. We test said code manually via the [Firefox Developer Tools](about:debugging) on a desktop computer. [Other helpful tools](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Development_Tools) exist for desktop. Maybe at some future date some brilliant programmer can either find or write a good in-browser IDE that will work on a Missionary device. Thus far, we've never had time. We've also never had the gumption necessary to petition the missionary department for one.
+
+### Using about:debugging
+The about:debugging page is [one of the greatest tools](https://developer.mozilla.org/en-US/docs/Tools/about:debugging) for testing the add-on on firefox. Use the link above to learn about its features.
+
+## Publishing and Distributing the Add-on (i.e. "Pushing to the Mission")
+The add-on needs to be [properly signed](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Distribution) in order for Missionary Devices to install any update. The version also needs to be logged on a file called [UpdateManifest.json](https://drive.google.com/open?id=11AA_8WuEknEfshXYA_ceonmfwmSONGQm) on the njmm.it@gmail.com Google Drive.  This is necessary, because the official [Firefox Add-on System](https://addons.mozilla.org/en-US/firefox/) is blocked on Missionary Devices (understandably). We're planning on eventually moving that to a more secure/controlled location.
+
+In some missions (such as the NJMM), Google Drive is blocked by the web-filter on Firefox, but that is easily circumvented using a slightly modified link ("https://docs.google.com/uc?export=download&id=[INSERT GOOGLE FILE ID HERE]"). As far as we can tell, this cannot be abused for nefarious purposes, and it came via revelation, so we'll roll with it.
+
+Missionary Devices automatically update all Firefox Add-ons at least once a day when Firefox is opened. Playing with some settings in [](about:config) can make that refresh time as small as two minutes. Figuring out how to do so is left as an exercise to the reader.
+
+NOTE: Changing the permissions that the add-on requires forces the user to manually accept updates. On Desktop, there is a notification that pops up, but on Firefox for Android, there is no such notification. Avoid changing requested permissions when possible.
+
+### Packaging the Add-On
+1. Download the add-on, either via [Github Desktop](https://desktop.github.com/) or via the "Clone or Download">"Download Zip" buttons on https://github.com/njmm-it/NJMM-Tweaks/.
+
+2. Decompress the zip file (if downloaded as such), and select everything in the root directory, and recompress. [Follow this link for more details](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Package_your_extension_)
+
+### Uploading the Add-on to *Add-on Developer Hub* for Signing.
+Signing the Add-on can only occur via the [*Add-on Developer Hub*](https://addons.mozilla.org/en-US/developers/).
+
+1. Sign in with an account that is listed as a developer on [the add-on page](https://addons.mozilla.org/en-US/developers/addon/1b8e09f297e74b1d9ab6).
+
+2. Navigate to the [the add-on's page](https://addons.mozilla.org/en-US/developers/addon/1b8e09f297e74b1d9ab6).
+
+3. Click the ["Upload New Version" button](https://addons.mozilla.org/en-US/developers/addon/1b8e09f297e74b1d9ab6/versions/submit/) on the left column.
+
+4. Follow the instructions to upload a new version for [**self-distribution**](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Distribution/Submitting_an_add-on#Self-distribution).
+
+5. The website will have you download a new .xpi file, which is the signed add-on. Now when we try to install it, Firefox will recognize it as a safe add-on and will not reject it.
+
+### Uploading the Signed Add-on to *Google Drive*
+After downloading the signed Add-on, now it must be uploaded to Google Drive for distribution to missionary devices.
+
+1. Sign into some Google Drive account with access to the [*Released Builds*](https://drive.google.com/drive/folders/1Rw31__uofyJXetBuQwa_Qup-iryx-DVb) folder.
+
+2. Upload the signed addon .xpi file, from Mozilla's Add-On Developer Hub, to that folder.
+
+3. Right-click, and click "Get Sharable Link"
+
+4. Currently, the link is formated like "https://drive.google.com/open?id=1GrfWxqpR_vgX2QZIJYc1ZTi2DBzSTKyF", where "1GrfWxqpR_vgX2QZIJYc1ZTi2DBzSTKyF" is an example 33-character file ID. Take that ID, and make a new URL formated like "https://docs.google.com/uc?export=download&id=1GrfWxqpR_vgX2QZIJYc1ZTi2DBzSTKyF". This will be necessary.
+
+5. Add a new JSON entry in UpdateManifest.json with the new "version" and "update_link" keys. Use the new URL from step 4 as the update_link value.
+
+6. Change the link and version number in ["Firefox Add-on Installation Instructions"](https://docs.google.com/document/d/1kUkHjOrEi5VA7i--fU8NDWsYWsXIjio2my3_EprIk6Q), so that future users will automatically download the most recent version.
 
 ## Contribute
-Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
+The easiest way to contribute, is to submit issues. This can be done on github directly, or via the "Send Bug Report" button in the NJMM Facebook Tweaks browser popup.
+
+For Potential Developers, send an email to njmm.it@gmail.com, stating that you'd like to contribute. The current developer team will get back to you. Otherwise, you can create a fork.
 
 ## Credits
 Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project. 
 
 - The Friend Filter was inspired by and modeled on [*Search is Back!*](https://searchisback.com/). Thank you Michael Morgenstern!
 
+- The original Chrome Scripts were written by Elder Andrew P Sansom from the New Jersey Morristown Mission (NJMM) in early 2018.
 
-#### Anything else that seems useful
+- The original Firefox add-on was implemented by Elder Sansom with assistance from Elder Tyler Draughon (NJMM) in spring 2018.
+
+- The original NJMM Tweaks logo (Missionary Shirt logo) was created by Elder Draughon.
+
+- Elder Tyler Berrett (NJMM) provided many styling contributions and algorithm ideas.
+
+- Elder Kai C. K. Reyes (NJMM) took over the project in December 2018 and also contributed multiple features.
+
+- Our Holy Ghost provided the bulk of the algorithmic design and syntax correction. We were gifted a vision of what the tweaks should look like, and we put ourselves to work to make them  happen. Frequently, difficult problems were solved with direct revelation, and we learned javascript, html, and css via the Gift of Tongues more than any other thing.
+
+> 9 And I said: Lord, whither shall I go that I may find ore to molten, that I may make tools to construct the ship after the manner which thou hast shown unto me?
+>
+>10 And it came to pass that the Lord told me whither I should go to find ore, that I might make tools. 
+>>1 Nephi 17:9-10
 
 ## License
-A short snippet describing the license (MIT, Apache etc)
-
-MIT © [Yourname]()
+This add-on is licensed under the MIT License - see the [LICENSE](/LICENSE) for details.
 
