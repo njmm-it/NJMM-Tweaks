@@ -17,17 +17,17 @@ For add-on installation instructions on a Missionary Device, please see [the Goo
 ## Features
 The NJMM Tweaks adds a variety of tools to Facebook within the firefox browser to assist in online proselyting. These features include:
 
--Automatically hiding profile pictures, and (optionally) newsfeeds, videos, and all other images
+- Automatically hiding profile pictures, and (optionally) newsfeeds, videos, and all other images
 
--A new way of searching for potential friends
+- A new way of searching for potential friends
 
--Automated sending of friend requests
+- Automated sending of friend requests
 
--Automated friend request clearing
+- Automated friend request clearing
 
--Automatically unfriending of people based on user-defined filters
+- Automatically unfriending of people based on user-defined filters
 
--Some cosmetic adjustments
+- Some cosmetic adjustments
 
 
 ## Screenshots
