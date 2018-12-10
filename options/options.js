@@ -5,18 +5,22 @@ OUTPUTS: void
 DESCRIPTION: "saveOptions(e)" saves the value of all configuration settings to the browser storage and then flashes a "Saved." message
 ==========================*/
 function saveOptions(e) {
-  	//e.preventDefault();
-	//Set all of the keys and their values to the browser storage. See the Mozilla Developer Network to see how the APIs work.
-  	browser.storage.local.set({
-  	  color: document.querySelector("#color").value,
-  	  allImages: document.querySelector("#allImages").checked,
-  	  videos: document.querySelector("#videos").checked,
-  	  newsfeed: document.querySelector("#newsfeed").checked
-  	});
-	//Change the "Saved." message so that it is visible for a moment, so that it is clear that it was saved.
-  	document.querySelector("#savemessage").classList.toggle("savehidden");
-	//Then we hide it again after a moment.
-  	setTimeout(function(){document.querySelector("#savemessage").classList.toggle("savehidden");}, 2000);
+  //e.preventDefault();
+  //Set all of the keys and their values to the browser storage. See the Mozilla Developer Network to see how the APIs work.
+  browser.storage.local.set({
+    color: document.querySelector("#color").value,
+    allImages: document.querySelector("#allImages").checked,
+    videos: document.querySelector("#videos").checked,
+    newsfeed: document.querySelector("#newsfeed").checked,
+    maxpresses: document.querySelector("#maxpresses").value,
+    minwait: document.querySelector("#minwait").value,
+    maxwait: document.querySelector("#maxwait").value
+  });
+  //Change the "Saved." message so that it is visible for a moment, so that it is clear that it was saved.
+  document.querySelector("#savemessage").classList.toggle("savehidden");
+  //Then we hide it again after a moment.
+  setTimeout(function(){document.querySelector("#savemessage").classList.toggle("savehidden");}, 3000);
+
 }
 /*==========================
 NAME: restoreOptions()
@@ -25,6 +29,7 @@ OUTPUTS: void
 DESCRIPTION: "restoreOptions()" checks all of the configuration settings that are saved to browser storage and loads the page to reflect them.
 ==========================*/
 function restoreOptions() {
+
 	/*==========================
 	NAME: onError
 	INPUTS: Error error that is the error that is fed by a Promise.
@@ -38,6 +43,10 @@ function restoreOptions() {
 	//browser.storage.local.get returns a Promise that resolves with an object representing the value or rejects with an error.
 	//Each of these functions is an arrow function (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
     browser.storage.local.get("color").then(result => {document.querySelector("#color").value = result.color || "blue";}, onError);
+    browser.storage.local.get("maxpresses").then(result => {document.querySelector("#maxpresses").value = result.maxpresses || "100";}, onError);
+    browser.storage.local.get("minwait").then(result => {document.querySelector("#minwait").value = result.minwait || "4000";}, onError);
+    browser.storage.local.get("maxwait").then(result => {document.querySelector("#maxwait").value = result.maxwait || "8000";}, onError);
+
     browser.storage.local.get("allImages").then(result => {document.querySelector("#allImages").checked = result.allImages || false;}, onError);
     browser.storage.local.get("videos").then(result => {document.querySelector("#videos").checked = result.videos || false;}, onError);
 }

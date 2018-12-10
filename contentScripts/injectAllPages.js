@@ -159,6 +159,7 @@ by finding and selecting the header element and search bar element, changing the
 ==========================*/
 function changeColorOfHeader(desiredColor) {
     console.log(`Attempting to Change Color...`)
+    var colorTag = document.createElement("style");
     function colorToRGBA(color) {
         // Returns the color as an array of [r, g, b, a] -- all range from 0 - 255
         // color must be a valid canvas fillStyle. This will cover most anything
@@ -243,9 +244,11 @@ function changeColorOfHeader(desiredColor) {
             //console.log(desiredBorderColor);
             //console.log("I'm going to try to spit out popOver:");
             //console.log(popOver);
-            if(popOver){
-                popOver.style.background = desiredBorderColor;
-            }
+            //if(popOver){
+            //    popOver.style.background = desiredBorderColor;
+            //}
+	    colorTag.innerHTML = `.popoverOpen > a {background : ${desiredBorderColor}}`;
+	    document.head.appendChild(colorTag);
             outlineElement.style.borderBottom = `1px solid ${desiredBorderColor}`;
             searchElement.style.border = `1px solid ${desiredBorderColor}`;
             searchElement.style.borderBottom = `1px solid ${desiredBorderColor}`; 
