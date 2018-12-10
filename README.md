@@ -189,7 +189,7 @@ After downloading the signed Add-on, now it must be uploaded to Google Drive for
 6. Change the link and version number in ["Firefox Add-on Installation Instructions"](https://docs.google.com/document/d/1kUkHjOrEi5VA7i--fU8NDWsYWsXIjio2my3_EprIk6Q), so that future users will automatically download the most recent version.
 
 ## Contribute
-The easiest way to contribute, is to submit issues. This can be done on github directly, or via the "Send Bug Report" button in the NJMM Facebook Tweaks browser popup.
+The easiest way to contribute is to submit issues. This can be done on github directly, or via the "Send Bug Report" button in the NJMM Facebook Tweaks browser popup.
 
 For Potential Developers, send an email to njmm.it@gmail.com, stating that you'd like to contribute. The current developer team will get back to you. Otherwise, you can create a fork.
 
@@ -213,7 +213,7 @@ Give proper credits. This could be a link to any repo which inspired you to buil
 > 9 And I said: Lord, whither shall I go that I may find ore to molten, that I may make tools to construct the ship after the manner which thou hast shown unto me?
 >
 >10 And it came to pass that the Lord told me whither I should go to find ore, that I might make tools. 
->>1 Nephi 17:9-10
+>1 Nephi 17:9-10
 
 ## License
 This add-on is licensed under the MIT License - see the [LICENSE](/LICENSE) for details.
