@@ -149,7 +149,7 @@ The about:debugging page is [one of the greatest tools](https://developer.mozill
 ## Publishing and Distributing the Add-on (i.e. "Pushing to the Mission")
 The add-on needs to be [properly signed](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Distribution) in order for Missionary Devices to install any update. The version also needs to be logged on a file called [UpdateManifest.json](https://drive.google.com/open?id=11AA_8WuEknEfshXYA_ceonmfwmSONGQm) on the njmm.it@gmail.com Google Drive.  This is necessary, because the official [Firefox Add-on System](https://addons.mozilla.org/en-US/firefox/) is blocked on Missionary Devices (understandably). We're planning on eventually moving that to a more secure/controlled location.
 
-In some missions (such as the NJMM), Google Drive is blocked by the web-filter on Firefox, but that is easily circumvented using a slightly modified link ("https://docs.google.com/uc?export=download&id=[INSERT GOOGLE FILE ID HERE]"). As far as we can tell, this cannot be abused for nefarious purposes, and it came via revelation, so we'll roll with it.
+In some missions (such as the NJMM), Google Drive is blocked by the web-filter on Firefox, but that is easily circumvented using a slightly modified link []("https://docs.google.com/uc?export=download&id=GOOGLEfileID"). As far as we can tell, this cannot be abused for nefarious purposes, and it came via revelation, so we'll roll with it.
 
 Missionary Devices automatically update all Firefox Add-ons at least once a day when Firefox is opened. Playing with some settings in [](about:config) can make that refresh time as small as two minutes. Figuring out how to do so is left as an exercise to the reader.
 
