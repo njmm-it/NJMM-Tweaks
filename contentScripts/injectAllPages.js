@@ -314,7 +314,9 @@ function notifyExtension(e) {
     browser.runtime.sendMessage({addButtons: true});    //send message
   } else if(document.querySelector(`[aria-label = "Undo"]`) || window.location.href.match(".*.\/\/.*\.facebook\.com\/friends\/center\/requests\/outgoing\/.*")){ //There are Undo Buttons on the page
     browser.runtime.sendMessage({undoButtons: true});   //send message
-  } else{
+  } else if(window.location.href.includes("search")){//Even if there are not Add Buttons, if we search, we will want to put the buttons on search pages.
+	  browser.runtime.sendMessage({addButtons: true});    //send message
+  }else{
       return;   //do nothing
   }
 }
