@@ -82,7 +82,7 @@ function processClick(e){
 
 		//This theoretically should ask the page for the HTML. But this should only do this on facebook.com or messenger.com. If you try to run it on another, the content script fails to get injected properly, due to permissions.
 		//findTab().then(requestTabForHTML).then(parsePacketForHTML).then(generateEncodedErrorMessageTemplate).then(generateFullErrorEmailURL).then(makeTabWithURL).catch(onError);
-	  	generateEncodedErrorMessageTemplate.then(generateFullErrorEmailURL).then(makeTabWithURL).catch(onError);
+	  	generateEncodedErrorMessageTemplate().then(generateFullErrorEmailURL).then(makeTabWithURL).catch(onError);
 	  } else if (typ==="submit"){
 		  return;
 	  }
