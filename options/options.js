@@ -46,7 +46,7 @@ function restoreOptions() {
     browser.storage.local.get("maxpresses").then(result => {document.querySelector("#maxpresses").value = result.maxpresses || "100";}, onError);
     browser.storage.local.get("minwait").then(result => {document.querySelector("#minwait").value = result.minwait || "4000";}, onError);
     browser.storage.local.get("maxwait").then(result => {document.querySelector("#maxwait").value = result.maxwait || "8000";}, onError);
-
+    browser.storage.local.get("newsfeed").then(result => {document.querySelector("#newsfeed").checked = result.newsfeed || false;}, onError);
     browser.storage.local.get("allImages").then(result => {document.querySelector("#allImages").checked = result.allImages || false;}, onError);
     browser.storage.local.get("videos").then(result => {document.querySelector("#videos").checked = result.videos || false;}, onError);
 }
