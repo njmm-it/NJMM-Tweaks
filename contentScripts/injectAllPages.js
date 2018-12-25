@@ -110,7 +110,7 @@ function hideProfileImages(){
 		//If hmode is true, then we should use the easter egg selector and url, instead of the default.
 		if (hmode===true){
 			//If easter egg mode is on, then we should replace all the images with the easter egg image instead.
-			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileCelector);
+			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileSelector);
 			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
 		} else {
 			list = document.querySelectorAll(hideProfileSelector);
