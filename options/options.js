@@ -60,7 +60,8 @@ DESCRIPTION: "addAllListenersThatSaveData()" adds an EventListener for every des
 ==========================*/
 function addAllListenersThatSaveData(){ 
     //Is this the most hacky way of fixing the save? Yes. Yes it is. But it came after much prayer and contemplation. So we're going for it.
-    //This will simply save the settings everytime an event listed in "eventList" is triggered.   
+    //This will simply save the settings everytime an event listed in "eventList" is triggered.
+    document.getElementbyId("savebutton").addEventListener("click",saveOptions);
     var eventList = ["click","paste","keyup","select","beforeunload","submit"];
     for (var eve = 0; eve <eventList.length;eve++){
         document.addEventListener(eventList[eve],saveOptions);
@@ -80,5 +81,5 @@ DESCRIPTION: The main function starts adds all the EventListeners and sets all o
 	addAllListenersThatSaveData();
 	//We want to restore the configurations from browser storage.
 	document.addEventListener("DOMContentLoaded", restoreOptions);
-	document.querySelector("form").addEventListener("submit", saveOptions);
+	//document.querySelector("form").addEventListener("submit", saveOptions);
 })();
