@@ -80,5 +80,5 @@ DESCRIPTION: The main function starts adds all the EventListeners and sets all o
 	addAllListenersThatSaveData();
 	//We want to restore the configurations from browser storage.
 	document.addEventListener("DOMContentLoaded", restoreOptions);
-	//document.querySelector("form").addEventListener("submit", saveOptions);
+	document.querySelector("form").addEventListener("submit", saveOptions);
 })();
