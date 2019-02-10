@@ -158,7 +158,7 @@ function makeControlPanel() {
                 #menuToggle input:checked ~ span:nth-last-child(2) { transform: rotate(-45deg) translate(0, -1px); }
 
                 /* Make this absolute positioned at the top left of the screen */
-                #menu { font-family: arial; background-color: rgba(255,255,255,0.7); padding: 0px; text-align: center; /*width: 150px;*/  /*margin: 10px;*/ margin: 0px -10px; position: fixed; height:100%; transform-origin: 0% 0%; transform: translate(-100%, 0); transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);}
+                #menu { font-family: arial; background-color: rgba(255,255,255,0.7); padding: 0px; text-align: center; /*width: 150px;*/  /*margin: 10px;*/ margin: 0px -10px; position: fixed; transform-origin: 0% 0%; transform: translate(-100%, 0); transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);}
                 #menu li { padding: 10px 0; font-size: 22px; }
                 /* And let's slide it in from the left */
                 #menuToggle input:checked ~ ul {transform: none;}
@@ -292,6 +292,23 @@ TODO: In a distant future, this should return a Promise that resolves when more 
 function scrollDownPage() {
   window.scrollBy(0, 10000000);
   postToBox("Clear Requests \n Scrolling…");
+}
+
+/*==========================
+NAME: countDownInMilliseconds
+INPUTS: int time is the time in milliseconds that we're going to count down
+OUTPUTS: void
+DESCRIPTION: "countDownInMilliseconds(time)" posts "time" to the box, then runs countDownInMilliseconds(time-1)
+==========================*/
+
+function countDownInMilliseconds(time){
+  message = `Waiting ${(time/1000).toFixed(2)}s.`;
+  if (time > 0){
+    countInput.value = message;
+    setTimeout(countDownInMilliseconds, 1, time-1);
+  } else {
+    countInput.value = ``;
+  }
 }
 
 /*==========================
@@ -452,8 +469,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
   if (buttonType !== "Cancel") {
     /*Send a message saying how long we are waiting to press the next button*/
     console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
-    postToBox(`Pressing next button in ${(delay/1000).toFixed(2)} seconds`); //Tell the User that we are waiting that long.
-
+    //postToBox(`Pressing next button in ${(delay/1000).toFixed(2)} seconds`); //Tell the User that we are waiting that long.
   }
   var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
   if (buttonType !== "Cancel") {
@@ -529,6 +545,9 @@ function clickNextButton(buttonType, selector, scrollable = true) {
       /*TODO: Deprecate the old unfriend method.*/
 
       setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
+      if (buttonType !== "Cancel"){
+        countDownInMilliseconds(delay);
+      }
     }
   } else {
     /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests,
