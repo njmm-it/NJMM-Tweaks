@@ -119,168 +119,156 @@ function makeControlPanel() {
 
     //Change the style tag's innerHTML so that we can do some good inline Editing. We add this style tag inline, because we're running into some conflicts with external sheets otherwise. It makes this script a lot longer, but such is the price to pay. The hamburger menu is pure-html/css, so conflicts break it.
     styleTag.innerHTML = `
-/*
- * Made by Erik Terwan
- * 24th of November 2015
- * MIT License
- *
- *
- * If you are thinking of using this in
- * production code, beware of the browser
- * prefixes.
- */
+                /*
+                 * Made by Erik Terwan
+                 * 24th of November 2015
+                 * MIT License
+                 *
+                 *
+                 * If you are thinking of using this in
+                 * production code, beware of the browser
+                 * prefixes.
+                 */
 
 
 
-a
-{
-  text-decoration: none;
-  color: #232323;
+                a
+                {
+                  text-decoration: none;
+                  color: #232323;
 
-  transition: color 0.3s ease;
-}
+                  transition: color 0.3s ease;
+                }
 
-a:hover
-{
-  color: tomato;
-}
+                a:hover
+                {
+                  color: tomato;
+                }
 
-#menuToggle
-{
-  display: block;
-  position: relative;
-  top: 5px;
-  left: 5px;
+                #menuToggle
+                {
+                  display: block;
+                  position: relative;
+                  top: 5px;
+                  left: 5px;
 
-  z-index: 1;
+                  z-index: 1;
 
-  -webkit-user-select: none;
-  user-select: none;
-}
+                  -webkit-user-select: none;
+                  user-select: none;
+                }
 
-#menuToggle #hamburgerCheckbox
-{
-  display: block;
-  width: 40px;
-  height: 32px;
-  position: absolute;
-  top: -7px;
-  left: -5px;
+                #menuToggle #hamburgerCheckbox
+                {
+                  display: block;
+                  width: 40px;
+                  height: 32px;
+                  position: absolute;
+                  top: -7px;
+                  left: -5px;
 
-  cursor: pointer;
+                  cursor: pointer;
 
-  opacity: 0; /* hide this */
-  z-index: 2; /* and place it over the hamburger */
+                  opacity: 0; /* hide this */
+                  z-index: 2; /* and place it over the hamburger */
 
-  -webkit-touch-callout: none;
-}
+                  -webkit-touch-callout: none;
+                }
 
-/*
- * Just a quick hamburger
- */
-#menuToggle span
-{
-  display: block;
-  width: 33px;
-  height: 4px;
-  margin-bottom: 5px;
-  position: relative;
+                /*
+                 * Just a quick hamburger
+                 */
+                #menuToggle span
+                {
+                  display: block;
+                  width: 33px;
+                  height: 4px;
+                  margin-bottom: 5px;
+                  position: relative;
 
-  background: #cdcdcd;
-  border-radius: 3px;
+                  background: #cdcdcd;
+                  border-radius: 3px;
 
-  z-index: 1;
+                  z-index: 1;
 
-  transform-origin: 4px 0px;
+                  transform-origin: 4px 0px;
 
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              opacity 0.55s ease;
-}
+                  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                              opacity 0.55s ease;
+                }
 
-#menuToggle span:first-child
-{
-  transform-origin: 0% 0%;
-}
+                #menuToggle span:first-child
+                {
+                  transform-origin: 0% 0%;
+                }
 
-#menuToggle span:nth-last-child(2)
-{
-  transform-origin: 0% 100%;
-}
+                #menuToggle span:nth-last-child(2)
+                {
+                  transform-origin: 0% 100%;
+                }
 
-/*
- * Transform all the slices of hamburger
- * into a crossmark.
- */
-#menuToggle input:checked ~ span
-{
-  opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
-}
+                /*
+                 * Transform all the slices of hamburger
+                 * into a crossmark.
+                 */
+                #menuToggle input:checked ~ span
+                {
+                  opacity: 1;
+                  transform: rotate(45deg) translate(-2px, -1px);
+                  background: #232323;
+                }
 
-/*
- * But let's hide the middle one.
- */
-#menuToggle input:checked ~ span:nth-last-child(3)
-{
-  opacity: 0;
-  transform: rotate(0deg) scale(0.2, 0.2);
-}
+                /*
+                 * But let's hide the middle one.
+                 */
+                #menuToggle input:checked ~ span:nth-last-child(3)
+                {
+                  opacity: 0;
+                  transform: rotate(0deg) scale(0.2, 0.2);
+                }
 
-/*
- * Ohyeah and the last one should go the other direction
- */
-#menuToggle input:checked ~ span:nth-last-child(2)
-{
-  transform: rotate(-45deg) translate(0, -1px);
-}
+                /*
+                 * Ohyeah and the last one should go the other direction
+                 */
+                #menuToggle input:checked ~ span:nth-last-child(2)
+                {
+                  transform: rotate(-45deg) translate(0, -1px);
+                }
 
-/*
- * Make this absolute positioned
- * at the top left of the screen
- */
-#menu
-{
-  /*position: absolute;
-  width: 300px;
-  margin: -100px 0 0 -50px;
-  padding: 50px;
-  padding-top: 125px;
+                /*
+                 * Make this absolute positioned
+                 * at the top left of the screen
+                 */
+                #menu
+                {
+                  /*position: absolute;
+                  width: 300px;
+                  margin: -100px 0 0 -50px;
+                  padding: 50px;
+                  padding-top: 125px;
 
-  background: #ededed;
-  list-style-type: none;
-  -webkit-font-smoothing: antialiased;*/
-  /* to stop flickering of text in safari */
-  font-family: arial;
-  background-color: rgba(255,255,255,0.7);
-  padding: 0px;
-  text-align: center;
-  /*width: 150px;*/
-  /*margin: 10px;*/
-  margin: 0px -10px;
-  position: fixed;
-  height:100%
-  transform-origin: 0% 0%;
-  transform: translate(-100%, 0);
+                  background: #ededed;
+                  list-style-type: none;
+                  -webkit-font-smoothing: antialiased;*/
+                  /* to stop flickering of text in safari */
+                  font-family: arial;
+                  background-color: rgba(255,255,255,0.7);
+                  padding: 0px;
+                  text-align: center;
+                  /*width: 150px;*/
+                  /*margin: 10px;*/
+                  margin: 0px -10px;
+                  position: fixed;
+                  height:100%
+                  transform-origin: 0% 0%; transform: translate(-100%, 0); transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+                }
 
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-}
-
-#menu li
-{
-  padding: 10px 0;
-  font-size: 22px;
-}
-
-/*
- * And let's slide it in from the left
- */
-#menuToggle input:checked ~ ul
-{
-  transform: none;
-}
-`;
+                #menu li { padding: 10px 0; font-size: 22px; }
+                /*
+                 * And let's slide it in from the left
+                 */
+                #menuToggle input:checked ~ ul {transform: none;}`;
     njmmDiv.appendChild(styleTag);
     menuToggle.setAttribute("id", "menuToggle");
     njmmDiv.appendChild(menuToggle);
@@ -362,8 +350,7 @@ a:hover
     continueButton.setAttribute("id", "stopButton");
 
     instructionsText.setAttribute("class","njmmText");
-    instructionsText.innerHTML="Only run the auto-adder on one page at a time.<br>\
-	If you do more than that, you will likely be blocked!";
+    instructionsText.innerHTML="Only run the auto-adder on one page at a time.<br>If you do more than that, you will likely be blocked!";
 
 
     /*add a little counter that acts as a place to put progress.*/
@@ -802,13 +789,13 @@ DESCRIPTION: The main function starts the process of continually closing all the
             document.addEventListener("DOMContentLoaded", makeControlPanel); //Once the DOM is loaded, it will then fire the main function.
             document.addEventListener("DOMContentLoaded", continuallyCloseAllErrors);
             document.addEventListener("DOMContentLoaded", getCustomVariables);
-            document.addEventListener("DOMContentLoaded", autodetectBlock);
+            //document.addEventListener("DOMContentLoaded", autodetectBlock);
         } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
             removeLightningRedirectionBug();
             makeControlPanel(); //Run that puppy.
             continuallyCloseAllErrors();
             getCustomVariables();
-            autodetectBlock();
+            //autodetectBlock();
         }
     }
 })();
