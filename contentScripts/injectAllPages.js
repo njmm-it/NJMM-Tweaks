@@ -4,7 +4,7 @@ DESCRIPTION:    injectAllPages.js has multiple responsibilities.
 			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
 			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
 			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
-AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes 
+AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes
 VERSION:        ???
 VERSION DATE:   ???
 =============INJECTALLPAGES.JS================*/
@@ -17,8 +17,8 @@ const hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed
 const hideAdsCSS = `#pagelet_ego_pane {display:none}`; //If 'Hide Ads' is selected, this will be injected.
 
 /*===IMPORTANT===
-This helps us find all the profile images. 
-This was found after what likely adds up to hours and hours of manually finding attributes that will find profile images without finding others. 
+This helps us find all the profile images.
+This was found after what likely adds up to hours and hours of manually finding attributes that will find profile images without finding others.
 If that breaks, sorry. There's probably a better way to find them, but this is the best we have for now.
 ===IMPORTANT===*/
 const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
@@ -48,8 +48,8 @@ function onError(error) {
 NAME: startHidingAllProfilePicturesAndOtherThings
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: "startHidingAllProfilePicturesAndOtherThings()" starts hiding all profile images on the page. 
-	It also checked if hmode is enabled, and sets the variable as such. It also checks if we should block 
+DESCRIPTION: "startHidingAllProfilePicturesAndOtherThings()" starts hiding all profile images on the page.
+	It also checked if hmode is enabled, and sets the variable as such. It also checks if we should block
 	other things and block those, too.
 ==========================*/
 function startHidingAllProfilePicturesAndOtherThings(){
@@ -60,7 +60,7 @@ function startHidingAllProfilePicturesAndOtherThings(){
 		changeColorOfHeader(color);
 		if (result.color.toLowerCase().includes("hess")){
 			hmode = true;
-		} 
+		}
 
 		//Load all the stuff, as long as we're not on a group page.
 		if (!window.location.href.match("groups\/*")){
@@ -68,11 +68,11 @@ function startHidingAllProfilePicturesAndOtherThings(){
 			browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
 			browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
 		} else {
-			//If the page is open to a group page, then we can 
+			//If the page is open to a group page, then we can
 		}
 
 	},onError);
-	
+
 	//THIS MAKES THE PROFILE IMAGES HIDE EVERY HALF SECOND!!
 	//IF THEY ARE NOT HIDING PROPERLY, CHECK function hideProfileImages()!!
 	setInterval(hideProfileImages,500); //hide the images
@@ -90,11 +90,11 @@ function hideProfileImages(){
 	var profileURL;
 	if (window.location.href.match("groups\/*")){
 		//If we are on a group page, it's okay to show the profile pictures.
-		console.log("hideProfileImages() thinks that we're on a group page!");
+		//console.log("hideProfileImages() thinks that we're on a group page!");
 		list = document.querySelectorAll(hideProfileSelector);
 		for (var i = 0; i <list.length;i++){
 			if (list[i].getAttribute('srcOriginal')){
-				//If the is a srcOriginal attribute, that means that the image was originally blocked but shouldn't be any more. 
+				//If the is a srcOriginal attribute, that means that the image was originally blocked but shouldn't be any more.
 				//I'm not sure why we would ever actually need this, but it seemed like a good idea at the time. And it doesn't actually break anything.
 				//If some future programmer believes this is vestigial, por favor remove it.
 				list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
@@ -104,8 +104,8 @@ function hideProfileImages(){
 		}
 	} else {
 		//If we aren't on a group page, then we should hide all the profile pictures
-		console.log("hideProfileImages() thinks that we are NOT on a group page!");
-		console.log("hmode is on?: " + hmode);
+		//console.log("hideProfileImages() thinks that we are NOT on a group page!");
+		//console.log("hmode is on?: " + hmode);
 		//This next conditional exists so that we can simply use the same "replacement" code, regardless of what it's being replaced to.
 		//If hmode is true, then we should use the easter egg selector and url, instead of the default.
 		if (hmode===true){
@@ -116,7 +116,7 @@ function hideProfileImages(){
 			list = document.querySelectorAll(hideProfileSelector);
 			profileURL = profilePhotoURL;
 		}
-		//This will loop over 
+		//This will loop over
 		for (var i = 0; i <list.length;i++){
 			var wid = list[i].width; //We need the width because the browser will adjust the element's width and height when we change the source. Retaining this will allow us to fix them.
 			var hei = list[i].height; //Ditto
@@ -227,12 +227,12 @@ function changeColorOfHeader(desiredColor) {
         headerElement.style.background = desiredColor; //This actually sets the headerElement as the color we want based on the HTML color word or the hex value based on the if/then statements right before this.
     }
     function changeBorderColor(){ //When we change the header color, the border looks really dumb because it stays dark blue by default. This changes the border (of the header bar and the search bar inside the header bar) to a
-                                  //darkened version of the color that we're changing the header too.  
+                                  //darkened version of the color that we're changing the header too.
         console.log(`Changing border`); //This is printed out in the console so we know that the function ran. Used for debugging.
         var outlineElement = document.querySelector(`[role = "banner"],[data-sigil = "MTopBlueBarHeader"]`); //This selects the header bar and designates it as "outlineElement"
         var searchElement = document.querySelector(`[role = "search"], [data-testid = "facebar_root"]`); //This selects the search bar and designates it as "searchElement"
         var popOver = document.querySelector(`.popoverOpen`);
-        var desiredBorderColor = "#29487d"; //This makes the default 
+        var desiredBorderColor = "#29487d"; //This makes the default
         if (desiredColor === "blue") {
             desiredBorderColor = "#29487d"
         }
@@ -251,7 +251,7 @@ function changeColorOfHeader(desiredColor) {
 	    document.head.appendChild(colorTag);
             outlineElement.style.borderBottom = `1px solid ${desiredBorderColor}`;
             searchElement.style.border = `1px solid ${desiredBorderColor}`;
-            searchElement.style.borderBottom = `1px solid ${desiredBorderColor}`; 
+            searchElement.style.borderBottom = `1px solid ${desiredBorderColor}`;
         }
     }
     if (document.readyState === "loading") {            //Occasionally, it'll try to load before the page has loaded the Document Object Model (DOM). This is an issue. This checks if it's loaded or not.
@@ -281,7 +281,7 @@ function getPageHTML(){
 }
 
 /*==========================
-NAME: addEventListenerToRecieveRequest() 
+NAME: addEventListenerToRecieveRequest()
 INPUTS: void
 OUTPUTS: void
 DESCRIPTION: "addEventListenerToRecieveRequest()" recieves the requestPageHTML and sends a response with the getPageHTML function's output.
@@ -324,12 +324,12 @@ function notifyExtension(e) {
 
 
 /*===============Main “Function”==================*/
-/*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/                    
+/*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/
 /*==========================
 NAME: (main())()
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: The main function starts the process of continually closing all the error messages, then checks if the DOMContent of a facebook.com page has been loaded. 
+DESCRIPTION: The main function starts the process of continually closing all the error messages, then checks if the DOMContent of a facebook.com page has been loaded.
     If it has, it makes the Control Panel. If it hasn't, then it sets an event listener to do so when it is finished loading.
 ==========================*/
 
@@ -346,5 +346,5 @@ DESCRIPTION: The main function starts the process of continually closing all the
         } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
             startHidingAllProfilePicturesAndOtherThings();
         }
-	*/		
+	*/
 })();

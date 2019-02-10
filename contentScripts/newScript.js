@@ -1,7 +1,7 @@
 /*=============AUTOMATIC FACEBOOK: THE INTRODUCTION================*/
 /*Automatic Facebook
 DESCRIPTION:     This script adds buttons that will click all the correct buttons on a page.
-AUTHOR:          Elder Andrew P. Sansom 
+AUTHOR:          Elder Andrew P. Sansom
 VERSION:         5.0.0
 VERSION DATE:    22 October 2018
 =============AUTOMATIC FACEBOOK: THE INTRODUCTION================*/
@@ -15,7 +15,7 @@ var totalButtonsPressed = 0; /*This theoretically stores the number of total but
 var recentButtonsPressed = 0; /*This theoretically stores the number of total buttons pressed in the last set of buttons pressed*/
 var buttonPressInterval = 4000; /*Minimum time in milliseconds between button presses*/
 var maximumButtonPressInterval = 8000; /*Maximum time in milliseconds between button presses*/
-//const maximumFriendRequestsSent = 50; 
+//const maximumFriendRequestsSent = 50;
 var maximumFriendRequestsSent = 50; /*Maximum number of Friend Requests sent in a single set before stopping*/
 var canButtonsBeCurrentlyPressed = true; /*Boolean which is checked every time a button is pressed. If this is false at the time of a proposed button press, the buttons should not be pressed.*/
 const pauseTime = 7000; /*Used to determine how long the variable canButtonsBeCurrentlyPressed should be changed to false when the override is triggered*/
@@ -61,9 +61,9 @@ NAME: getCustomVariables
 INPUTS: void
 OUTPUTS: void
 DESCRIPTION: This function pulls the user's chosen maximum button press limit, and minimum and maximum wait time between
-button presses from browser storage ("maxpresses", "minwait", and "maxwait" respectively). It changes them from strings to 
-floats to avoid math issues, and then stores them in their proper variables here. (maximumFriendRequestsSent, 
-buttonPressInterval, and maximumButtonPressInterval respectively). 
+button presses from browser storage ("maxpresses", "minwait", and "maxwait" respectively). It changes them from strings to
+floats to avoid math issues, and then stores them in their proper variables here. (maximumFriendRequestsSent,
+buttonPressInterval, and maximumButtonPressInterval respectively).
 ==========================*/
 
 function getCustomVariables(){
@@ -89,7 +89,7 @@ function getCustomVariables(){
 
     browser.storage.local.get("maxwait").then(
         function(maxWaitFromStorage){
-          maximumButtonPressInterval = parseFloat(maxWaitFromStorage.maxwait) || 8000; 
+          maximumButtonPressInterval = parseFloat(maxWaitFromStorage.maxwait) || 8000;
           console.log("Maximum Button Wait Time Set To: " + maximumButtonPressInterval);
         },
         function(error){
@@ -102,7 +102,7 @@ function getCustomVariables(){
 NAME: makeControlPanel
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: "makeControlPanel()" creates the control panel that contains all the tweak controls relevant to the current page, and sets up its pieces. 
+DESCRIPTION: "makeControlPanel()" creates the control panel that contains all the tweak controls relevant to the current page, and sets up its pieces.
 ==========================*/
 
 function makeControlPanel() {
@@ -136,7 +136,7 @@ a
 {
   text-decoration: none;
   color: #232323;
-  
+
   transition: color 0.3s ease;
 }
 
@@ -151,9 +151,9 @@ a:hover
   position: relative;
   top: 5px;
   left: 5px;
-  
+
   z-index: 1;
-  
+
   -webkit-user-select: none;
   user-select: none;
 }
@@ -166,12 +166,12 @@ a:hover
   position: absolute;
   top: -7px;
   left: -5px;
-  
+
   cursor: pointer;
-  
+
   opacity: 0; /* hide this */
   z-index: 2; /* and place it over the hamburger */
-  
+
   -webkit-touch-callout: none;
 }
 
@@ -185,14 +185,14 @@ a:hover
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  
+
   background: #cdcdcd;
   border-radius: 3px;
-  
+
   z-index: 1;
-  
+
   transform-origin: 4px 0px;
-  
+
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
               background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
               opacity 0.55s ease;
@@ -208,7 +208,7 @@ a:hover
   transform-origin: 0% 100%;
 }
 
-/* 
+/*
  * Transform all the slices of hamburger
  * into a crossmark.
  */
@@ -247,23 +247,23 @@ a:hover
   margin: -100px 0 0 -50px;
   padding: 50px;
   padding-top: 125px;
-  
+
   background: #ededed;
   list-style-type: none;
   -webkit-font-smoothing: antialiased;*/
   /* to stop flickering of text in safari */
-  font-family: arial; 
+  font-family: arial;
   background-color: rgba(255,255,255,0.7);
   padding: 0px;
-  text-align: center; 
-  /*width: 150px;*/ 
+  text-align: center;
+  /*width: 150px;*/
   /*margin: 10px;*/
   margin: 0px -10px;
   position: fixed;
   height:100%
   transform-origin: 0% 0%;
   transform: translate(-100%, 0);
-  
+
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
 }
 
@@ -321,9 +321,9 @@ a:hover
     }
     //This next if statement is outside the previous because there might be BOTH add and unfriend buttons on the same page. We always want the add button to show up if there are.
     if (window.location.href.indexOf("#njmmTweaksUnfriend") > -1 || (window.location.href.indexOf("me/friends")>-1 && window.location.href.indexOf("me/friends/friends")==-1)){
-        /*This block is slightly different than the above. Because there is no (known) page on facebook that makes Unfriending an easy experience, we had to be clever and make our own unfriend Buttons by piggybacking off of the 
-            ajax built into the facebook graph search pages. We basically have to add a unique unfriendButton to each user that shows up in a graphsearch. This is done iteratively over each person, first extracting their userID from 
-            the "data-bt" attribute on their user element. We then add a new element that convinces the webpage that it is an unfriend button by having a specific ajaxify attribute. Why does this work? We're not quite sure, but it 
+        /*This block is slightly different than the above. Because there is no (known) page on facebook that makes Unfriending an easy experience, we had to be clever and make our own unfriend Buttons by piggybacking off of the
+            ajax built into the facebook graph search pages. We basically have to add a unique unfriendButton to each user that shows up in a graphsearch. This is done iteratively over each person, first extracting their userID from
+            the "data-bt" attribute on their user element. We then add a new element that convinces the webpage that it is an unfriend button by having a specific ajaxify attribute. Why does this work? We're not quite sure, but it
             does, and came via revelation from the Lord. So we don't question it. If you can figure out why, then please do explain.*/
         /*The second half adds a button to the control panel that presses all the newly inserted unfriend buttons.*/
         /*Test URL: https://www.facebook.com/search/me/friends/intersect/#njmmTweaksUnfriend*/
@@ -352,8 +352,8 @@ a:hover
         unfriendButton.setAttribute("class", "njmmButton");
         unfriendButton.setAttribute("id", "addFriendButton");
         unfriendFriendsBool = true;
-    } 
-    
+    }
+
 
     /*add a Stop override. This is will run the function stopAllButtonPressing, which changes the canButtonsBeCurrentlyPressed variable for a few seconds to interupt all button-pressing functions.*/
     continueButton.innerHTML = "Stop!";
@@ -364,13 +364,13 @@ a:hover
     instructionsText.setAttribute("class","njmmText");
     instructionsText.innerHTML="Only run the auto-adder on one page at a time.<br>\
 	If you do more than that, you will likely be blocked!";
-        
+
 
     /*add a little counter that acts as a place to put progress.*/
     countInput.type = "text";
     countInput.setAttribute("class", "njmmCounter");
     countInput.value = "";
-    
+
     /*TODO: Add a visual progress bar or something of the sort.*/
 
 
@@ -423,7 +423,7 @@ function scrollDownPage() {
 NAME: postToBox
 INPUTS: msg
 OUTPUTS: void
-DESCRIPTION: "postToBox(msg)" posts “msg” to the textInput inside the control panel. After 3 seconds, it clears the notification. After an additional 7 seconds it prints "" to the box. 
+DESCRIPTION: "postToBox(msg)" posts “msg” to the textInput inside the control panel. After 3 seconds, it clears the notification. After an additional 7 seconds it prints "" to the box.
 ==========================*/
 
 function postToBox(msg) {
@@ -444,7 +444,7 @@ function postToBox(msg) {
 NAME: updateCounter
 INPUTS: counter
 OUTPUTS: void
-DESCRIPTION: "updateCounter(counter)" increases counter by one and logs counter's current value. This might not actually work properly, because I didn't realize that javascript passes by value. 
+DESCRIPTION: "updateCounter(counter)" increases counter by one and logs counter's current value. This might not actually work properly, because I didn't realize that javascript passes by value.
 ==========================*/
 
 function updateCounter(counter) {
@@ -456,7 +456,7 @@ function updateCounter(counter) {
 NAME: addToCount
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: "addToCount()" adds 1 to totalButtonsPressed and recentButtonsPressed. 
+DESCRIPTION: "addToCount()" adds 1 to totalButtonsPressed and recentButtonsPressed.
 ==========================*/
 
 function addToCount() {
@@ -465,9 +465,9 @@ function addToCount() {
 }
 /*==========================
 NAME: mod
-INPUTS: int dividend, int divisor 
+INPUTS: int dividend, int divisor
 OUTPUTS: int remainder
-DESCRIPTION: "mod(dividend, divisor)" returns dividend modulo divisor. This could be omitted, but is included for historical reasons. Orginally, this script was injected via a "javascript:" protocol 
+DESCRIPTION: "mod(dividend, divisor)" returns dividend modulo divisor. This could be omitted, but is included for historical reasons. Orginally, this script was injected via a "javascript:" protocol
     call in the Chrome URL Bar. Percent signs were misinterpreted. So we used the mod function to overcome this.
 ==========================*/
 
@@ -487,9 +487,9 @@ function isVisible(element){
 
 /*==========================
 NAME:stopAllButtonPressing()
-INPUTS: void 
+INPUTS: void
 OUTPUTS: void
-DESCRIPTION: "stopAllButtonPressing()" just turns canButtonsBeCurrentlyPressed to false and after pauseTime milliseconds, it turns it back to true. Each time a function tries to press a button, there is an if (canButtonsBeCurrentlyPressed===true) conditional 
+DESCRIPTION: "stopAllButtonPressing()" just turns canButtonsBeCurrentlyPressed to false and after pauseTime milliseconds, it turns it back to true. Each time a function tries to press a button, there is an if (canButtonsBeCurrentlyPressed===true) conditional
     before it. So by changing canButtonsBeCurrentlyPressed to false for 7 seconds (which is longer than any wait time on the recursive functions), we can effectively stop any button pressing.
 ==========================*/
 
@@ -512,7 +512,7 @@ function stopAllButtonPressing() {
 NAME: getNextButton(selector)
 INPUTS: selector
 OUTPUTS: void
-DESCRIPTION: "getNextButton(selector)" returns the query Selector with the first element of the CSS selector “selector”, after deleting any "People you may know" boxes, because these are the bane of our existance. 
+DESCRIPTION: "getNextButton(selector)" returns the query Selector with the first element of the CSS selector “selector”, after deleting any "People you may know" boxes, because these are the bane of our existance.
 ==========================*/
 function getNextButton(selector) {
     var peopleYouMayKnowPanels = document.querySelectorAll(`.friendBrowserCheckboxResults`);
@@ -527,7 +527,7 @@ INPUTS: string buttonType describes the button type. This is lazily implemented 
         string selector is the CSS selector to click
         string scrollable = true determines weather the page that the type of button is on is scrollable. This allows new buttons that haven't been rendered yet by the page to be discovered. This should be eventually deprecated, because it is ugly.
 OUTPUTS: void
-DESCRIPTION: "clickNextButton(buttonType,selector)" scrolls the next element of type selector into view, then clicks it. After a psuedo-random amount of time, it will then call itself again and the process repeats. 
+DESCRIPTION: "clickNextButton(buttonType,selector)" scrolls the next element of type selector into view, then clicks it. After a psuedo-random amount of time, it will then call itself again and the process repeats.
 ==========================*/
 /*TODO: change the buttonType parameter so that it is not a string, but an enum*/
 /*TODO: Deprecate scrollable*/
@@ -538,7 +538,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
     INPUTS: void
     OUTPUTS: int, whose value depends on the buttonType. For "Undo" or "Unfollow", it returns between 300 and 500, representing the number of miliseconds to wait. For other types, it is between 3000 and 7000, favoring smaller values.
     DESCRIPTION: "generateDelayTime()" generates a random delay time that follows certain guidelines, explained within the function code. For some button types, it is really simple, and for others, it tries to simulate how a human would press the buttons on a page. This is necessary because Facebook
-    (understandably) hates bots that add people. But we can do better than that. "It doesn't matter what Facebook thinks, because we're on the Lord's Errand." --Elder Sansom (2018)  
+    (understandably) hates bots that add people. But we can do better than that. "It doesn't matter what Facebook thinks, because we're on the Lord's Errand." --Elder Sansom (2018)
     ==========================*/
     function generateDelayTime(){
         //console.log(maximumButtonPressInterval + " is the max, and " + buttonPressInterval + " is the min.");
@@ -547,18 +547,18 @@ function clickNextButton(buttonType, selector, scrollable = true) {
         var stretch = 2; /*Arbitrary constant that allows one to stretch the distribution. This effects how drasticly the distribution will favor shorter times.*/
         //console.log(`With all the variables, the equation should be the natural log of the natural exponent of ${stretch} - 1, plus 1 / ${max} , then subtract ${stretch} and then add 1`)
         var horizontalShiftConstant = Math.log(Math.exp(stretch - 1) + (1 / max)) - stretch + 1; /*This is necessary to line up the vertical asymptote.*/
-        
-    
+
+
         if (buttonPressInterval <= 0 || buttonType === "Undo" || buttonType === "Unfollow") {
-            /*Will press Undo or Unfollow buttons every 300 to 500 milliseconds, distributed roughly randomly. We don't need a fancy human-esque delay generator. Facebook doesn't even care if buttons are pressed 
+            /*Will press Undo or Unfollow buttons every 300 to 500 milliseconds, distributed roughly randomly. We don't need a fancy human-esque delay generator. Facebook doesn't even care if buttons are pressed
             more quickly than this for Undo and Unfollow buttons, but I didn't feel comfortable making it instant.*/
-            return 300 + 200 * Math.random(); 
+            return 300 + 200 * Math.random();
         } else {
                 /*This chunk of code determines the pseudo-random time between button presses. Ideally, this follows a Poisson Distribution, as that would pretty accurately describe the assumptions on this probability problem.
-                This will allow some button presses to be exceptionally long and others short because buttonPressInterval is the minimum. The mean has to be much higher. In practice, however, I cannot figure out how to calculate 
-                the wait time between button presses following that distribution. So instead I invented my own. Call it what it may. It gets the job done. It was invented with some trial and error with a graphing calculator and a 
-                spreadsheet. It spits out a value between 3000 and 7000, given a random decimal between 0 and 1. We needed something that has a vertical asymptote just after 1, a y-value of 3000 at x=0, a function that is 
-                everywhere-increasing on the interval of [0,1], that grows really rapidly at the edge, but not rapidly at all near the beginning. I wish I could explain at a mathematical level why it does what we want, but all I 
+                This will allow some button presses to be exceptionally long and others short because buttonPressInterval is the minimum. The mean has to be much higher. In practice, however, I cannot figure out how to calculate
+                the wait time between button presses following that distribution. So instead I invented my own. Call it what it may. It gets the job done. It was invented with some trial and error with a graphing calculator and a
+                spreadsheet. It spits out a value between 3000 and 7000, given a random decimal between 0 and 1. We needed something that has a vertical asymptote just after 1, a y-value of 3000 at x=0, a function that is
+                everywhere-increasing on the interval of [0,1], that grows really rapidly at the edge, but not rapidly at all near the beginning. I wish I could explain at a mathematical level why it does what we want, but all I
                 can say is that it does. I am so sorry to black-box it!*/
 
             //var waitTime = buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
@@ -572,21 +572,20 @@ function clickNextButton(buttonType, selector, scrollable = true) {
             return buttonPressInterval + 1000 / (Math.exp(stretch - Math.random() + horizontalShiftConstant) - Math.exp(stretch - 1));
         }
     }
-    
-    var delay = generateDelayTime();    
+
+    var delay = generateDelayTime();
     if (buttonType !== "Cancel") {
         /*Send a message saying how long we are waiting to press the next button*/
         console.log(`Waiting ${delay} milliseconds to press next ${buttonType} button.`);
         postToBox(`Pressing next button in ${(delay/1000).toFixed(2)} seconds`); //Tell the User that we are waiting that long.
-        
+
     }
     var nextButtonToPress = getNextButton(selector); /*We need to find the next button!*/
     if (buttonType !== "Cancel"){
-        console.log('I am considering pressing the button of type: ',buttonType, nextButtonToPress);    
+        console.log('I am considering pressing the button of type: ',buttonType, nextButtonToPress);
     }
     if (nextButtonToPress !== null) { /*If the button exists, we should check if we should press it. If it doesn't exist, we scroll the page to see if we can generate more.*/
         if (canButtonsBeCurrentlyPressed === true && recentButtonsPressed < maximumFriendRequestsSent) { /*Checks to see if we've already reached the limit on how many buttons to press and stops pressing if so.*/
-        //if (canButtonsBeCurrentlyPressed === true) {
             nextButtonToPress.scrollIntoView({
                     behavior: "smooth",
                     block: "center",
@@ -597,15 +596,15 @@ function clickNextButton(buttonType, selector, scrollable = true) {
         if (buttonType === "Add") {
 			console.log("Checking if the button is visible!");
 			if (isVisible(nextButtonToPress)){
-			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
-        	    console.log("The Button is visible!")
+			  //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
+        console.log("The Button is visible!")
 				nextButtonToPress.click();
 			}
             addToCount();
             console.log('You just added ' + recentButtonsPressed + ' friends!');
             postToBox("Buttons pressed: " + recentButtonsPressed);
-                /*TODO: Make a way to check if the user has been blocked. This could be done with some search on the page for the word "block" when a new div appears?*/
-                /*TODO: Make this more useful.*/
+            //We will now check if there facebook has notified the user of a block. If so, we automatically stop the button pressing just before the next press.
+            setTimeout(manuallyDetectBlock, buttonPressInterval-10);
         } else if (buttonType === "Undo") {
 			console.log("Checking if the button is visible!");
 			if (isVisible(nextButtonToPress)){
@@ -627,7 +626,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
 				}
 			}
             /*TODO: Make this do something.*/
-        } else if (buttonType === "Unfollow") {
+      } else if (buttonType === "Unfollow") {
 			console.log("Checking if the button is visible!");
 			if (isVisible(nextButtonToPress)){
 			    //If the button isn't visible, we shouldn't click it. This will avoid clicking already-clicked buttons.! Woo!
@@ -647,14 +646,14 @@ function clickNextButton(buttonType, selector, scrollable = true) {
             //This then proceeds to click the actual unfriend button after a moment.
             setTimeout(clickNextButton, 400, "UnfriendStep2", defaultUnfriendButtonSelector, scrollable)
         }*/
-        /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky. 
+        /*This last little bit of code uses the old "Unfriend" feature, which requires pressing a button to activate a menu on a facebook user, then pressing a button on that menu. It was slow and clunky.
         We discovered, by revelation, the injected Unfriend button instead. I don't think removing it will break anything, but I'm too nervous to delete it yet. Please deprecate ASAP.*/
         /*TODO: Deprecate the old unfriend method.*/
-            
+
         setTimeout(clickNextButton, delay, buttonType, selector, scrollable); /*Click the next button of the same type and selector after delay!*/
 	}
     } else {
-        /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests, 
+        /*This whole section determines what to do if no more buttons of the acceptable type have been found. Currently, if the page is scrollable and we haven't sent more than maximumFriendRequestsSent requests,
         then it will scroll. If it isn't scrollable, then it will refresh the page.*/
         /*TODO: Figure out how to deprecate scrollable without breaking things.*/
         //if (canButtonsBeCurrentlyPressed === true && scrollable && recentButtonsPressed < maximumFriendRequestsSent) {
@@ -668,7 +667,7 @@ function clickNextButton(buttonType, selector, scrollable = true) {
                         }
                 },4000);
             } else {
-             //console.log(`I ran out of buttons!`);                 
+             //console.log(`I ran out of buttons!`);
                 return;
             }
 
@@ -716,7 +715,7 @@ NAME: removeFriends()
 INPUTS: void
 OUTPUTS: void
 DESCRIPTION: "removeFriends()" clicks every injected "Unfriend" button on the page.
-==========================*/    
+==========================*/
     function removeFriends(){
         clickNextButton("injectedUnfriend",defaultInjectedUnfriendButtonSelector);
     }
@@ -725,7 +724,7 @@ NAME: continuallyCloseAllErrors()
 INPUTS: void
 OUTPUTS: void
 DESCRIPTION: "continuallyCloseAllErrors()" closes every error message every 2000 milliseconds.
-==========================*/ 
+==========================*/
 function continuallyCloseAllErrors(){
     setInterval(closeAllErrors, 2000);
 }
@@ -734,26 +733,65 @@ NAME: removeLightningRedirectionBug()
 INPUTS: void
 OUTPUTS: void
 DESCRIPTION: "removeFriends()" clicks every injected "Unfriend" button on the page.
-==========================*/ 
+==========================*/
 function removeLightningRedirectionBug(){
     /*This next chunk will get rid of all of the redirector buttons.TAKE THAT LIGHTNING REDIRECTION BUG!AFTER A LONG BATTLE OF MANY MOONS, THE PROGRAMMERS COME OFF VICTORIOUS!*/
-    /*For historical note: The Lightning Redirection bug is a bug where on the touch version of facebook on Firefox, there is an unrendered button that gets caught by defaultErrorMessageSelector, that 
+    /*For historical note: The Lightning Redirection bug is a bug where on the touch version of facebook on Firefox, there is an unrendered button that gets caught by defaultErrorMessageSelector, that
     causes the webpage to redirect itself to the main page on facebook.*/
-            
+
     var cancelButtonsThatAreAlreadyInThePageThatBreakTheCode = document.querySelectorAll(defaultErrorMessageSelector);
     for (var i = 0; i < cancelButtonsThatAreAlreadyInThePageThatBreakTheCode.length; i++) {
         var theCurrentButtonToKILL = cancelButtonsThatAreAlreadyInThePageThatBreakTheCode[i];
         theCurrentButtonToKILL.parentNode.removeChild(theCurrentButtonToKILL); /*This removes the desired buttons from the page.*/
-    } 
+    }
 }
-                    
+
+/*==========================
+NAME: autodetectBlock()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "autodetectBlock()" checks the page every few seconds for any signs that a user has been blocked.
+==========================*/
+function autodetectBlock(){
+  var timeToWaitBetweenChecks = buttonPressInterval/2; //Dividing the minimum time between button presses by 2 guarentees that if something pops up between presses we'll catch it.
+  //xpath technology is witchcraft. But it's also probably the fastest way to check for what we want to check.
+  //This currently checks for any instance of 'unwelcome', 'block', or 'misuse' that appears in any element that is not a script or a stylesheet
+  var  xpath = "//*[not(self::script or self::style) and contains(text(),'block') or contains(text(), 'unwelcome') or contains(text(), 'misuse')]";
+  setInterval( function(){
+    //This next conditional checks if the xpath query yields any elements in the document. If so, then we stop all button pressing and throw an alert to the user, just in case.
+    if (document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue != null){
+      alert('Possible block detected!');
+      stopAllButtonPressing();
+    }
+  }, timeToWaitBetweenChecks);
+}
+
+/*==========================
+NAME: manuallyDetectBlock()
+INPUTS: void
+OUTPUTS: void
+DESCRIPTION: "manuallyDetectBlock()" checks the page once for any signs that a user has been blocked.
+==========================*/
+function manuallyDetectBlock(){
+  var timeToWaitBetweenChecks = buttonPressInterval/2; //Dividing the minimum time between button presses by 2 guarentees that if something pops up between presses we'll catch it.
+  //xpath technology is witchcraft. But it's also probably the fastest way to check for what we want to check.
+  //This currently checks for any instance of 'unwelcome', 'block', or 'misuse' that appears in any element that is not a script or a stylesheet
+  var  xpath = "//*[not(self::script or self::style) and contains(text(),'block') or contains(text(), 'unwelcome') or contains(text(), 'misuse')]";
+  //This next conditional checks if the xpath query yields any elements in the document. If so, then we stop all button pressing and throw an alert to the user, just in case.
+  if (document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue != null){
+    alert('Possible account block detected!');
+    stopAllButtonPressing();
+  }
+}
+
+
 /*===============Main “Function”==================*/
-/*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/                    
+/*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/
 /*==========================
 NAME: (main())()
 INPUTS: void
 OUTPUTS: void
-DESCRIPTION: The main function starts the process of continually closing all the error messages, then checks if the DOMContent of a facebook.com page has been loaded. 
+DESCRIPTION: The main function starts the process of continually closing all the error messages, then checks if the DOMContent of a facebook.com page has been loaded.
     If it has, it makes the Control Panel. If it hasn't, then it sets an event listener to do so when it is finished loading.
 ==========================*/
 (function main() {
@@ -764,14 +802,13 @@ DESCRIPTION: The main function starts the process of continually closing all the
             document.addEventListener("DOMContentLoaded", makeControlPanel); //Once the DOM is loaded, it will then fire the main function.
             document.addEventListener("DOMContentLoaded", continuallyCloseAllErrors);
             document.addEventListener("DOMContentLoaded", getCustomVariables);
+            document.addEventListener("DOMContentLoaded", autodetectBlock);
         } else { // `DOMContentLoaded` already fired, so the DOM has been loaded.
             removeLightningRedirectionBug();
             makeControlPanel(); //Run that puppy.
             continuallyCloseAllErrors();
             getCustomVariables();
+            autodetectBlock();
         }
-    }  
+    }
 })();
-
-                  
-                    
