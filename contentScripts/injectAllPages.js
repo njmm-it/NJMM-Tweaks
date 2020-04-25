@@ -4,36 +4,37 @@ DESCRIPTION:    injectAllPages.js has multiple responsibilities.
 			2. Optionally hides the Newsfeed, Videos, and all other images, based on what the configurations saved in the browser storage.
 			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
 			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
-AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes
+AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes, Elder Robert O. Oldroyd
 VERSION:        ???
 VERSION DATE:   ???
 =============INJECTALLPAGES.JS================*/
 
 /*The custom CSS strings to block certain things*/
-//var hideImagesCSS = `.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img] {display:none}`; //Old one
 const hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`; //If 'Hide All Images' is selected, this will be injected.
-const hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;//If 'Hide Videos' is selected, this will be injected.
+const hideVideosCSS = `video,#u_ps_0_0_n, {display:none}`;//If 'Hide Videos' is selected, this will be injected.
 const hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`; //If 'Hide Newsfeed' is selected, this will be injected.
 const hideAdsCSS = `#pagelet_ego_pane {display:none}`; //If 'Hide Ads' is selected, this will be injected.
 
 /*===IMPORTANT===
-This helps us find all the profile images.
-This was found after what likely adds up to hours and hours of manually finding attributes that will find profile images without finding others.
+This is a CSS selector that helps us find all of the profile pictures on the page
+If you don't know what that means, visit https://flukeout.github.io/
+This was found after what likely adds up to hours and hours of manually finding
+  attributes that will find profile images without finding others.
 If that breaks, sorry. There's probably a better way to find them, but this is the best we have for now.
 ===IMPORTANT===*/
-const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
+//This is the old CSS selector. It doesn't work for the new facebook update, but looks fancy so I haven't deleted it yet
+//const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
 
-const profilePhotoURL = browser.extension.getURL("icons/prof.png"); //This is the default image that we will replace all the profile pictures with.
-var hmode = false; //This activates the easter egg mode.
-
+const hideProfileSelector = `img:not(.njmm-override):not([alt^="Image"]):not(.scaledImageFitWidth):not([src*="rsrc"]),image:not(.njmm-override):not([src*="rsrc"])`;
+//It got a little trickier with the new facebook update becuase the profile pictures are both img and image elements.
+//This is not super optimized, but it does work. It probably messes up the optional settings (e.g.hide all videos), but hey
 
 //console.log("Activated Inject All Pages!")
 
-
-
-
 /*==========FUNCTIONS=============*/
 /*Add the appropriate settings CSS*/
+
+
 /*==========================
 NAME: onError
 INPUTS: Error error that is the error that is fed by a Promise.
@@ -45,97 +46,75 @@ function onError(error) {
 }
 
 /*==========================
-NAME: startHidingAllProfilePicturesAndOtherThings
+NAME: startHidingAllProfilePicturesAndOtherThings()
 INPUTS: void
 OUTPUTS: void
 DESCRIPTION: "startHidingAllProfilePicturesAndOtherThings()" starts hiding all profile images on the page.
-	It also checked if hmode is enabled, and sets the variable as such. It also checks if we should block
-	other things and block those, too.
+	It also checks if hmode is enabled. It also checks if we should block	other things and blocks those, too.
 ==========================*/
 function startHidingAllProfilePicturesAndOtherThings(){
 	//Hide Profile Images and Hessifymode
+
+  var profileURL = browser.extension.getURL("icons/prof.png"); //This is the default image that we will replace all the profile pictures with.
+  let profileSelectorToUse = hideProfileSelector;//This is only here because of the hessify thing
+  //We get these here and pass them into hideProfileImages so that we don't have to re-get them every half second
+
+  //This changes the header bar to the color put into the options UI.
 	browser.storage.local.get("color").then((result)=>{
-		//This changes the header bar to the color put into the options UI.
 		var color = result.color.toLowerCase();
 		changeColorOfHeader(color);
-		if (result.color.toLowerCase().includes("hess")){
-			hmode = true;
+
+		if (color.includes("hess")){
+			//hmode = true;
+      profileSelectorToUse += ",[role=img],video,#u_ps_0_0_n";//include more things to hessify
+      profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
 		}
 
-		//Load all the stuff, as long as we're not on a group page.
+		//Get user options and add hiding CSS if they are on (if we're not on a group page)
 		if (!window.location.href.match("groups\/*")){
 			browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
-			browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);
+			browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);//broken
 			browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
-		} else {
-			//If the page is open to a group page, then we can
-		}
-
+      console.log("when does this actually even happen?")
+    }
 	},onError);
 
-	//THIS MAKES THE PROFILE IMAGES HIDE EVERY HALF SECOND!!
-	//IF THEY ARE NOT HIDING PROPERLY, CHECK function hideProfileImages()!!
-	setInterval(hideProfileImages,500); //hide the images
+  //THIS MAKES THE PROFILE IMAGES HIDE EVERY HALF SECOND!!
+  //IF THEY ARE NOT HIDING PROPERLY, CHECK function hideProfileImages()!!
+  setInterval(hideProfileImages,500,profileURL,profileSelectorToUse);
 }
 
 /*==========================
 NAME: hideProfileImages()
-INPUTS: void
+INPUTS: profileURL, the URL for the picture we want to replace each profile picture with
+        profileSelector, the CSS selector for all the images we want to change
 OUTPUTS: void
-DESCRIPTION: "hideProfileImages()" hides the profile images on the page. It will only hide them if we are not on a group page. This is intentional.
+DESCRIPTION: "hideProfileImages()" hides the profile images on the page.
+It will only hide them if we are not on a group page. This is intentional.
 ==========================*/
-function hideProfileImages(){
-	//We are going to hide the profile images using different URLs and a slightly different selector depending on whether or not hmode is on.
-	var list;
-	var profileURL;
-	if (window.location.href.match("groups\/*")){
-		//If we are on a group page, it's okay to show the profile pictures.
-		//console.log("hideProfileImages() thinks that we're on a group page!");
-		list = document.querySelectorAll(hideProfileSelector);
-		for (var i = 0; i <list.length;i++){
-			if (list[i].getAttribute('srcOriginal')){
-				//If the is a srcOriginal attribute, that means that the image was originally blocked but shouldn't be any more.
-				//I'm not sure why we would ever actually need this, but it seemed like a good idea at the time. And it doesn't actually break anything.
-				//If some future programmer believes this is vestigial, por favor remove it.
-				list[i].setAttribute('src',list[i].getAttribute('srcOriginal'));
-			}
-			list[i].classList.add(`njmm-override`); //Adding this class tells the filter to not block it. Also, probably vestigial.
-			list[i].style.visibility="visible"; //Force it to be visible, just in case.
-		}
-	} else {
-		//If we aren't on a group page, then we should hide all the profile pictures
-		//console.log("hideProfileImages() thinks that we are NOT on a group page!");
-		//console.log("hmode is on?: " + hmode);
-		//This next conditional exists so that we can simply use the same "replacement" code, regardless of what it's being replaced to.
-		//If hmode is true, then we should use the easter egg selector and url, instead of the default.
-		if (hmode===true){
-			//If easter egg mode is on, then we should replace all the images with the easter egg image instead.
-			list = document.querySelectorAll(`.img:not(.sp_WqQYiaz38Hu_1_5x):not(.sx_efa8ad),[role=img],video,#u_ps_0_0_n`+`,`+hideProfileSelector);
-			profileURL = browser.extension.getURL("icons/h.jpg");//Use the hmode profile image
-		} else {
-			list = document.querySelectorAll(hideProfileSelector);
-			profileURL = profilePhotoURL;
-		}
-		//This will loop over
+function hideProfileImages(profileURL, profileSelector){
+
+  var list = document.querySelectorAll(profileSelector);
+
+  //If we aren't on a group page, then we should hide all the profile pictures
+	if (!window.location.href.match("groups\/*")){
+		//This will loop over all the pictures our list
 		for (var i = 0; i <list.length;i++){
 			var wid = list[i].width; //We need the width because the browser will adjust the element's width and height when we change the source. Retaining this will allow us to fix them.
 			var hei = list[i].height; //Ditto
-			//We want to be able to grab the original source later
-			//This is probably vestigial. If some future programmer wants to remove it, feel free.
-			//I can't be bothered to test the code without it.
-			if (!list[i].getAttribute('srcOriginal')){
-				list[i].setAttribute('srcOriginal',list[i].getAttribute('src'));
-			}
+
+      list[i].classList.add(`njmm-override`); //Adding this class will tell the selectors to not hide it, because it is already hidden
 			list[i].setAttribute(`src`,`${profileURL}`); //Change the source, if it uses the source attribute
-			list[i].classList.add(`njmm-override`); //Adding this class will tell the selectors to not hide it.
 			list[i].style.backgroundImage = `url("${profileURL}")`;//Change the source, if it uses the backgroundImage attribute
+			list[i].setAttribute(`xlink:href`,`${profileURL}`);//Change the source, if it uses the xlink attribute (new facebook does)
 			list[i].style.visibility="visible"; //Force it to be visible anyway, just in case.
+
 			list[i].width = wid; //Set the width to the original width.
 			list[i].height = hei; //Set the height to the original height
 		}
 	}
-
 }
+
 /*==========================
 NAME: installCSS(code)
 INPUTS: string code is the CSS code that we will inject into the page
@@ -300,8 +279,6 @@ function addEventListenerToRecieveRequest(){
 }
 
 
-
-
 /*==========================
 NAME: notifyExtension()
 INPUTS: void
@@ -321,8 +298,6 @@ function notifyExtension(e) {
   }
 }
 
-
-
 /*===============Main “Function”==================*/
 /*This is the magic main function that doesn't need to be a function. But I like it like that because it lets me hold onto my vain and foolish C++ traditions.*/
 /*==========================
@@ -333,7 +308,7 @@ DESCRIPTION: The main function starts the process of continually closing all the
     If it has, it makes the Control Panel. If it hasn't, then it sets an event listener to do so when it is finished loading.
 ==========================*/
 
-(function main(){
+//(function main(){
 	startHidingAllProfilePicturesAndOtherThings();
 	window.addEventListener("load", notifyExtension);
 	addEventListenerToRecieveRequest();
@@ -347,4 +322,4 @@ DESCRIPTION: The main function starts the process of continually closing all the
             startHidingAllProfilePicturesAndOtherThings();
         }
 	*/
-})();
+//})();
