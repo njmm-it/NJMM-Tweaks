@@ -11,7 +11,7 @@ VERSION DATE:   ???
 
 /*The custom CSS strings to block certain things*/
 const hideImagesCSS = `[src*=scontent],[style*=scontent] {visibility:hidden}`; //If 'Hide All Images' is selected, this will be injected.
-const hideVideosCSS = `video,#u_ps_0_0_n, {display:none}`;//If 'Hide Videos' is selected, this will be injected.
+const hideVideosCSS = `video,#u_ps_0_0_n {display:none}`;//If 'Hide Videos' is selected, this will be injected.
 const hideNewsfeedCSS = `#m_newsfeed_stream,#recent_capsule_container,[role=feed],.feed,#tlFeed {display:none}`; //If 'Hide Newsfeed' is selected, this will be injected.
 const hideAdsCSS = `#pagelet_ego_pane {display:none}`; //If 'Hide Ads' is selected, this will be injected.
 
@@ -75,7 +75,6 @@ function startHidingAllProfilePicturesAndOtherThings(){
 			browser.storage.local.get("allImages").then(result => {if(result.allImages){installCSS(hideImagesCSS);}}, onError);
 			browser.storage.local.get("videos").then(result => {if(result.videos){installCSS(hideVideosCSS);}}, onError);//broken
 			browser.storage.local.get("newsfeed").then(result => {if(result.newsfeed){installCSS(hideNewsfeedCSS);}}, onError); //This is easier to just delete the newsfeed altogether.
-      console.log("when does this actually even happen?")
     }
 	},onError);
 
@@ -103,7 +102,7 @@ function hideProfileImages(profileURL, profileSelector){
 			var wid = list[i].width; //We need the width because the browser will adjust the element's width and height when we change the source. Retaining this will allow us to fix them.
 			var hei = list[i].height; //Ditto
 
-      list[i].classList.add(`njmm-override`); //Adding this class will tell the selectors to not hide it, because it is already hidden
+     			list[i].classList.add(`njmm-override`); //Adding this class will tell the selectors to not hide it, because it is already hidden
 			list[i].setAttribute(`src`,`${profileURL}`); //Change the source, if it uses the source attribute
 			list[i].style.backgroundImage = `url("${profileURL}")`;//Change the source, if it uses the backgroundImage attribute
 			list[i].setAttribute(`xlink:href`,`${profileURL}`);//Change the source, if it uses the xlink attribute (new facebook does)
