@@ -22,8 +22,6 @@ This was found after what likely adds up to hours and hours of manually finding
   attributes that will find profile images without finding others.
 If that breaks, sorry. There's probably a better way to find them, but this is the best we have for now.
 ===IMPORTANT===*/
-//This is the old CSS selector. It doesn't work for the new facebook update, but looks fancy so I haven't deleted it yet
-//const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
 
 const hideProfileSelector = `img:not(.njmm-override):not(._1ift):not([alt^="Image"]):not(.scaledImageFitWidth):not([src*="rsrc"]),image:not(.njmm-override):not([src*="rsrc"])`;
 //It got a little trickier with the new facebook update becuase the profile pictures are both img and image elements.
@@ -32,8 +30,6 @@ const hideProfileSelector = `img:not(.njmm-override):not(._1ift):not([alt^="Imag
 //_1ift is the class that emojis have
 //alts that start with "Image" are regular images, along with the scaledImageFitWidth class
 //if the src is rsrc, it's an icon we don't need to block
-
-//console.log("Activated Inject All Pages!")
 
 /*==========FUNCTIONS=============*/
 /*Add the appropriate settings CSS*/
