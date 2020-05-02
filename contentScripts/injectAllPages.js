@@ -25,9 +25,13 @@ If that breaks, sorry. There's probably a better way to find them, but this is t
 //This is the old CSS selector. It doesn't work for the new facebook update, but looks fancy so I haven't deleted it yet
 //const hideProfileSelector = `._s0,.bm,.img[class*="Prof"],.img[class*="prof"],.img[id*="prof"],.img[id*="Prof"],.img[alt=""],.img.UFIImageBlockImage,.img[alt*="Prof"],._4ld-,[alt*="Seen by"],.img.UFIActorImage`;
 
-const hideProfileSelector = `img:not(.njmm-override):not([alt^="Image"]):not(.scaledImageFitWidth):not([src*="rsrc"]),image:not(.njmm-override):not([src*="rsrc"])`;
+const hideProfileSelector = `img:not(.njmm-override):not(._1ift):not([alt^="Image"]):not(.scaledImageFitWidth):not([src*="rsrc"]),image:not(.njmm-override):not([src*="rsrc"])`;
 //It got a little trickier with the new facebook update becuase the profile pictures are both img and image elements.
 //This is not super optimized, but it does work. It probably messes up the optional settings (e.g.hide all videos), but hey
+//njmm-override is what we use to not block images twice
+//_1ift is the class that emojis have
+//alts that start with "Image" are regular images, along with the scaledImageFitWidth class
+//if the src is rsrc, it's an icon we don't need to block
 
 //console.log("Activated Inject All Pages!")
 
