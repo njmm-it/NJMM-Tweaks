@@ -5,8 +5,8 @@ DESCRIPTION:    injectAllPages.js has multiple responsibilities.
 			3. Changes the Header Color of the facebook page to match the configuration in browser storage.
 			4. Check if there are add-buttons on the page. If so, ask background.js to inject newScript.js into the page.
 AUTHOR:         Elder Andrew P. Sansom, Elder Kai C.K. Reyes, Elder Robert O. Oldroyd
-VERSION:        ???
-VERSION DATE:   ???
+VERSION:        3.7.0
+VERSION DATE:   5/13/2020
 =============INJECTALLPAGES.JS================*/
 
 /*The custom CSS strings to block certain things*/
@@ -17,15 +17,14 @@ const hideAdsCSS = `#pagelet_ego_pane {display:none}`; //If 'Hide Ads' is select
 
 /*===IMPORTANT===
 This is a CSS selector that helps us find all of the profile pictures on the page
-If you don't know what that means, visit https://flukeout.github.io/
-This was found after what likely adds up to hours and hours of manually finding
-  attributes that will find profile images without finding others.
+For practice with those, visit https://flukeout.github.io/
+This was found after what likely adds up to hours and hours of manually finding attributes that will find profile images without finding others.
 If that breaks, sorry. There's probably a better way to find them, but this is the best we have for now.
 ===IMPORTANT===*/
 
 const hideProfileSelector = `img:not(.njmm-override):not(._1ift):not([alt^="Image"]):not(.scaledImageFitWidth):not([src*="rsrc"]),image:not(.njmm-override):not([src*="rsrc"])`;
 //It got a little trickier with the new facebook update becuase the profile pictures are both img and image elements.
-//This is not super optimized, but it does work. It probably messes up the optional settings (e.g.hide all videos), but hey
+//This is not super optimized, but it does work. It probably messes up the optional settings (e.g.hide all videos)
 //njmm-override is what we use to not block images twice
 //_1ift is the class that emojis have
 //alts that start with "Image" are regular images, along with the scaledImageFitWidth class
