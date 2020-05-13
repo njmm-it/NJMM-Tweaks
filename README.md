@@ -19,13 +19,9 @@ The NJMM Tweaks adds a variety of tools to Facebook within the firefox browser t
 
 - Automatically hiding profile pictures, and (optionally) newsfeeds, videos, and all other images
 
-- A new way of searching for potential friends
-
 - Automated sending of friend requests
 
 - Automated friend request clearing
-
-- Automatically unfriending of people based on user-defined filters
 
 - Some cosmetic adjustments
 
