@@ -159,11 +159,11 @@ NOTE: Changing the permissions that the add-on requires forces the user to manua
 ### Uploading the Add-on to *Add-on Developer Hub* for Signing.
 Signing the Add-on can only occur via the [*Add-on Developer Hub*](https://addons.mozilla.org/en-US/developers/).
 
-1. Sign in with an account that is listed as a developer on [the add-on page](https://addons.mozilla.org/en-US/developers/addon/1b8e09f297e74b1d9ab6).
+1. Sign in with an account that is listed as a developer on [the add-on page](https://addons.mozilla.org/en-US/developers/addon/d4c26d644733407daaeb).
 
-2. Navigate to the [the add-on's page](https://addons.mozilla.org/en-US/developers/addon/1b8e09f297e74b1d9ab6).
+2. Navigate to the [the add-on's page](https://addons.mozilla.org/en-US/developers/addon/d4c26d644733407daaeb).
 
-3. Click the ["Upload New Version" button](https://addons.mozilla.org/en-US/developers/addon/1b8e09f297e74b1d9ab6/versions/submit/) on the left column.
+3. Click the ["Upload New Version" button](https://addons.mozilla.org/en-US/developers/addon/d4c26d644733407daaeb/versions/submit/) on the left column.
 
 4. Follow the instructions to upload a new version for [**self-distribution**](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Distribution/Submitting_an_add-on#Self-distribution).
 
