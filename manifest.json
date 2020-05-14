@@ -3,7 +3,7 @@
  "manifest_version": 2,
  "name": "NJMM Facebook Tweaks",
 
- "version": "3.6.3",
+ "version": "3.7.0",
 
 
  "description": "Inserts the NJMM Facebook Tweaks GUIs onto facebook pages.",
@@ -33,7 +33,7 @@
  
 "applications": {
     "gecko": {
-      "id": "njmm.officesup@gmail.com",
+      "id": "njmm.it@gmail.com",
       "update_url": "https://docs.google.com/uc?export=view&id=11AA_8WuEknEfshXYA_ceonmfwmSONGQm"
     }
   },
