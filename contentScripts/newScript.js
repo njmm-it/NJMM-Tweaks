@@ -1,6 +1,7 @@
 /*=============AUTOMATIC FACEBOOK: THE INTRODUCTION================*/
 /*Automatic Facebook
-DESCRIPTION:     This script adds buttons that will click all the correct buttons on a page.
+DESCRIPTION:     This script adds the menu which allowers users to start automatically clicking
+                 the add friend and other buttons
 AUTHOR:          Elder Andrew P. Sansom
 VERSION:         ???
 VERSION DATE:    ???
